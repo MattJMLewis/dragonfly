@@ -1,0 +1,22 @@
+Routes
+========================
+
+.. automodule:: dragonfly.routes.route_collection
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: dragonfly.routes.route_rule
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: dragonfly.routes.router
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: dragonfly.routes
+   :members:
+   :undoc-members:
+   :show-inheritance:

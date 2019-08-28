@@ -1,0 +1,12 @@
+Templates
+==========================
+
+.. automodule:: dragonfly.template.classes
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: dragonfly.template.template
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,43 @@
+API Reference
+=================
+
+
+.. toctree::
+
+   dragonfly.db
+   dragonfly.middleware
+   dragonfly.routes
+   dragonfly.template
+
+dragonfly.constants module
+--------------------------
+
+.. automodule:: dragonfly.constants
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dragonfly.controller module
+---------------------------
+
+.. automodule:: dragonfly.controller
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dragonfly.request module
+------------------------
+
+.. automodule:: dragonfly.request
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dragonfly.response module
+-------------------------
+
+.. automodule:: dragonfly.response
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

@@ -1,0 +1,340 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Web &mdash; dragonfly 0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Templates" href="template.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> dragonfly
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick-start.html">Quick Start</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="api-reference.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="db.html">Database package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="middleware.html">Middleware package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routes.html">Routes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="template.html">Templates</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Web</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-dragonfly.request">Request</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#response">Response</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#errorresponse">ErrorResponse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#deferredresponse">DeferredResponse</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">dragonfly</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="api-reference.html">API Reference</a> &raquo;</li>
+        
+      <li>Web</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/web.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="web">
+<h1>Web<a class="headerlink" href="#web" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-dragonfly.request">
+<span id="request"></span><h2>Request<a class="headerlink" href="#module-dragonfly.request" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="dragonfly.request.Request">
+<em class="property">class </em><code class="sig-prename descclassname">dragonfly.request.</code><code class="sig-name descname">Request</code><span class="sig-paren">(</span><em class="sig-param">environ</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.request.Request" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="dragonfly.request.Request.get_data">
+<code class="sig-name descname">get_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.request.Request.get_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dragonfly.request.Request.update_environ">
+<code class="sig-name descname">update_environ</code><span class="sig-paren">(</span><em class="sig-param">new_environ</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.request.Request.update_environ" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="response">
+<h2>Response<a class="headerlink" href="#response" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="dragonfly.response.Response">
+<em class="property">class </em><code class="sig-prename descclassname">dragonfly.response.</code><code class="sig-name descname">Response</code><span class="sig-paren">(</span><em class="sig-param">content=''</em>, <em class="sig-param">content_type='text/html'</em>, <em class="sig-param">status_code=200</em>, <em class="sig-param">reason_phrase=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.response.Response" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The base <cite>Response</cite> class that is readable by the WSGI server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>content</strong> (<em>str</em>) – The content that will be delivered to the user. This defaults to empty.</p></li>
+<li><p><strong>content_type</strong> (<em>str</em>) – The MIME type. This defaults to ‘text/html’.</p></li>
+<li><p><strong>reason_phrase</strong> – A written meaning of the HTTP status code. If left as <cite>None</cite> the reason phrase will be</p></li>
+</ul>
+</dd>
+<dt class="field-even">Param</dt>
+<dd class="field-even"><p>status_code: The HTTP status code. This defaults to success (200).</p>
+</dd>
+</dl>
+<p>chosen from a pre-determined list.
+:type reason_phrase: int</p>
+<dl class="method">
+<dt id="dragonfly.response.Response.header">
+<code class="sig-name descname">header</code><span class="sig-paren">(</span><em class="sig-param">field_name</em>, <em class="sig-param">field_value</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.response.Response.header" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates an existing header or creates a new one.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>field_name</strong> (<em>str</em>) – The header field name.</p>
+</dd>
+</dl>
+<p>:param field_value The header field value.
+:type field_value: str</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dragonfly.response.Response.set_content">
+<code class="sig-name descname">set_content</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.response.Response.set_content" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts the given content to bytes.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dragonfly.response.Response.set_status">
+<code class="sig-name descname">set_status</code><span class="sig-paren">(</span><em class="sig-param">status_code</em>, <em class="sig-param">reason_phrase</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.response.Response.set_status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the status of the <cite>Response</cite> object. If the <cite>reason_phrase</cite> is <cite>None</cite> then a reason phrase that corresponds
+to the status code will be retrieved from a <cite>constants</cite> file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>status_code</strong> (<em>int</em>) – The status code of the response.</p></li>
+<li><p><strong>reason_phrase</strong> (<em>str</em>) – The reason phrase to accompany the status code. This can be <cite>None</cite>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dragonfly.response.Response.translate_deferred">
+<code class="sig-name descname">translate_deferred</code><span class="sig-paren">(</span><em class="sig-param">deferred</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.response.Response.translate_deferred" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merges the given <cite>DeferredResponse</cite> object to this <cite>Response</cite> instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>deferred</strong> (<a class="reference internal" href="#dragonfly.response.DeferredResponse" title="dragonfly.response.DeferredResponse"><em>DeferredResponse</em></a>) – The <cite>DeferredResponse</cite> object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="errorresponse">
+<h2>ErrorResponse<a class="headerlink" href="#errorresponse" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="dragonfly.response.ErrorResponse">
+<em class="property">class </em><code class="sig-prename descclassname">dragonfly.response.</code><code class="sig-name descname">ErrorResponse</code><span class="sig-paren">(</span><em class="sig-param">error_message</em>, <em class="sig-param">status_code</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.response.ErrorResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dragonfly.response.Response" title="dragonfly.response.Response"><code class="xref py py-class docutils literal notranslate"><span class="pre">dragonfly.response.Response</span></code></a></p>
+<p>A <cite>Response</cite> object that returns an error page.</p>
+<p>:param error_message
+:type error_message: str</p>
+<p>:param status_code
+:type status_code: int</p>
+</dd></dl>
+
+</div>
+<div class="section" id="deferredresponse">
+<h2>DeferredResponse<a class="headerlink" href="#deferredresponse" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="dragonfly.response.DeferredResponse">
+<em class="property">class </em><code class="sig-prename descclassname">dragonfly.response.</code><code class="sig-name descname">DeferredResponse</code><a class="headerlink" href="#dragonfly.response.DeferredResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Allows headers for a future response to be set before it exists.</p>
+<p>This singleton enables attributes of any <cite>Response</cite> object returned in the normal fashion, i.e through the
+<cite>dispatch_route</cite> method, to be set before it exists. The primary use of this class would be in the <cite>before</cite> method
+of a middleware.</p>
+<p>To do:
+- Support modifying content and status.</p>
+<dl class="method">
+<dt id="dragonfly.response.DeferredResponse.header">
+<code class="sig-name descname">header</code><span class="sig-paren">(</span><em class="sig-param">field_name</em>, <em class="sig-param">field_value</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.response.DeferredResponse.header" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define the headers to be set on the real <a class="reference internal" href="#dragonfly.response.Response" title="dragonfly.response.Response"><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code></a> object.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="template.html" class="btn btn-neutral float-left" title="Templates" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Matthew Lewis
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

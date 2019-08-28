@@ -1,0 +1,7 @@
+Middleware
+============================
+
+.. automodule:: dragonfly.middleware.middleware_controller
+   :members:
+   :undoc-members:
+   :show-inheritance:

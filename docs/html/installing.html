@@ -1,0 +1,558 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Quick Start &mdash; dragonfly 0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Getting Started" href="getting-started.html" />
+    <link rel="prev" title="Welcome to dragonfly’s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> dragonfly
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quick Start</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#design-philosophy">Design Philosophy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#routing">Routing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#http-methods">HTTP Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#resource-routing">Resource Routing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#route-parameters">Route Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#controllers">Controllers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#middleware">Middleware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#models-orm">Models (ORM)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#templates">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#demo-app">Demo App</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">dragonfly</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Quick Start</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/installing.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="quick-start">
+<h1>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h1>
+<p>This guide assumes you already have Dragonfly installed. Please see the
+<a class="reference external" href="getting-started.md">getting started</a> section if you do not.</p>
+<div class="toctree-wrapper compound">
+</div>
+<div class="section" id="design-philosophy">
+<h2>Design Philosophy<a class="headerlink" href="#design-philosophy" title="Permalink to this headline">¶</a></h2>
+<p>Dragonfly is based on the
+<a class="reference external" href="[https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller](https://en.wikipedia.org/wiki/Model–view–controller)">model-view-controller</a>
+architectural pattern. This means that the model structure, application
+logic and user interface are divided into separate components. The
+syntax of Dragonfly is designed to be as natural as possible and thus
+may not follow <a class="reference external" href="https://www.python.org/dev/peps/pep-0008/">PEP 8</a>
+fully. As this is a brief quick start guide some features won’t be
+shown. To get a full list of features please see the <a class="reference external" href="api-reference.md">API
+reference</a>.</p>
+</div>
+<div class="section" id="routing">
+<h2>Routing<a class="headerlink" href="#routing" title="Permalink to this headline">¶</a></h2>
+<p>Routing allows dragonfly to know the location to send a HTTP request. In
+the example below the GET request to <code class="docutils literal notranslate"><span class="pre">/testing</span></code> is routed to the
+<code class="docutils literal notranslate"><span class="pre">index</span></code> function on <code class="docutils literal notranslate"><span class="pre">TestController</span></code>. This is all registered in the
+<code class="docutils literal notranslate"><span class="pre">routes.py</span></code> file.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dragonfly.routes</span> <span class="kn">import</span> <span class="n">Router</span>
+
+<span class="n">Router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;testing&#39;</span><span class="p">,</span> <span class="s1">&#39;TestController@test&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="http-methods">
+<h3>HTTP Methods<a class="headerlink" href="#http-methods" title="Permalink to this headline">¶</a></h3>
+<p>Dragonfly supports the following HTTP methods:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 53%" />
+<col style="width: 47%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>HTTP Method</p></th>
+<th class="head"><p>Router method</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>GET</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.get()</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>POST</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.post()</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>PUT</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.put()</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>PATCH</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.patch()</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>OPTIONS</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.options()</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>DELETE</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.delete()</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>All of the above</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.any()</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="resource-routing">
+<h3>Resource Routing<a class="headerlink" href="#resource-routing" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">Router</span></code> class also has a special method called <code class="docutils literal notranslate"><span class="pre">resource</span></code>. Its
+second argument is an entire controller. Here is an example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Router</span><span class="o">.</span><span class="n">resource</span><span class="p">(</span><span class="s1">&#39;articles&#39;</span><span class="p">,</span> <span class="s1">&#39;ArticleController&#39;</span><span class="p">)</span> <span class="c1"># Notice there is no @{method_name}</span>
+</pre></div>
+</div>
+<p>Calling <code class="docutils literal notranslate"><span class="pre">.resource('ArticleController&#64;index')</span></code> will register the
+following routes:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 11%" />
+<col style="width: 23%" />
+<col style="width: 44%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Route</p></th>
+<th class="head"><p>HTTP Method</p></th>
+<th class="head"><p>Controller function</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">/articles</span></code></p></td>
+<td><p>GET</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ArticleController&#64;index</span></code></p></td>
+<td><p>Return all articles in the database.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">/articles/&lt;id:int&gt;</span></code></p></td>
+<td><p>GET</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ArticleController&#64;show</span></code></p></td>
+<td><p>Return the article with the given id or fail.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">/articles/create</span></code></p></td>
+<td><p>GET</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ArticleController&#64;create</span></code></p></td>
+<td><p>Show the form to create a new article.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">/articles</span></code></p></td>
+<td><p>POST</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ArticleController&#64;stores</span></code></p></td>
+<td><p>Store (and validate) the given values in the POST request.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">/articles/&lt;id:int&gt;/edit</span></code></p></td>
+<td><p>GET</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ArticleController&#64;edit</span></code></p></td>
+<td><p>Show the form to edit a article.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">/articles/&lt;id:int&gt;</span></code></p></td>
+<td><p>PUT</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ArticleController&#64;update</span></code></p></td>
+<td><p>Update the given article using the given values.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">/articles/&lt;id:int&gt;</span></code></p></td>
+<td><p>DELETE</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ArticleController&#64;delete</span></code></p></td>
+<td><p>Delete the given article.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="route-parameters">
+<h3>Route Parameters<a class="headerlink" href="#route-parameters" title="Permalink to this headline">¶</a></h3>
+<p>Route parameters are a way of passing variables to the controller to
+help find a certain piece of data. In the example above if the
+URL<code class="docutils literal notranslate"><span class="pre">/articles/1</span></code> was called, the integer <code class="docutils literal notranslate"><span class="pre">1</span></code> would be passed to
+the controller <code class="docutils literal notranslate"><span class="pre">show</span></code> function through a variable named <code class="docutils literal notranslate"><span class="pre">id</span></code>. This
+allows for the look up and return of the given article from the
+database. A route parameter should follow the pattern below:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">name_of_variable</span><span class="p">:</span><span class="n">expected_type</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>It is possible to have multiple parameters on a route. For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Route</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/articles/&lt;id:int&gt;/&lt;comment_id:int&gt;&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Dragonfly supports the following types by default:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 41%" />
+<col style="width: 59%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Type</p></th>
+<th class="head"><p>Regex</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">([0-9]+)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(.+)</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>Custom types</p>
+<p>It is very easy to define your own custom types. Simply add a new key
+(name of the type), value (regex to match) pair in the
+<code class="docutils literal notranslate"><span class="pre">PYTHON_TO_REGEX</span></code>dictionary in <code class="docutils literal notranslate"><span class="pre">config.py</span></code>. For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">PYTHON_TO_REGEX</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;int&quot;</span><span class="p">:</span> <span class="s2">&quot;([0-9]+)&quot;</span><span class="p">,</span> <span class="s2">&quot;str&quot;</span><span class="p">:</span> <span class="s2">&quot;(.+)&quot;</span><span class="p">,</span>
+                   <span class="s2">&quot;str_capitalised&quot;</span><span class="p">:</span> <span class="s2">&quot;(</span><span class="se">\b</span><span class="s2">[A-Z].*?</span><span class="se">\b</span><span class="s2">)&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="controllers">
+<h2>Controllers<a class="headerlink" href="#controllers" title="Permalink to this headline">¶</a></h2>
+<p>A controller should contain all of your application logic to do with
+that resource. The following command will create a file in the
+<code class="docutils literal notranslate"><span class="pre">controllers</span></code> directory called <code class="docutils literal notranslate"><span class="pre">article_controller</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">builder</span><span class="o">.</span><span class="n">py</span> <span class="n">generate</span> <span class="o">--</span><span class="nb">type</span><span class="o">=</span><span class="n">controller</span> <span class="n">article_controller</span>
+</pre></div>
+</div>
+<p>Each time a request is routed a new instance of the registered
+controller will be instantiated and the registered function run.</p>
+<p>The following is the basic structure of a controller:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dragonfly.controller</span> <span class="kn">import</span> <span class="n">Controller</span>
+<span class="kn">from</span> <span class="nn">models.Article</span> <span class="kn">import</span> <span class="n">Article</span>
+<span class="kn">from</span> <span class="nn">dragonfly.template.template</span> <span class="kn">import</span> <span class="n">View</span>
+
+
+<span class="k">class</span> <span class="nc">ArticleController</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">View</span><span class="p">(</span><span class="s1">&#39;articles.show&#39;</span><span class="p">,</span> <span class="n">article</span><span class="o">=</span><span class="n">Article</span><span class="p">()</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="nb">id</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>The following route would match to this controller method:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Route</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/articles/&lt;id:int&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;ArticleController@show&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="middleware">
+<h2>Middleware<a class="headerlink" href="#middleware" title="Permalink to this headline">¶</a></h2>
+<p>Middleware provides a way to stop or modify a request cycle; before the
+request is routed, after a response is returned from the controller or
+both. Dragonfly comes with a few premade middleware. You can also create
+your own middleware using the following command:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">builder</span><span class="o">.</span><span class="n">py</span> <span class="n">generate</span> <span class="o">--</span><span class="nb">type</span><span class="o">=</span><span class="n">middleware</span> <span class="n">article_middleware</span>
+</pre></div>
+</div>
+<p>The following is an example of middleware that will run on any route
+that resolves the <code class="docutils literal notranslate"><span class="pre">show</span></code> method in the <code class="docutils literal notranslate"><span class="pre">ArticleController</span></code>. It is
+possible to assign a middleware to multiple actions by appending to the
+<code class="docutils literal notranslate"><span class="pre">actions</span></code> list. The <code class="docutils literal notranslate"><span class="pre">before</span></code> method here uses the singleton of the
+<code class="docutils literal notranslate"><span class="pre">DeferredResponse</span></code> class to set the header for the response before it
+has been generated (NOTE: This does <strong>not</strong> set the headers for any
+<code class="docutils literal notranslate"><span class="pre">Response</span></code> other than the one returned by the controller).</p>
+<p>In the <code class="docutils literal notranslate"><span class="pre">before</span></code> and <code class="docutils literal notranslate"><span class="pre">after</span></code> method if any <code class="docutils literal notranslate"><span class="pre">Response</span></code> class or
+child of the <code class="docutils literal notranslate"><span class="pre">Response</span></code> class is returned the processing of the
+request will stop and the response returned.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dragonfly.request</span> <span class="kn">import</span> <span class="n">request</span>
+<span class="kn">from</span> <span class="nn">dragonfly.response</span> <span class="kn">import</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="n">deferred_response</span>
+
+<span class="k">class</span> <span class="nc">ArticleMiddleware</span><span class="p">:</span>
+
+    <span class="n">actions</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ArticleController@show&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">before</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">visited</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">cookies</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ErrorResponse</span><span class="p">(</span><span class="mi">404</span><span class="p">,</span> <span class="s2">&quot;You have already visited the page.&quot;</span><span class="p">)</span>
+
+        <span class="n">deferred_response</span><span class="o">.</span><span class="n">header</span><span class="p">(</span><span class="s1">&#39;Set-Cookie&#39;</span><span class="p">,</span> <span class="s1">&#39;visited=True&#39;</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">after</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="models-orm">
+<h2>Models (ORM)<a class="headerlink" href="#models-orm" title="Permalink to this headline">¶</a></h2>
+<p>Models provide an easy way to read, write and update a table in the
+database through a Python class. To start using the ORM you first need
+to define the attributes of a model. This is all done through a model
+class file. This can be generated using the CLI:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">builder</span><span class="o">.</span><span class="n">py</span> <span class="n">generate</span> <span class="o">--</span><span class="nb">type</span><span class="o">=</span><span class="n">model</span> <span class="n">article</span>
+</pre></div>
+</div>
+<p>A new file will be created in the <code class="docutils literal notranslate"><span class="pre">models</span></code> directory. Below is an
+example of an articles model and the SQL it generates.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dragonfly.db</span> <span class="kn">import</span> <span class="n">models</span>
+
+<span class="k">class</span> <span class="nc">Article</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">unsigned</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">auto_increment</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>There are many field types and options for each field type. For an
+exhaustive list of these please see the <a class="reference external" href="#api-documentation">API
+reference</a>. It is also important to note that you
+can add any function you would like to the model class. For example a
+way to generate the slug for an article:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">slug</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;/articles/{self.id}&quot;</span>
+</pre></div>
+</div>
+<p>Once you have defined the model you need to generate and execute the SQL
+to create the table. To do this simply run the following command.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">builder</span><span class="o">.</span><span class="n">py</span> <span class="n">migrate</span>
+</pre></div>
+</div>
+<p>Once complete you should be able to manipulate the newly created
+<code class="docutils literal notranslate"><span class="pre">articles</span></code> table through the <code class="docutils literal notranslate"><span class="pre">Article</span></code> model. Below is an example of
+retrieving all articles in the database:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">models.article</span> <span class="k">import</span> <span class="n">Article</span>
+
+<span class="n">articles</span> <span class="o">=</span> <span class="n">Article</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The ORM has a large number of methods that are all listed in the <a class="reference external" href="#api-documentation">API
+reference</a>. However, below are listed some of the
+common methods:</p>
+</div>
+<div class="section" id="templates">
+<h2>Templates<a class="headerlink" href="#templates" title="Permalink to this headline">¶</a></h2>
+<p>Dragonfly provides an easier way to join Python and HTML. A view is
+stored in the <code class="docutils literal notranslate"><span class="pre">views</span></code> directory and should be a <code class="docutils literal notranslate"><span class="pre">html</span></code>file. The
+templates can also be in subdirectories of the <code class="docutils literal notranslate"><span class="pre">views</span></code> directory.</p>
+<p>Below is an example of a html file saved in
+<code class="docutils literal notranslate"><span class="pre">views/articles/index.html</span></code></p>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&quot;utf-8&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Articles | Index<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;width=device-width, initial-scale=1&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">http-equiv</span><span class="o">=</span><span class="s">&quot;X-UA-Compatible&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;IE=edge&quot;</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Articles<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">hr</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+        {% for article in articles }}
+            <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;http://{{ &lt;article.slug()&gt; }}&quot;</span><span class="p">&gt;</span>
+                {{ <span class="p">&lt;</span><span class="nt">server.name</span><span class="p">&gt;</span> }}
+            <span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+        {{ end for %}
+
+        {% if display_help }}
+            Looks like you need some help...
+        {{ end if %}
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<p>To call and render this view you would write the following in your
+controller:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">return</span> <span class="n">View</span><span class="p">(</span><span class="s1">&#39;articles.index&#39;</span><span class="p">,</span> <span class="n">articles</span><span class="o">=</span><span class="n">articles</span><span class="p">,</span> <span class="n">display_help</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">make</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>There are a few important things to note about the syntax of the
+templating system:</p>
+<ul class="simple">
+<li><p>To write variables simply wrap <code class="docutils literal notranslate"><span class="pre">{{</span> <span class="pre">}}</span></code> around the variable name.</p></li>
+<li><p>Due to the way the template compiler works if the variable is one
+‘generated’ by a for loop, like the <code class="docutils literal notranslate"><span class="pre">article</span></code> variable in the
+example above, it must also be wrapped by <code class="docutils literal notranslate"><span class="pre">&lt;</span> <span class="pre">&gt;</span></code>.</p></li>
+<li><p>Command structures are declared by having the opening clause begin
+with <code class="docutils literal notranslate"><span class="pre">{%</span></code> and the ending clause close with <code class="docutils literal notranslate"><span class="pre">%}</span></code>.</p></li>
+<li><p>The only command structures available currently are <code class="docutils literal notranslate"><span class="pre">if</span></code> and
+<code class="docutils literal notranslate"><span class="pre">for</span></code>.</p></li>
+<li><p>Each command structure must have a start and end clause (<code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">...</span></code>,
+<code class="docutils literal notranslate"><span class="pre">end</span> <span class="pre">if</span></code>, <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">...</span></code>, <code class="docutils literal notranslate"><span class="pre">end</span> <span class="pre">for</span></code>).</p></li>
+</ul>
+</div>
+<div class="section" id="demo-app">
+<h2>Demo App<a class="headerlink" href="#demo-app" title="Permalink to this headline">¶</a></h2>
+<p>Please see <a href="#id1"><span class="problematic" id="id2">`here &lt;&gt;`__</span></a> for an example articles project.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="getting-started.html" class="btn btn-neutral float-right" title="Getting Started" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to dragonfly’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Matthew Lewis
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

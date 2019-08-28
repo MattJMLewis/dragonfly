@@ -1,0 +1,12 @@
+Models
+===========================
+
+.. automodule:: dragonfly.db.models.fields
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: dragonfly.db.models.model
+   :members:
+   :undoc-members:
+   :show-inheritance:

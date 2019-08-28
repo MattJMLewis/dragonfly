@@ -1,0 +1,60 @@
+Installation
+===============
+
+Installing Python
+^^^^^^^^^^^^^^^^^
+
+For dragonfly to work you must have Python 3.6 or above installed. For
+further details on how to do this please see
+`here <https://www.python.org/downloads/>`__.
+
+Installing Dragonfly
+^^^^^^^^^^^^^^^^^^^^
+
+First, download the Dragonfly repository
+
+Via git
+       
+
+``git clone git@github.com:MattJMLewis/dragonfly.git``
+
+Via GitHub
+          
+
+Simply download the
+`repository <https://github.com/MattJMLewis/dragonfly/archive/master.zip>`__
+and unzip it.
+
+Installing requirements
+                       
+
+Next, enter the dragonfly directory and run the following command.
+
+``pip install -r requirements.txt``
+
+Setting up a MySQL database
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Dragonfly currently only supports ``MySQL`` databases. See
+`here <https://dev.mysql.com/doc/refman/8.0/en/installing.html>`__ for
+more details on how to set up a server.
+
+Running dragonfly
+^^^^^^^^^^^^^^^^^
+
+Development
+           
+
+Simply run the ``main.py`` file. However before you do this you should
+modify the ``config.py`` file to match your setup.
+
+Production
+          
+
+Coming soon...
+
+Usage
+^^^^^
+
+Please see `here <quick-start.md>`__ for the quick start guide on using
+dragonfly

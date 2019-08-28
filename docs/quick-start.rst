@@ -1,0 +1,328 @@
+Quick Start
+===========
+
+This guide assumes you already have Dragonfly installed. Please see the
+`getting started <getting-started.md>`__ section if you do not.
+
+
+Design Philosophy
+^^^^^^^^^^^^^^^^^
+
+Dragonfly is based on the
+`model-view-controller <[https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller](https://en.wikipedia.org/wiki/Model–view–controller)>`__
+architectural pattern. This means that the model structure, application
+logic and user interface are divided into separate components. The
+syntax of Dragonfly is designed to be as natural as possible and thus
+may not follow `PEP 8 <https://www.python.org/dev/peps/pep-0008/>`__
+fully. As this is a brief quick start guide some features won't be
+shown. To get a full list of features please see the `API
+reference <api-reference.md>`__.
+
+Routing
+^^^^^^^
+
+Routing allows dragonfly to know the location to send a HTTP request. In
+the example below the GET request to ``/testing`` is routed to the
+``index`` function on ``TestController``. This is all registered in the
+``routes.py`` file.
+
+.. code:: python
+
+    from dragonfly.routes import Router
+
+    Router.get('testing', 'TestController@test')
+
+HTTP Methods
+''''''''''''
+
+Dragonfly supports the following HTTP methods:
+
++--------------------+------------------+
+| HTTP Method        | Router method    |
++====================+==================+
+| GET                | ``.get()``       |
++--------------------+------------------+
+| POST               | ``.post()``      |
++--------------------+------------------+
+| PUT                | ``.put()``       |
++--------------------+------------------+
+| PATCH              | ``.patch()``     |
++--------------------+------------------+
+| OPTIONS            | ``.options()``   |
++--------------------+------------------+
+| DELETE             | ``.delete()``    |
++--------------------+------------------+
+| All of the above   | ``.any()``       |
++--------------------+------------------+
+
+Resource Routing
+''''''''''''''''
+
+The ``Router`` class also has a special method called ``resource``. Its
+second argument is an entire controller. Here is an example:
+
+.. code:: python
+
+    Router.resource('articles', 'ArticleController') # Notice there is no @{method_name}
+
+Calling ``.resource('ArticleController@index')`` will register the
+following routes:
+
++-------------------------------+---------------+--------------------------------+--------------------------------------------------------------+
+| Route                         | HTTP Method   | Controller function            | Description                                                  |
++===============================+===============+================================+==============================================================+
+| ``/articles``                 | GET           | ``ArticleController@index``    | Return all articles in the database.                         |
++-------------------------------+---------------+--------------------------------+--------------------------------------------------------------+
+| ``/articles/<id:int>``        | GET           | ``ArticleController@show``     | Return the article with the given id or fail.                |
++-------------------------------+---------------+--------------------------------+--------------------------------------------------------------+
+| ``/articles/create``          | GET           | ``ArticleController@create``   | Show the form to create a new article.                       |
++-------------------------------+---------------+--------------------------------+--------------------------------------------------------------+
+| ``/articles``                 | POST          | ``ArticleController@stores``   | Store (and validate) the given values in the POST request.   |
++-------------------------------+---------------+--------------------------------+--------------------------------------------------------------+
+| ``/articles/<id:int>/edit``   | GET           | ``ArticleController@edit``     | Show the form to edit a article.                             |
++-------------------------------+---------------+--------------------------------+--------------------------------------------------------------+
+| ``/articles/<id:int>``        | PUT           | ``ArticleController@update``   | Update the given article using the given values.             |
++-------------------------------+---------------+--------------------------------+--------------------------------------------------------------+
+| ``/articles/<id:int>``        | DELETE        | ``ArticleController@delete``   | Delete the given article.                                    |
++-------------------------------+---------------+--------------------------------+--------------------------------------------------------------+
+
+Route Parameters
+''''''''''''''''
+
+Route parameters are a way of passing variables to the controller to
+help find a certain piece of data. In the example above if the
+URL\ ``/articles/1`` was called, the integer ``1`` would be passed to
+the controller ``show`` function through a variable named ``id``. This
+allows for the look up and return of the given article from the
+database. A route parameter should follow the pattern below:
+
+.. code:: python
+
+    <name_of_variable:expected_type>
+
+It is possible to have multiple parameters on a route. For example:
+
+.. code:: python
+
+    Route.get('/articles/<id:int>/<comment_id:int>')
+
+Dragonfly supports the following types by default:
+
++-----------+----------------+
+| Type      | Regex          |
++===========+================+
+| ``int``   | ``([0-9]+)``   |
++-----------+----------------+
+| ``str``   | ``(.+)``       |
++-----------+----------------+
+
+Custom types
+            
+
+It is very easy to define your own custom types. Simply add a new key
+(name of the type), value (regex to match) pair in the
+``PYTHON_TO_REGEX``\ dictionary in ``config.py``. For example:
+
+.. code:: python
+
+    PYTHON_TO_REGEX = {"int": "([0-9]+)", "str": "(.+)", 
+                       "str_capitalised": "(\b[A-Z].*?\b)"}
+
+Controllers
+^^^^^^^^^^^
+
+A controller should contain all of your application logic to do with
+that resource. The following command will create a file in the
+``controllers`` directory called ``article_controller``:
+
+::
+
+    python builder.py generate --type=controller article_controller
+
+Each time a request is routed a new instance of the registered
+controller will be instantiated and the registered function run.
+
+The following is the basic structure of a controller:
+
+.. code:: python
+
+    from dragonfly.controller import Controller
+    from models.Article import Article
+    from dragonfly.template.template import View
+
+
+    class ArticleController(Controller):
+        
+        def show(self, id):
+            return View('articles.show', article=Article().find(id))
+            
+
+The following route would match to this controller method:
+
+.. code:: python
+
+    Route.get('/articles/<id:int>', 'ArticleController@show')
+
+Middleware
+^^^^^^^^^^
+
+Middleware provides a way to stop or modify a request cycle; before the
+request is routed, after a response is returned from the controller or
+both. Dragonfly comes with a few premade middleware. You can also create
+your own middleware using the following command:
+
+.. code:: python
+
+    python builder.py generate --type=middleware article_middleware
+
+The following is an example of middleware that will run on any route
+that resolves the ``show`` method in the ``ArticleController``. It is
+possible to assign a middleware to multiple actions by appending to the
+``actions`` list. The ``before`` method here uses the singleton of the
+``DeferredResponse`` class to set the header for the response before it
+has been generated (NOTE: This does **not** set the headers for any
+``Response`` other than the one returned by the controller).
+
+In the ``before`` and ``after`` method if any ``Response`` class or
+child of the ``Response`` class is returned the processing of the
+request will stop and the response returned.
+
+.. code:: python
+
+    from dragonfly.request import request
+    from dragonfly.response import ErrorResponse, deferred_response
+
+    class ArticleMiddleware:
+
+        actions = ['ArticleController@show']
+
+        def before(self):
+            if visited in request.cookies:
+                return ErrorResponse(404, "You have already visited the page.")
+                
+            deferred_response.header('Set-Cookie', 'visited=True')
+            
+
+        def after(self):
+            pass
+            
+
+Models (ORM)
+^^^^^^^^^^^^
+
+Models provide an easy way to read, write and update a table in the
+database through a Python class. To start using the ORM you first need
+to define the attributes of a model. This is all done through a model
+class file. This can be generated using the CLI:
+
+::
+
+    python builder.py generate --type=model article
+
+A new file will be created in the ``models`` directory. Below is an
+example of an articles model and the SQL it generates.
+
+.. code:: python
+
+    from dragonfly.db import models
+
+    class Article(models.Model):
+
+        id = models.IntegerField(unsigned=True, auto_increment=True, primary_key=True)
+        title = models.CharField(max_length=10)
+        text = models.TextField()
+
+There are many field types and options for each field type. For an
+exhaustive list of these please see the `API
+reference <#api-documentation>`__. It is also important to note that you
+can add any function you would like to the model class. For example a
+way to generate the slug for an article:
+
+.. code:: python
+
+        def slug(self):
+            return f"/articles/{self.id}"
+
+Once you have defined the model you need to generate and execute the SQL
+to create the table. To do this simply run the following command.
+
+::
+
+    python builder.py migrate
+
+Once complete you should be able to manipulate the newly created
+``articles`` table through the ``Article`` model. Below is an example of
+retrieving all articles in the database:
+
+::
+
+    from models.article import Article
+
+    articles = Article().get()
+
+The ORM has a large number of methods that are all listed in the `API
+reference <#api-documentation>`__. However, below are listed some of the
+common methods:
+
+Templates
+^^^^^^^^^
+
+Dragonfly provides an easier way to join Python and HTML. A view is
+stored in the ``views`` directory and should be a ``html``\ file. The
+templates can also be in subdirectories of the ``views`` directory.
+
+Below is an example of a html file saved in
+``views/articles/index.html``
+
+.. code:: html
+
+    <head>
+        <meta charset="utf-8">
+        <title>Articles | Index</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    </head>
+
+    <h1>Articles</h1>
+    <hr>
+
+    <body>
+        <div>
+            {% for article in articles }}
+                <a href="http://{{ <article.slug()> }}">
+                    {{ <server.name> }}
+                </a>
+            {{ end for %}
+            
+            {% if display_help }}
+                Looks like you need some help...
+            {{ end if %}
+        </div>   
+    </body>
+    </html>
+
+To call and render this view you would write the following in your
+controller:
+
+.. code:: python
+
+    return View('articles.index', articles=articles, display_help=True).make()
+
+There are a few important things to note about the syntax of the
+templating system:
+
+-  To write variables simply wrap ``{{ }}`` around the variable name.
+-  Due to the way the template compiler works if the variable is one
+   'generated' by a for loop, like the ``article`` variable in the
+   example above, it must also be wrapped by ``< >``.
+-  Command structures are declared by having the opening clause begin
+   with ``{%`` and the ending clause close with ``%}``.
+-  The only command structures available currently are ``if`` and
+   ``for``.
+-  Each command structure must have a start and end clause (``if ...``,
+   ``end if``, ``for ...``, ``end for``).
+
+Demo App
+^^^^^^^^
+
+Please see `here <>`__ for an example articles project.

@@ -1,0 +1,27 @@
+Database
+====================
+
+.. automodule:: dragonfly.db.database
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: dragonfly.db.database_migrator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: dragonfly.db.table
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: dragonfly.db.models.fields
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: dragonfly.db.models.model
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,348 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Routes &mdash; dragonfly 0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="dragonfly.template package" href="dragonfly.template.html" />
+    <link rel="prev" title="Middleware" href="dragonfly.middleware.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> dragonfly
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick-start.html">Quick Start</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="api-reference.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="dragonfly.db.html">Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dragonfly.middleware.html">Middleware</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Routes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dragonfly.template.html">dragonfly.template package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api-reference.html#module-dragonfly.constants">dragonfly.constants module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api-reference.html#module-dragonfly.controller">dragonfly.controller module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api-reference.html#module-dragonfly.request">dragonfly.request module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api-reference.html#module-dragonfly.response">dragonfly.response module</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">dragonfly</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="api-reference.html">API Reference</a> &raquo;</li>
+        
+      <li>Routes</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/dragonfly.routes.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-dragonfly.routes.route_collection">
+<span id="routes"></span><h1>Routes<a class="headerlink" href="#module-dragonfly.routes.route_collection" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="dragonfly.routes.route_collection.RouteCollection">
+<em class="property">class </em><code class="sig-prename descclassname">dragonfly.routes.route_collection.</code><code class="sig-name descname">RouteCollection</code><a class="headerlink" href="#dragonfly.routes.route_collection.RouteCollection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A way to store registered routes.</p>
+<dl class="method">
+<dt id="dragonfly.routes.route_collection.RouteCollection.add">
+<code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="sig-param">uri</em>, <em class="sig-param">action</em>, <em class="sig-param">method</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.routes.route_collection.RouteCollection.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a new route to either the static or dynamic routes dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>uri</strong> (<em>str</em>) – The route uri</p></li>
+<li><p><strong>action</strong> (<em>str</em>) – The route action</p></li>
+<li><p><strong>method</strong> (<em>str</em>) – The route HTTP method</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dragonfly.routes.route_collection.RouteCollection.match_route">
+<code class="sig-name descname">match_route</code><span class="sig-paren">(</span><em class="sig-param">uri</em>, <em class="sig-param">method</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.routes.route_collection.RouteCollection.match_route" title="Permalink to this definition">¶</a></dt>
+<dd><p>Match the given route using its URI and method. First we check if it is a static route before checking all
+dynamic routes</p>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-dragonfly.routes.route_rule"></span><dl class="class">
+<dt id="dragonfly.routes.route_rule.RouteRule">
+<em class="property">class </em><code class="sig-prename descclassname">dragonfly.routes.route_rule.</code><code class="sig-name descname">RouteRule</code><span class="sig-paren">(</span><em class="sig-param">uri</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.routes.route_rule.RouteRule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Used to register dynamic routes. Allows for an easy check of whether a given route matches a dynamic route.</p>
+<dl class="method">
+<dt id="dragonfly.routes.route_rule.RouteRule.match">
+<code class="sig-name descname">match</code><span class="sig-paren">(</span><em class="sig-param">uri</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.routes.route_rule.RouteRule.match" title="Permalink to this definition">¶</a></dt>
+<dd><p>Matches the given route to an action and extracts any router parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>uri</strong> (<em>str</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dictionary containing the the action and any route parameters</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-dragonfly.routes.router"></span><dl class="class">
+<dt id="dragonfly.routes.router.Router">
+<em class="property">class </em><code class="sig-prename descclassname">dragonfly.routes.router.</code><code class="sig-name descname">Router</code><a class="headerlink" href="#dragonfly.routes.router.Router" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Routes the given route to the defined <cite>Controller</cite> and returns its <cite>Response</cite>.</p>
+<dl class="method">
+<dt id="dragonfly.routes.router.Router.add_route">
+<code class="sig-name descname">add_route</code><span class="sig-paren">(</span><em class="sig-param">uri</em>, <em class="sig-param">action</em>, <em class="sig-param">method</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.routes.router.Router.add_route" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a route to the <cite>RouteCollection</cite> object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>uri</strong> (<em>str</em>) – The uri of the route</p></li>
+<li><p><strong>action</strong> (<em>str</em>) – The action of the route e.g <a class="reference external" href="mailto:'HomeController&#37;&#52;&#48;home">‘HomeController<span>&#64;</span>home</a>’</p></li>
+<li><p><strong>method</strong> (<em>str</em>) – The HTTP method verb e.g ‘GET’</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dragonfly.routes.router.Router.any">
+<code class="sig-name descname">any</code><span class="sig-paren">(</span><em class="sig-param">uri</em>, <em class="sig-param">action</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.routes.router.Router.any" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dragonfly.routes.router.Router.delete">
+<code class="sig-name descname">delete</code><span class="sig-paren">(</span><em class="sig-param">uri</em>, <em class="sig-param">action</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.routes.router.Router.delete" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dragonfly.routes.router.Router.dispatch_route">
+<code class="sig-name descname">dispatch_route</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.routes.router.Router.dispatch_route" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dispatches the appropriate route based on the request method and path.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dragonfly.routes.router.Router.get">
+<code class="sig-name descname">get</code><span class="sig-paren">(</span><em class="sig-param">uri</em>, <em class="sig-param">action</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.routes.router.Router.get" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dragonfly.routes.router.Router.get_routes">
+<code class="sig-name descname">get_routes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.routes.router.Router.get_routes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dragonfly.routes.router.Router.options">
+<code class="sig-name descname">options</code><span class="sig-paren">(</span><em class="sig-param">uri</em>, <em class="sig-param">action</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.routes.router.Router.options" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dragonfly.routes.router.Router.patch">
+<code class="sig-name descname">patch</code><span class="sig-paren">(</span><em class="sig-param">uri</em>, <em class="sig-param">action</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.routes.router.Router.patch" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dragonfly.routes.router.Router.post">
+<code class="sig-name descname">post</code><span class="sig-paren">(</span><em class="sig-param">uri</em>, <em class="sig-param">action</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.routes.router.Router.post" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dragonfly.routes.router.Router.put">
+<code class="sig-name descname">put</code><span class="sig-paren">(</span><em class="sig-param">uri</em>, <em class="sig-param">action</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.routes.router.Router.put" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dragonfly.routes.router.Router.resource">
+<code class="sig-name descname">resource</code><span class="sig-paren">(</span><em class="sig-param">uri</em>, <em class="sig-param">controller</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.routes.router.Router.resource" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="dragonfly.routes.router.to_snake">
+<code class="sig-prename descclassname">dragonfly.routes.router.</code><code class="sig-name descname">to_snake</code><span class="sig-paren">(</span><em class="sig-param">name</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.routes.router.to_snake" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<span class="target" id="module-dragonfly.routes"></span></div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="dragonfly.template.html" class="btn btn-neutral float-right" title="dragonfly.template package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="dragonfly.middleware.html" class="btn btn-neutral float-left" title="Middleware" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Matthew Lewis
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

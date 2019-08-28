@@ -1,0 +1,329 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Templates &mdash; dragonfly 0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Web" href="web.html" />
+    <link rel="prev" title="Routes" href="routes.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> dragonfly
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick-start.html">Quick Start</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="api-reference.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="db.html">Database package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="middleware.html">Middleware package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routes.html">Routes</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Templates</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#view">View</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#converter">Converter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#parser">Parser</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-dragonfly.template.classes.Clause">Clause</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-dragonfly.template.classes.Snippet">Snippet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-dragonfly.template.classes.Stack">Stack</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="web.html">Web</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">dragonfly</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="api-reference.html">API Reference</a> &raquo;</li>
+        
+      <li>Templates</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/template.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="templates">
+<h1>Templates<a class="headerlink" href="#templates" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="view">
+<h2>View<a class="headerlink" href="#view" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="dragonfly.template.template.View">
+<em class="property">class </em><code class="sig-prename descclassname">dragonfly.template.template.</code><code class="sig-name descname">View</code><span class="sig-paren">(</span><em class="sig-param">view</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.template.template.View" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Returns a HTML version of the requested template.</p>
+<p>The class first finds the desired view. If a pre-compiled <cite>python</cite> version of the template does not exist or is out
+of date, the class will generate one. Otherwise it imports the compiled <cite>python</cite> file and runs the <cite>.get_html</cite>
+method, passing in any variables that the user has given to the constructor (via <a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs). It then returns a
+<cite>Response</cite> with this HTML.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>view</strong> (<em>str</em>) – The view to return</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="dragonfly.template.template.View.make">
+<code class="sig-name descname">make</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.template.template.View.make" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a response with the generated HTML.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The response</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="web.html#dragonfly.response.Response" title="dragonfly.response.Response">Response</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The following classes should not be called directly.</p>
+</div>
+</div>
+<div class="section" id="converter">
+<h2>Converter<a class="headerlink" href="#converter" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="dragonfly.template.template.Converter">
+<em class="property">class </em><code class="sig-prename descclassname">dragonfly.template.template.</code><code class="sig-name descname">Converter</code><span class="sig-paren">(</span><em class="sig-param">file</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.template.template.Converter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The <cite>Converter</cite> converts the given template file to the <cite>.py</cite> equivalent. This enables control structures and
+variables to be easily injected into HTML.</p>
+<p>The <cite>Converter</cite> calls the <cite>Parser</cite> class first before generating the <cite>.py</cite> file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>file</strong> (<em>str</em>) – The template file to convert.</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="dragonfly.template.template.Converter.convert">
+<code class="sig-name descname">convert</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.template.template.Converter.convert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts the template HTML to python.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dragonfly.template.template.Converter.fix_clause">
+<code class="sig-name descname">fix_clause</code><span class="sig-paren">(</span><em class="sig-param">snippet_str</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.template.template.Converter.fix_clause" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fixes clauses in <cite>if</cite> and <cite>else if</cite> statements.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>snippet_str</strong> (<em>str</em>) – The templating language to fix.</p>
+</dd>
+</dl>
+<p>:returns The fixed clause string
+:rtype str</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="parser">
+<h2>Parser<a class="headerlink" href="#parser" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="dragonfly.template.template.Parser">
+<em class="property">class </em><code class="sig-prename descclassname">dragonfly.template.template.</code><code class="sig-name descname">Parser</code><span class="sig-paren">(</span><em class="sig-param">file</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.template.template.Parser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The <cite>Parser</cite> reads from the given template file and converts it to a flat list of <cite>Snippet</cite> objects.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>file</strong> (<em>str</em>) – The file to convert.</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="dragonfly.template.template.Parser.parse">
+<code class="sig-name descname">parse</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.template.template.Parser.parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parses the given file to a list of <cite>Snippets</cite></p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-dragonfly.template.classes.Clause">
+<span id="clause"></span><h2>Clause<a class="headerlink" href="#module-dragonfly.template.classes.Clause" title="Permalink to this headline">¶</a></h2>
+<p>A <cite>Clause</cite> represents an entire command structure. This includes the <cite>Snippet`s for its opening and closing tags and
+any `Clause</cite> or <cite>Snippet</cite> contained within it.</p>
+</div>
+<div class="section" id="module-dragonfly.template.classes.Snippet">
+<span id="snippet"></span><h2>Snippet<a class="headerlink" href="#module-dragonfly.template.classes.Snippet" title="Permalink to this headline">¶</a></h2>
+<p>A <cite>Snippet</cite> represents a line of templating code e.g if, etc…</p>
+</div>
+<div class="section" id="module-dragonfly.template.classes.Stack">
+<span id="stack"></span><h2>Stack<a class="headerlink" href="#module-dragonfly.template.classes.Stack" title="Permalink to this headline">¶</a></h2>
+<p>A simple stack structure for the <cite>Parser</cite></p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="web.html" class="btn btn-neutral float-right" title="Web" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="routes.html" class="btn btn-neutral float-left" title="Routes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Matthew Lewis
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
