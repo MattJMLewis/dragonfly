@@ -17,7 +17,7 @@ sql_to_var = \
 
 
 def handle_options(func):
-    """Handles any extra options for the methods on the `Table` class"""
+    """Handles any extra options for the methods on the :class:`Table` class"""
     def wrapper(*args, **kwargs):
         append = ''
 

@@ -3,7 +3,7 @@ from dragonfly.constants import REASON_PHRASES
 
 class Response:
     """
-    The base `Response` class that is readable by the WSGI server.
+    The base :class:`Response` class that is readable by the WSGI server.
 
     Parameters
     ----------
@@ -13,7 +13,7 @@ class Response:
     :param content_type: The MIME type. This defaults to 'text/html'.
     :type content_type: str
 
-    :param: status_code: The HTTP status code. This defaults to success (200).
+    :param status_code: The HTTP status code. This defaults to success (200).
     :type status_code: int
 
     :param reason_phrase: A written meaning of the HTTP status code. If left as `None` the reason phrase will be
@@ -40,7 +40,6 @@ class Response:
         """
         Converts the given content to bytes.
         """
-
         try:
             self.content = bytes(str(self.original_content), 'utf-8')
         except:
@@ -48,8 +47,8 @@ class Response:
 
     def set_status(self, status_code, reason_phrase):
         """
-        Sets the status of the `Response` object. If the `reason_phrase` is `None` then a reason phrase that corresponds
-        to the status code will be retrieved from a `constants` file.
+        Sets the status of the :class:`Response` object. If the ``reason_phrase`` is ``None`` then a reason phrase that corresponds
+        to the status code will be retrieved from a ``constants`` file.
 
         :param status_code: The status code of the response.
         :type status_code: int
@@ -68,7 +67,7 @@ class Response:
         :param field_name: The header field name.
         :type field_name: str
 
-        :param field_value The header field value.
+        :param field_value: The header field value.
         :type field_value: str
         """
 
@@ -95,10 +94,10 @@ class ErrorResponse(Response):
     """
     A `Response` object that returns an error page.
 
-    :param error_message
+    :param error_message: The error message.
     :type error_message: str
 
-    :param status_code
+    :param status_code: The status code.
     :type status_code: int
     """
 

@@ -5,7 +5,6 @@ from config import DATABASE
 
 
 class DB:
-
     """An easy way to interact with the configured database."""
 
     def __init__(self, database_settings=DATABASE):
@@ -29,11 +28,11 @@ class DB:
 
     def where(self, condition_1, operator, condition_2):
         """
-        Equivalent to the `WHERE` clause in SQL.
+        Equivalent to the ``WHERE`` clause in SQL.
 
-        :param condition_1: The value to the left of the operator .
+        :param condition_1: The value to the left of the operator.
 
-        :param operator: The operator, e.g '='
+        :param operator: The operator, e.g ``=``
         :type operator: str
 
         :param condition_2: The value to the right of the operator.
@@ -44,9 +43,9 @@ class DB:
 
     def multiple_where(self, where_dict):
         """
-        Allows for multiple where clauses through one command. Note this only supports the '=' operator.
+        Allows for multiple where clauses through one command. Note this only supports the ``=`` operator.
 
-        :param where_dict: Each key, value pair in the dictionary becomes `WHERE key = value`.
+        :param where_dict: Each key, value pair in the dictionary becomes ``WHERE key = value``.
         :type where_dict: dict
         """
 
@@ -61,14 +60,15 @@ class DB:
 
     def select(self, *args):
         """
-        Equivalent to the `SELECT` clause in MySQL.
+        Equivalent to the ``SELECT`` clause in MySQL.
 
         Add the column you would like as an argument to the function. You can choose many columns.
 
         :example:
-            DB().select('title', 'text')
+            ``DB().select('title', 'text')``
 
-        .. note:: If you would like to select all (`*`) columns then simply do not use the select argument when building your query.
+        .. note:: If you would like to select all (``*``) columns then simply do not use the select argument when
+        building your query.
         """
         columns = ','.join(f" `{column}`" for column in args)
         self.query['select'] = f"SELECT {columns}"
@@ -83,7 +83,7 @@ class DB:
         return self.__execute_sql()
 
     def first(self):
-        """This will execute the query you have been building and return only the first result (uses `LIMIT 1`)"""
+        """This will execute the query you have been building and return only the first result (uses ``LIMIT 1``)"""
         self.__validate(['select'])
         self.raw_query = f"{self.query['select']} FROM `{self.query['table']}` {self.query['where']} LIMIT 1"
 
@@ -93,7 +93,7 @@ class DB:
         """
         This will run the given query and return the given number of results at the given location.
 
-        :param chunk_loc: The location to chunk e.g the first chunk or second chunk...
+        :param chunk_loc: The location to chunk e.g the first chunk or second chunk.
         :type chunk_loc: int
 
         :param chunk_size: The number of rows each chunk should contain.
@@ -129,7 +129,7 @@ class DB:
         """
         Updates the given row/rows based on the dictionary.
 
-        For this method to run the `where` method must have been called before this one.
+        For this method to run the :meth:`where<dragonfly.db.database.DB.where>` method must have been called before this one.
 
         :param update_dict: The dictionary containing the column to update and the value to update it with.
         :type update_dict: dict
@@ -150,7 +150,7 @@ class DB:
         """
         Deletes the given row/rows.
 
-        For this method to run the `where` method must have been called before this one.
+        For this method to run the :meth:`where<dragonfly.db.database.DB.where>` method must have been called before this one.
 
         """
 

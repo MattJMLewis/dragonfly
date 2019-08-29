@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="API Reference" href="dragonfly.html" />
+    <link rel="next" title="API Reference" href="api-reference.html" />
     <link rel="prev" title="Installation" href="installation.html" /> 
 </head>
 
@@ -98,7 +98,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#demo-app">Demo App</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="dragonfly.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api-reference.html">API Reference</a></li>
 </ul>
 
             
@@ -165,19 +165,15 @@
             
   <div class="section" id="quick-start">
 <h1>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h1>
-<p>This guide assumes you already have Dragonfly installed. Please see the
-<a class="reference external" href="getting-started.md">getting started</a> section if you do not.</p>
+<p id="id1">This guide assumes you already have dragonfly installed. Please see the
+<a class="reference internal" href="installation.html"><span class="doc">installation</span></a> section if you do not.</p>
 <div class="section" id="design-philosophy">
 <h2>Design Philosophy<a class="headerlink" href="#design-philosophy" title="Permalink to this headline">¶</a></h2>
 <p>Dragonfly is based on the
 <a class="reference external" href="[https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller](https://en.wikipedia.org/wiki/Model–view–controller)">model-view-controller</a>
 architectural pattern. This means that the model structure, application
-logic and user interface are divided into separate components. The
-syntax of Dragonfly is designed to be as natural as possible and thus
-may not follow <a class="reference external" href="https://www.python.org/dev/peps/pep-0008/">PEP 8</a>
-fully. As this is a brief quick start guide some features won’t be
-shown. To get a full list of features please see the <a class="reference external" href="api-reference.md">API
-reference</a>.</p>
+logic and user interface are divided into separate components. As this is a brief quick start guide some features
+won’t be shown. To get a full list of features please see the <a class="reference external" href="api-reference.md">API reference</a>.</p>
 </div>
 <div class="section" id="routing">
 <h2>Routing<a class="headerlink" href="#routing" title="Permalink to this headline">¶</a></h2>
@@ -235,8 +231,7 @@ second argument is an entire controller. Here is an example:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Router</span><span class="o">.</span><span class="n">resource</span><span class="p">(</span><span class="s1">&#39;articles&#39;</span><span class="p">,</span> <span class="s1">&#39;ArticleController&#39;</span><span class="p">)</span> <span class="c1"># Notice there is no @{method_name}</span>
 </pre></div>
 </div>
-<p>Calling <code class="docutils literal notranslate"><span class="pre">.resource('ArticleController&#64;index')</span></code> will register the
-following routes:</p>
+<p>Calling <code class="docutils literal notranslate"><span class="pre">.resource('ArticleController')</span></code> will register the following routes:</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 22%" />
@@ -501,7 +496,7 @@ with <code class="docutils literal notranslate"><span class="pre">{%</span></cod
 </div>
 <div class="section" id="demo-app">
 <h2>Demo App<a class="headerlink" href="#demo-app" title="Permalink to this headline">¶</a></h2>
-<p>Please see <a href="#id1"><span class="problematic" id="id2">`here &lt;&gt;`__</span></a> for an example articles project.</p>
+<p>Please see <a href="#id2"><span class="problematic" id="id3">`here &lt;&gt;`__</span></a> for an example articles project.</p>
 </div>
 </div>
 
@@ -513,7 +508,7 @@ with <code class="docutils literal notranslate"><span class="pre">{%</span></cod
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="dragonfly.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="api-reference.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

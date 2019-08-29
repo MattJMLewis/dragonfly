@@ -13,7 +13,7 @@ from dragonfly.template.classes import Snippet, Clause, Stack, identify, OPEN, C
 
 class Parser:
     """
-    The `Parser` reads from the given template file and converts it to a flat list of `Snippet` objects.
+    The :class:`Parser` reads from the given template file and converts it to a flat list of :class:`Snippet` objects.
 
     :param file: The file to convert.
     :type file: str
@@ -28,7 +28,7 @@ class Parser:
 
     def __to_lines(self):
         """
-        Read each line in the template file and append all lines that contain `{{`, `}}, `{%`, `%}` to `self.lines`
+        Read each line in the template file and append all lines that contain ``{{``, ``}}``, ``{%`, `%}`` to ``self.lines``
         """
         with open(self.file) as f:
             lines = f.readlines()
@@ -38,7 +38,7 @@ class Parser:
 
     def __to_processed_lines(self):
         """
-        Converts the templating lines (e.g {{ var }}) to either a `Clause` or `Snippet` object.
+        Converts the templating lines (e.g {{ var }}) to either a :class:`Clause` or :class:`Snippet` object.
         """
         sorting_stack = Stack()
 
@@ -70,8 +70,8 @@ class Parser:
 
     def __generate_from_clause(self, clause):
         """
-        As `Snippet`s or other `Clause`s may be contained in a `Clause` a recursive function is needed to 'squish' the
-        `Clause`. To preserve the location (and indentation) of a contained object it's depth is incremented.
+        As :class:`Snippet`s or other :class:`Clause`s may be contained in a :class:`Clause` a recursive function is needed to 'squish' the
+        :class:`Clause`. To preserve the location (and indentation) of a contained object it's depth is incremented.
 
         :param clause: The Clause to squish.
         :type clause: Clause
@@ -100,7 +100,7 @@ class Parser:
                 self.__processed_lines.append(to_add[1])
 
     def parse(self):
-        """Parses the given file to a list of `Snippets`"""
+        """Parses the given file to a list of :class:`Snippet`s"""
         self.__to_lines()
         self.__to_processed_lines()
         self.__to_flat_list()
@@ -109,10 +109,10 @@ class Parser:
 
 class Converter:
     """
-    The `Converter` converts the given template file to the `.py` equivalent. This enables control structures and
+    The :class:`Converter` converts the given template file to the ``.py`` equivalent. This enables control structures and
     variables to be easily injected into HTML.
 
-    The `Converter` calls the `Parser` class first before generating the `.py` file.
+    The :class:`Converter` calls the :class:`Parser` class first before generating the ``.py`` file.
 
     :param file: The template file to convert.
     :type file: str
@@ -127,13 +127,12 @@ class Converter:
 
     def fix_clause(self, snippet_str):
         """
-        Fixes clauses in `if` and `else if` statements.
+        Fixes clauses in ``if`` and ``else if`` statements.
 
         :param snippet_str: The templating language to fix.
         :type snippet_str: str
 
-        :returns The fixed clause string
-        :rtype str
+        :return dict
         """
         to_fix = re.findall("<[^<>*]*>", snippet_str)
 
@@ -214,10 +213,10 @@ class View:
     """
     Returns a HTML version of the requested template.
 
-    The class first finds the desired view. If a pre-compiled `python` version of the template does not exist or is out
-    of date, the class will generate one. Otherwise it imports the compiled `python` file and runs the `.get_html`
-    method, passing in any variables that the user has given to the constructor (via **kwargs). It then returns a
-    `Response` with this HTML.
+    The class first finds the desired view. If a pre-compiled python version of the template does not exist or is out
+    of date, the class will generate one. Otherwise it imports the compiled python file and runs the ``get_html``
+    method, passing in any variables that the user has given to the constructor (via ``**kwargs``). It then returns a
+    :class:`Response <dragonfly.response.Response>` with this HTML.
 
     :param view: The view to return
     :type view: str

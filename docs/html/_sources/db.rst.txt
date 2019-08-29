@@ -10,6 +10,11 @@ DB
 
 Fields
 ^^^^^^
+.. note::
+    - Please note that the majority of MySQL field types are available for usage. There name will just be the camel case of the MySQL type with ``Field`` appended.
+    - All fields accept the following parameters: ``null``, ``default``, ``unique``, ``primary_key``. These values are, by default, ``False``. Some fields will have extra parameters which can be seen below.
+
+
 .. automodule:: dragonfly.db.models.fields
    :members:
    :undoc-members:

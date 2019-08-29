@@ -15,11 +15,11 @@ class RouteRule:
         """
         Matches the given route to an action and extracts any router parameters.
 
-        :param uri:
+        :param uri: The URI to match.
         :type uri: str
 
-        :return: A dictionary containing the the action and any route parameters
-        :rtype: dict
+        :return: A dictionary containing the the action and any route parameters.
+        :rtype: :class:`dict`
         """
 
         match = re.fullmatch(self.converted_uri, uri)

@@ -175,10 +175,10 @@
 <em class="property">class </em><code class="sig-prename descclassname">dragonfly.template.template.</code><code class="sig-name descname">View</code><span class="sig-paren">(</span><em class="sig-param">view</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.template.template.View" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Returns a HTML version of the requested template.</p>
-<p>The class first finds the desired view. If a pre-compiled <cite>python</cite> version of the template does not exist or is out
-of date, the class will generate one. Otherwise it imports the compiled <cite>python</cite> file and runs the <cite>.get_html</cite>
-method, passing in any variables that the user has given to the constructor (via <a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs). It then returns a
-<cite>Response</cite> with this HTML.</p>
+<p>The class first finds the desired view. If a pre-compiled python version of the template does not exist or is out
+of date, the class will generate one. Otherwise it imports the compiled python file and runs the <code class="docutils literal notranslate"><span class="pre">get_html</span></code>
+method, passing in any variables that the user has given to the constructor (via <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code>). It then returns a
+<a class="reference internal" href="web.html#dragonfly.response.Response" title="dragonfly.response.Response"><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code></a> with this HTML.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>view</strong> (<em>str</em>) – The view to return</p>
@@ -211,9 +211,9 @@ method, passing in any variables that the user has given to the constructor (via
 <dt id="dragonfly.template.template.Converter">
 <em class="property">class </em><code class="sig-prename descclassname">dragonfly.template.template.</code><code class="sig-name descname">Converter</code><span class="sig-paren">(</span><em class="sig-param">file</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.template.template.Converter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>The <cite>Converter</cite> converts the given template file to the <cite>.py</cite> equivalent. This enables control structures and
+<p>The <a class="reference internal" href="#dragonfly.template.template.Converter" title="dragonfly.template.template.Converter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Converter</span></code></a> converts the given template file to the <code class="docutils literal notranslate"><span class="pre">.py</span></code> equivalent. This enables control structures and
 variables to be easily injected into HTML.</p>
-<p>The <cite>Converter</cite> calls the <cite>Parser</cite> class first before generating the <cite>.py</cite> file.</p>
+<p>The <a class="reference internal" href="#dragonfly.template.template.Converter" title="dragonfly.template.template.Converter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Converter</span></code></a> calls the <a class="reference internal" href="#dragonfly.template.template.Parser" title="dragonfly.template.template.Parser"><code class="xref py py-class docutils literal notranslate"><span class="pre">Parser</span></code></a> class first before generating the <code class="docutils literal notranslate"><span class="pre">.py</span></code> file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>file</strong> (<em>str</em>) – The template file to convert.</p>
@@ -228,14 +228,13 @@ variables to be easily injected into HTML.</p>
 <dl class="method">
 <dt id="dragonfly.template.template.Converter.fix_clause">
 <code class="sig-name descname">fix_clause</code><span class="sig-paren">(</span><em class="sig-param">snippet_str</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.template.template.Converter.fix_clause" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fixes clauses in <cite>if</cite> and <cite>else if</cite> statements.</p>
+<dd><p>Fixes clauses in <code class="docutils literal notranslate"><span class="pre">if</span></code> and <code class="docutils literal notranslate"><span class="pre">else</span> <span class="pre">if</span></code> statements.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>snippet_str</strong> (<em>str</em>) – The templating language to fix.</p>
 </dd>
 </dl>
-<p>:returns The fixed clause string
-:rtype str</p>
+<p>:return dict</p>
 </dd></dl>
 
 </dd></dl>
@@ -247,7 +246,7 @@ variables to be easily injected into HTML.</p>
 <dt id="dragonfly.template.template.Parser">
 <em class="property">class </em><code class="sig-prename descclassname">dragonfly.template.template.</code><code class="sig-name descname">Parser</code><span class="sig-paren">(</span><em class="sig-param">file</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.template.template.Parser" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>The <cite>Parser</cite> reads from the given template file and converts it to a flat list of <cite>Snippet</cite> objects.</p>
+<p>The <a class="reference internal" href="#dragonfly.template.template.Parser" title="dragonfly.template.template.Parser"><code class="xref py py-class docutils literal notranslate"><span class="pre">Parser</span></code></a> reads from the given template file and converts it to a flat list of <code class="xref py py-class docutils literal notranslate"><span class="pre">Snippet</span></code> objects.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>file</strong> (<em>str</em>) – The file to convert.</p>
@@ -256,7 +255,7 @@ variables to be easily injected into HTML.</p>
 <dl class="method">
 <dt id="dragonfly.template.template.Parser.parse">
 <code class="sig-name descname">parse</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.template.template.Parser.parse" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parses the given file to a list of <cite>Snippets</cite></p>
+<dd><p>Parses the given file to a list of :class:<a href="#id1"><span class="problematic" id="id2">`</span></a>Snippet`s</p>
 </dd></dl>
 
 </dd></dl>

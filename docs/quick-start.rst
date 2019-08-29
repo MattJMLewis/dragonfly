@@ -1,8 +1,9 @@
 Quick Start
 ===========
+.. _quick-start:
 
-This guide assumes you already have Dragonfly installed. Please see the
-`getting started <getting-started.md>`__ section if you do not.
+This guide assumes you already have dragonfly installed. Please see the
+:doc:`installation <installation>` section if you do not.
 
 
 Design Philosophy
@@ -11,12 +12,8 @@ Design Philosophy
 Dragonfly is based on the
 `model-view-controller <[https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller](https://en.wikipedia.org/wiki/Model–view–controller)>`__
 architectural pattern. This means that the model structure, application
-logic and user interface are divided into separate components. The
-syntax of Dragonfly is designed to be as natural as possible and thus
-may not follow `PEP 8 <https://www.python.org/dev/peps/pep-0008/>`__
-fully. As this is a brief quick start guide some features won't be
-shown. To get a full list of features please see the `API
-reference <api-reference.md>`__.
+logic and user interface are divided into separate components. As this is a brief quick start guide some features
+won't be shown. To get a full list of features please see the `API reference <api-reference.md>`__.
 
 Routing
 ^^^^^^^
@@ -65,8 +62,7 @@ second argument is an entire controller. Here is an example:
 
     Router.resource('articles', 'ArticleController') # Notice there is no @{method_name}
 
-Calling ``.resource('ArticleController@index')`` will register the
-following routes:
+Calling ``.resource('ArticleController')`` will register the following routes:
 
 +-------------------------------+---------------+--------------------------------+--------------------------------------------------------------+
 | Route                         | HTTP Method   | Controller function            | Description                                                  |

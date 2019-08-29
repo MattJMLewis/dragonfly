@@ -101,7 +101,7 @@ class Model(object):
         column and value.
 
         :example:
-            Article().find({'id': 1, 'author': 1})
+            ``Article().find({'id': 1, 'author': 1})``
         """
         if isinstance(primary_key, dict):
             self.db.multiple_where(primary_key)
@@ -111,7 +111,7 @@ class Model(object):
         return self.first()
 
     def where(self, column, comparator, value):
-        """Same as the `DB` class `where` method."""
+        """Same as the :class:`DB <dragonfly.db.database.DB>` class :meth:`where <dragonfly.db.database.DB.where>` method."""
 
         self.db.where(column, comparator, value)
 
@@ -119,7 +119,7 @@ class Model(object):
         """
         Paginates the data in the table by the given size.
 
-        Note that if `to_json` is `True` a response will be returned containing the appropriate JSON, otherwise a list
+        Note that if ``to_json`` is ``True`` a response will be returned containing the appropriate JSON, otherwise a list
         of rows that correspond to the page requested will be returned (the page number is known from the request
         object).
 
@@ -145,7 +145,7 @@ class Model(object):
 
     def save(self):
         """
-        Permeate the changes to the model attributes to the database.
+        Permeate the changes to the model attributes, to the database.
         """
         # Iterate over each new attribute (check if changed) and validate using Field class. Then save to DB
         self.new_values = {}
@@ -174,10 +174,10 @@ class Model(object):
         return collection
 
     def data_to_attributes(self, data):
-        """Converts the given data to class attributes in the class instance
+        """Converts the given data to class attributes in the class instance.
 
         The given data (from the database) is first converted to its equivalent python type and then assigned to the
-        class dictionary as well as a 'database_values' dictionary that is used to retrieve the correct row from the
+        class dictionary as well as a ``database_values`` dictionary that is used to retrieve the correct row from the
         database when updating the model.
 
         :param data: The data to assign to the model instance
@@ -208,4 +208,3 @@ class Model(object):
             attributes[key] = self.__dict__[key]
 
         return attributes
-

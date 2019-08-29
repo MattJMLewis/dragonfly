@@ -171,7 +171,8 @@
 <dt id="dragonfly.routes.router.Router">
 <em class="property">class </em><code class="sig-prename descclassname">dragonfly.routes.router.</code><code class="sig-name descname">Router</code><a class="headerlink" href="#dragonfly.routes.router.Router" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Routes the given route to the defined <cite>Controller</cite> and returns its <cite>Response</cite>.</p>
+<p>Routes the given route to the defined <code class="xref py py-class docutils literal notranslate"><span class="pre">Controller</span></code> and returns its
+generated <a class="reference internal" href="web.html#dragonfly.response.Response" title="dragonfly.response.Response"><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code></a>.</p>
 <dl class="method">
 <dt id="dragonfly.routes.router.Router.add_route">
 <code class="sig-name descname">add_route</code><span class="sig-paren">(</span><em class="sig-param">uri</em>, <em class="sig-param">action</em>, <em class="sig-param">method</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.routes.router.Router.add_route" title="Permalink to this definition">¶</a></dt>
@@ -295,13 +296,13 @@ dynamic routes</p>
 <dd><p>Matches the given route to an action and extracts any router parameters.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>uri</strong> (<em>str</em>) – </p>
+<dd class="field-odd"><p><strong>uri</strong> (<em>str</em>) – The URI to match.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A dictionary containing the the action and any route parameters</p>
+<dd class="field-even"><p>A dictionary containing the the action and any route parameters.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>dict</p>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></p>
 </dd>
 </dl>
 </dd></dl>

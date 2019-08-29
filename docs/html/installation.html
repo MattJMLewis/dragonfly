@@ -85,13 +85,14 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#installing-python">Installing Python</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#installing-dragonfly">Installing Dragonfly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-requirements">Installing requirements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#setting-up-a-mysql-database">Setting up a MySQL database</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#running-dragonfly">Running dragonfly</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="quick-start.html">Quick Start</a></li>
-<li class="toctree-l1"><a class="reference internal" href="dragonfly.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api-reference.html">API Reference</a></li>
 </ul>
 
             
@@ -167,15 +168,27 @@ further details on how to do this please see
 <div class="section" id="installing-dragonfly">
 <h2>Installing Dragonfly<a class="headerlink" href="#installing-dragonfly" title="Permalink to this headline">¶</a></h2>
 <p>First, download the Dragonfly repository</p>
-<p>Via git</p>
-<p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">git&#64;github.com:MattJMLewis/dragonfly.git</span></code></p>
-<p>Via GitHub</p>
-<p>Simply download the
+<ul>
+<li><p>Via git</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">git&#64;github.com:MattJMLewis/dragonfly.git</span></code></p>
+</div></blockquote>
+</li>
+<li><p>Via GitHub</p>
+<blockquote>
+<div><p>Simply download the
 <a class="reference external" href="https://github.com/MattJMLewis/dragonfly/archive/master.zip">repository</a>
 and unzip it.</p>
-<p>Installing requirements</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="installing-requirements">
+<h2>Installing requirements<a class="headerlink" href="#installing-requirements" title="Permalink to this headline">¶</a></h2>
 <p>Next, enter the dragonfly directory and run the following command.</p>
 <p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements.txt</span></code></p>
+<p>On Windows you may encounter an error installing <code class="docutils literal notranslate"><span class="pre">mysqlclient</span></code>. If this happens you can download the latest <code class="docutils literal notranslate"><span class="pre">.whl</span></code>
+<a class="reference external" href="https://pypi.org/project/mysqlclient/#files">here</a>. Then simply run <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">name-of-the-whl-file.whl</span></code>.</p>
 </div>
 <div class="section" id="setting-up-a-mysql-database">
 <h2>Setting up a MySQL database<a class="headerlink" href="#setting-up-a-mysql-database" title="Permalink to this headline">¶</a></h2>
@@ -185,16 +198,24 @@ more details on how to set up a server.</p>
 </div>
 <div class="section" id="running-dragonfly">
 <h2>Running dragonfly<a class="headerlink" href="#running-dragonfly" title="Permalink to this headline">¶</a></h2>
-<p>Development</p>
-<p>Simply run the <code class="docutils literal notranslate"><span class="pre">main.py</span></code> file. However before you do this you should
+<ul>
+<li><p>Development</p>
+<blockquote>
+<div><p>Simply run the <code class="docutils literal notranslate"><span class="pre">main.py</span></code> file. However before you do this you should
 modify the <code class="docutils literal notranslate"><span class="pre">config.py</span></code> file to match your setup.</p>
-<p>Production</p>
-<p>Coming soon…</p>
+</div></blockquote>
+</li>
+<li><p>Production</p>
+<blockquote>
+<div><p>Coming soon…</p>
+</div></blockquote>
+</li>
+</ul>
 </div>
 <div class="section" id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
-<p>Please see <a class="reference external" href="quick-start.md">here</a> for the quick start guide on using
-dragonfly</p>
+<p>Please see <a class="reference internal" href="quick-start.html"><span class="doc">here</span></a> for the quick start guide on using
+dragonfly.</p>
 </div>
 </div>
 

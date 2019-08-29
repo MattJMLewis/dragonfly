@@ -14,7 +14,8 @@ def to_snake(name):
 
 class Router:
     """
-    Routes the given route to the defined `Controller` and returns its `Response`.
+    Routes the given route to the defined :class:`Controller < dragonfly.controller.Controller>` and returns its
+    generated :class:`Response <dragonfly.response.Response>`.
     """
 
     def __init__(self):

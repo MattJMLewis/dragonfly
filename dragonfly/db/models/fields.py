@@ -115,6 +115,9 @@ class BigIntField(IntField):
     def __init__(self, length=None, unsigned=False, auto_increment=False, zerofill=False, **kwargs):
         super().__init__(**kwargs)
 
+    def to_python_type(self, value):
+        return int(value)
+
     def to_database_type(self):
         return Table.bigint(self.length, **self.integer_parameters, **self.default_parameters)
 

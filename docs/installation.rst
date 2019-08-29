@@ -13,24 +13,25 @@ Installing Dragonfly
 
 First, download the Dragonfly repository
 
-Via git
-       
+- Via git
 
-``git clone git@github.com:MattJMLewis/dragonfly.git``
+    ``git clone git@github.com:MattJMLewis/dragonfly.git``
 
-Via GitHub
-          
+- Via GitHub
 
-Simply download the
-`repository <https://github.com/MattJMLewis/dragonfly/archive/master.zip>`__
-and unzip it.
+    Simply download the
+    `repository <https://github.com/MattJMLewis/dragonfly/archive/master.zip>`__
+    and unzip it.
 
 Installing requirements
-                       
+^^^^^^^^^^^^^^^^^^^^^^^
 
 Next, enter the dragonfly directory and run the following command.
 
 ``pip install -r requirements.txt``
+
+On Windows you may encounter an error installing ``mysqlclient``. If this happens you can download the latest ``.whl``
+`here <https://pypi.org/project/mysqlclient/#files>`__. Then simply run ``pip install name-of-the-whl-file.whl``.
 
 Setting up a MySQL database
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -42,19 +43,17 @@ more details on how to set up a server.
 Running dragonfly
 ^^^^^^^^^^^^^^^^^
 
-Development
-           
+- Development
 
-Simply run the ``main.py`` file. However before you do this you should
-modify the ``config.py`` file to match your setup.
+    Simply run the ``main.py`` file. However before you do this you should
+    modify the ``config.py`` file to match your setup.
 
-Production
-          
+- Production
 
-Coming soon...
+    Coming soon...
 
 Usage
 ^^^^^
 
-Please see `here <quick-start.md>`__ for the quick start guide on using
-dragonfly
+Please see :doc:`here <quick-start>` for the quick start guide on using
+dragonfly.

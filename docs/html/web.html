@@ -190,17 +190,15 @@
 <dt id="dragonfly.response.Response">
 <em class="property">class </em><code class="sig-prename descclassname">dragonfly.response.</code><code class="sig-name descname">Response</code><span class="sig-paren">(</span><em class="sig-param">content=''</em>, <em class="sig-param">content_type='text/html'</em>, <em class="sig-param">status_code=200</em>, <em class="sig-param">reason_phrase=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.response.Response" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>The base <cite>Response</cite> class that is readable by the WSGI server.</p>
+<p>The base <a class="reference internal" href="#dragonfly.response.Response" title="dragonfly.response.Response"><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code></a> class that is readable by the WSGI server.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>content</strong> (<em>str</em>) – The content that will be delivered to the user. This defaults to empty.</p></li>
 <li><p><strong>content_type</strong> (<em>str</em>) – The MIME type. This defaults to ‘text/html’.</p></li>
+<li><p><strong>status_code</strong> (<em>int</em>) – The HTTP status code. This defaults to success (200).</p></li>
 <li><p><strong>reason_phrase</strong> – A written meaning of the HTTP status code. If left as <cite>None</cite> the reason phrase will be</p></li>
 </ul>
-</dd>
-<dt class="field-even">Param</dt>
-<dd class="field-even"><p>status_code: The HTTP status code. This defaults to success (200).</p>
 </dd>
 </dl>
 <p>chosen from a pre-determined list.
@@ -211,11 +209,12 @@
 <dd><p>Updates an existing header or creates a new one.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>field_name</strong> (<em>str</em>) – The header field name.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>field_name</strong> (<em>str</em>) – The header field name.</p></li>
+<li><p><strong>field_value</strong> (<em>str</em>) – The header field value.</p></li>
+</ul>
 </dd>
 </dl>
-<p>:param field_value The header field value.
-:type field_value: str</p>
 </dd></dl>
 
 <dl class="method">
@@ -227,8 +226,8 @@
 <dl class="method">
 <dt id="dragonfly.response.Response.set_status">
 <code class="sig-name descname">set_status</code><span class="sig-paren">(</span><em class="sig-param">status_code</em>, <em class="sig-param">reason_phrase</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.response.Response.set_status" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets the status of the <cite>Response</cite> object. If the <cite>reason_phrase</cite> is <cite>None</cite> then a reason phrase that corresponds
-to the status code will be retrieved from a <cite>constants</cite> file.</p>
+<dd><p>Sets the status of the <a class="reference internal" href="#dragonfly.response.Response" title="dragonfly.response.Response"><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code></a> object. If the <code class="docutils literal notranslate"><span class="pre">reason_phrase</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code> then a reason phrase that corresponds
+to the status code will be retrieved from a <code class="docutils literal notranslate"><span class="pre">constants</span></code> file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -260,10 +259,14 @@ to the status code will be retrieved from a <cite>constants</cite> file.</p>
 <em class="property">class </em><code class="sig-prename descclassname">dragonfly.response.</code><code class="sig-name descname">ErrorResponse</code><span class="sig-paren">(</span><em class="sig-param">error_message</em>, <em class="sig-param">status_code</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.response.ErrorResponse" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#dragonfly.response.Response" title="dragonfly.response.Response"><code class="xref py py-class docutils literal notranslate"><span class="pre">dragonfly.response.Response</span></code></a></p>
 <p>A <cite>Response</cite> object that returns an error page.</p>
-<p>:param error_message
-:type error_message: str</p>
-<p>:param status_code
-:type status_code: int</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>error_message</strong> (<em>str</em>) – The error message.</p></li>
+<li><p><strong>status_code</strong> (<em>int</em>) – The status code.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
