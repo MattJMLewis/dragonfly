@@ -22,14 +22,16 @@ class Model(object):
         # Retrieve the types that were defined in the user defined model and set the primary key for the table
         self.types = {}
         self.primary_key = []
+        self.composite = False
 
         for (key, value) in self.__class__.__dict__.items():
             if not key.startswith("__") and not key == 'Meta':
 
-                self.types[key] = value
+                if not callable(value):
+                    self.types[key] = value
 
-                if value.default_parameters['primary_key']:
-                    self.primary_key.append(key)
+                    if value.default_parameters['primary_key']:
+                        self.primary_key.append(key)
 
         self.meta = {}
 
@@ -42,6 +44,9 @@ class Model(object):
                         self.primary_key = list(value.args)
         except KeyError:
             pass
+
+        if len(self.primary_key) > 1:
+            self.composite = True
 
         # Generate the table name if it has not been defined
         if 'table_name' not in self.meta.keys():
@@ -80,17 +85,14 @@ class Model(object):
     def create(self, create_dict):
         self.db.insert(create_dict)
 
-        if isinstance(self.primary_key, list):
-            pass
-        else:
-            create_dict[self.primary_key[0]] = self.db.last_insert
+        if not self.composite:
+            create_dict[self.primary_key[0]] = self.db.last_insert_id
 
-
-        return self.data_to_model(create_dict)[0]
+        return self.data_to_model([create_dict])[0]
 
     def first(self):
         """Get the first row in the table."""
-        return self.data_to_model([self.db.first()])
+        return self.data_to_model([self.db.first()])[0]
 
     def get(self):
         """Get all rows in the table that correspond to the other specified selectors."""
@@ -178,9 +180,6 @@ class Model(object):
 
         # Create new class instances passing in the given data
         collection = [self.__class__(row) for row in data]
-
-        if len(collection) == 1:
-            return collection[0]
 
         return collection
 

@@ -134,7 +134,7 @@ class Converter:
 
         :return dict
         """
-        to_fix = re.findall("<[^<>*]*>", snippet_str)
+        to_fix = re.findall("%[^%*]*%", snippet_str)
 
         for word in to_fix:
             snippet_str = snippet_str.replace(word, f"kwargs['{word[1:-1]}']")
@@ -160,7 +160,7 @@ class Converter:
 
                         var_str = f"str(kwargs['{before}'].{after})"
 
-                        if re.findall("<[^<>*]*>", snippet.stp_content):
+                        if re.findall("%[^%*]*%", snippet.stp_content):
                             var_str = f"str({snippet.stp_content[1:-1]})"
 
                         line = line.replace(snippet.content, f"''' + {var_str} + '''")

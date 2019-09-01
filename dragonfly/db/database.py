@@ -20,6 +20,8 @@ class DB:
         self.database = database_settings
         self.raw_query = ''
 
+        self.last_insert_id = None
+
     # Required method
     def table(self, table_name):
         """The table that the query should be run on. This method must be run for any query to be executed."""
@@ -190,6 +192,9 @@ class DB:
             results = cursor.fetchone()
         else:
             results = cursor.fetchmany(n_rows)
+
+        cursor.execute("SELECT LAST_INSERT_ID()")
+        self.last_insert_id = cursor.fetchone()['LAST_INSERT_ID()']
 
         cursor.close()
         db.close()

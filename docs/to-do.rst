@@ -6,10 +6,11 @@ To do
 
 
 .. caution::
-	- Make all single-use classes into singletons instead of referencing assigned variables (better syntax).
+    - Production server.
+    - Make all single-use classes into singletons instead of referencing assigned variables (better syntax).
 	- Reduce length of namespace for classes.
 	- Add a ``RedirectResponse``.
-	- :strike:`Add create, delete methods to Model` ``create`` & ``delete`` pk auto detection works for non composite keys. How to solve for composite
+	- ``create`` & ``delete`` pk auto detection works for non composite keys. How to solve for composite?
 	- Add ``created_at``, ``updated_at`` and ``id`` fields to class by default.
 	- Add a ``RedirectResponse``.
 	- Add a ``url`` method that extracts the base url of the site from the config.
