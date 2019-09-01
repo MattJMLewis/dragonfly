@@ -77,6 +77,17 @@ class Model(object):
         else:
             return f"{self.__class__.__name__} instance. No data is bound"
 
+    def create(self, create_dict):
+        self.db.insert(create_dict)
+
+        if isinstance(self.primary_key, list):
+            pass
+        else:
+            create_dict[self.primary_key[0]] = self.db.last_insert
+
+
+        return self.data_to_model(create_dict)[0]
+
     def first(self):
         """Get the first row in the table."""
         return self.data_to_model([self.db.first()])
@@ -88,10 +99,6 @@ class Model(object):
     def all(self):
         """Get all rows in the database."""
         return self.data_to_model(self.db.get())
-
-    def select(self, *args):
-        """Same as the `DB` class `select` method."""
-        self.db.select(*args)
 
     def find(self, primary_key):
         """
@@ -109,6 +116,10 @@ class Model(object):
             self.db.where(self.primary_key[0], '=', primary_key)
 
         return self.first()
+
+    def select(self, *args):
+        """Same as the `DB` class `select` method."""
+        self.db.select(*args)
 
     def where(self, column, comparator, value):
         """Same as the :class:`DB <dragonfly.db.database.DB>` class :meth:`where <dragonfly.db.database.DB.where>` method."""

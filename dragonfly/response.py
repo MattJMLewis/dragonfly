@@ -116,6 +116,15 @@ class ErrorResponse(Response):
         super().__init__(content=generated_html, content_type='text/html', status_code=status_code)
 
 
+
+class RedirectResponse(Response):
+
+    def __init__(self, location):
+
+        super().__init__(content_type='', status_code=302)
+        self.header('Location', location)
+
+
 class DeferredResponse:
     """
     Allows headers for a future response to be set before it exists.

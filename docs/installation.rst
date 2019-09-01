@@ -31,7 +31,7 @@ Next, enter the dragonfly directory and run the following command.
 ``pip install -r requirements.txt``
 
 On Windows you may encounter an error installing ``mysqlclient``. If this happens you can download the latest ``.whl``
-`here <https://pypi.org/project/mysqlclient/#files>`__. Then simply run ``pip install name-of-the-whl-file.whl``.
+`here <https://pypi.org/project/mysqlclient/#files>`__. There is also an unoffical repo of ``.whl`` files `here <https://www.lfd.uci.edu/~gohlke/pythonlibs/#mysqlclient>`__. Then simply run ``pip install name-of-the-whl-file.whl``.
 
 Setting up a MySQL database
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^

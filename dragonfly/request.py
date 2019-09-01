@@ -15,10 +15,13 @@ class Request:
 
             self.headers = {k: v for k, v in environ.items() if k.startswith('HTTP_')}
 
-            cookie = SimpleCookie()
-            cookie.load(self.headers['HTTP_COOKIE'])
+            try:
+                cookie = SimpleCookie()
+                cookie.load(self.headers['HTTP_COOKIE'])
 
-            self.cookies = {k: v.value for k, v in cookie.items()}
+                self.cookies = {k: v.value for k, v in cookie.items()}
+            except KeyError:
+                self.cookies = {}
 
             self.wsgi = {'url_scheme': environ.get('wsgi.url_scheme'), 'input': environ.get('wsgi.input'),
                          'errors': environ.get('wsgi.errors'), }
