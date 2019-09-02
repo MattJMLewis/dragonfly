@@ -154,19 +154,20 @@
 <div class="admonition danger">
 <p class="admonition-title">Danger</p>
 <ul class="simple">
-<li><p>Fix <code class="xref py py-class docutils literal notranslate"><span class="pre">Request</span></code> so that it does not crash when cookies are not present.</p></li>
+<li><p>[X] Fix <code class="xref py py-class docutils literal notranslate"><span class="pre">Request</span></code> so that it does not crash when cookies are not present.</p></li>
+<li><p>Prevent MySQL injection on <code class="xref py py-class docutils literal notranslate"><span class="pre">DB</span></code>.</p></li>
 </ul>
 </div>
 <div class="admonition caution">
 <p class="admonition-title">Caution</p>
 <ul class="simple">
-<li><p>Make all single-use classes into singletons instead of referencing assigned variables (better syntax).</p></li>
-<li><p>Reduce length of namespace for classes.</p></li>
-<li><p>Add a <code class="docutils literal notranslate"><span class="pre">RedirectResponse</span></code>.</p></li>
-<li><p><a href="#id1"><span class="problematic" id="id2">:strike:`Add create, delete methods to Model`</span></a> <code class="docutils literal notranslate"><span class="pre">create</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">delete</span></code> pk auto detection works for non composite keys. How to solve for composite</p></li>
+<li><p>Production server.</p></li>
+<li><p>[X] Make all single-use classes into singletons. This is done via module level variables</p></li>
+<li><p>[X] Reduce length of namespace for classes.</p></li>
+<li><p>[X] Add a <code class="docutils literal notranslate"><span class="pre">RedirectResponse</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">create</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">delete</span></code> pk auto detection works for non composite keys. How to solve for composite?</p></li>
 <li><p>Add <code class="docutils literal notranslate"><span class="pre">created_at</span></code>, <code class="docutils literal notranslate"><span class="pre">updated_at</span></code> and <code class="docutils literal notranslate"><span class="pre">id</span></code> fields to class by default.</p></li>
-<li><p>Add a <code class="docutils literal notranslate"><span class="pre">RedirectResponse</span></code>.</p></li>
-<li><p>Add a <code class="docutils literal notranslate"><span class="pre">url</span></code> method that extracts the base url of the site from the config.</p></li>
+<li><p>[X] Add a <code class="docutils literal notranslate"><span class="pre">url</span></code> method that extracts the base url of the site from the config.</p></li>
 <li><p>Add a <code class="docutils literal notranslate"><span class="pre">{{</span> <span class="pre">csrf_token</span> <span class="pre">}}</span></code> template variable to prevent CSRF attacks.</p></li>
 <li><p>Add a built in auth system (including auth middleware, <code class="xref py py-class docutils literal notranslate"><span class="pre">User</span></code> class and a way to easily retrieve the authenticated <code class="xref py py-class docutils literal notranslate"><span class="pre">User</span></code>).</p></li>
 <li><p>Look at Laravel/Django and add more features to <code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code> &amp; <code class="xref py py-class docutils literal notranslate"><span class="pre">Request</span></code> and doc blocks.</p></li>
