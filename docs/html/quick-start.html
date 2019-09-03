@@ -342,9 +342,9 @@ that resource. The following command will create a file in the
 <p>Each time a request is routed a new instance of the registered
 controller will be instantiated and the registered function run.</p>
 <p>The following is the basic structure of a controller:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dragonfly.controller</span> <span class="kn">import</span> <span class="n">Controller</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dragonfly</span> <span class="kn">import</span> <span class="n">Controller</span>
 <span class="kn">from</span> <span class="nn">models.Article</span> <span class="kn">import</span> <span class="n">Article</span>
-<span class="kn">from</span> <span class="nn">dragonfly.template.template</span> <span class="kn">import</span> <span class="n">View</span>
+<span class="kn">from</span> <span class="nn">dragonfly</span> <span class="kn">import</span> <span class="n">View</span>
 
 
 <span class="k">class</span> <span class="nc">ArticleController</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
@@ -377,8 +377,8 @@ has been generated (NOTE: This does <strong>not</strong> set the headers for any
 <p>In the <code class="docutils literal notranslate"><span class="pre">before</span></code> and <code class="docutils literal notranslate"><span class="pre">after</span></code> method if any <code class="docutils literal notranslate"><span class="pre">Response</span></code> class or
 child of the <code class="docutils literal notranslate"><span class="pre">Response</span></code> class is returned the processing of the
 request will stop and the response returned.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dragonfly.request</span> <span class="kn">import</span> <span class="n">request</span>
-<span class="kn">from</span> <span class="nn">dragonfly.response</span> <span class="kn">import</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="n">deferred_response</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dragonfly</span> <span class="kn">import</span> <span class="n">request</span>
+<span class="kn">from</span> <span class="nn">dragonfly</span> <span class="kn">import</span> <span class="n">ErrorResponse</span><span class="p">,</span> <span class="n">deferred_response</span>
 
 <span class="k">class</span> <span class="nc">ArticleMiddleware</span><span class="p">:</span>
 
@@ -407,7 +407,7 @@ class file. This can be generated using the CLI:</p>
 </div>
 <p>A new file will be created in the <code class="docutils literal notranslate"><span class="pre">models</span></code> directory. Below is an
 example of an articles model and the SQL it generates.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dragonfly.db</span> <span class="kn">import</span> <span class="n">models</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dragonfly</span> <span class="kn">import</span> <span class="n">models</span>
 
 <span class="k">class</span> <span class="nc">Article</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
 
@@ -462,8 +462,8 @@ templates can also be in subdirectories of the <code class="docutils literal not
 <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
         {% for article in articles }}
-            <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;http://{{ &lt;article.slug()&gt; }}&quot;</span><span class="p">&gt;</span>
-                {{ <span class="p">&lt;</span><span class="nt">server.name</span><span class="p">&gt;</span> }}
+            <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;http://{{ [article.slug()] }}&quot;</span><span class="p">&gt;</span>
+                {{ [server.name] }}
             <span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
         {{ end for %}
 
@@ -486,7 +486,7 @@ templating system:</p>
 <li><p>To write variables simply wrap <code class="docutils literal notranslate"><span class="pre">{{</span> <span class="pre">}}</span></code> around the variable name.</p></li>
 <li><p>Due to the way the template compiler works if the variable is one
 ‘generated’ by a for loop, like the <code class="docutils literal notranslate"><span class="pre">article</span></code> variable in the
-example above, it must also be wrapped by <code class="docutils literal notranslate"><span class="pre">&lt;</span> <span class="pre">&gt;</span></code>.</p></li>
+example above, it must also be wrapped by <code class="docutils literal notranslate"><span class="pre">[</span> <span class="pre">]</span></code>.</p></li>
 <li><p>Command structures are declared by having the opening clause begin
 with <code class="docutils literal notranslate"><span class="pre">{%</span></code> and the ending clause close with <code class="docutils literal notranslate"><span class="pre">%}</span></code>.</p></li>
 <li><p>The only command structures available currently are <code class="docutils literal notranslate"><span class="pre">if</span></code> and
@@ -497,7 +497,7 @@ with <code class="docutils literal notranslate"><span class="pre">{%</span></cod
 </div>
 <div class="section" id="demo-app">
 <h2>Demo App<a class="headerlink" href="#demo-app" title="Permalink to this headline">¶</a></h2>
-<p>Please see <a href="#id2"><span class="problematic" id="id3">`here &lt;&gt;`__</span></a> for an example articles project.</p>
+<p>Please see .. _here: <a class="reference external" href="https://github.com/MattJMLewis/dragonfly-demo">https://github.com/MattJMLewis/dragonfly-demo</a> for an example project.</p>
 </div>
 </div>
 

@@ -142,9 +142,9 @@ The following is the basic structure of a controller:
 
 .. code:: python
 
-    from dragonfly.controller import Controller
+    from dragonfly import Controller
     from models.Article import Article
-    from dragonfly.template.template import View
+    from dragonfly import View
 
 
     class ArticleController(Controller):
@@ -185,8 +185,8 @@ request will stop and the response returned.
 
 .. code:: python
 
-    from dragonfly.request import request
-    from dragonfly.response import ErrorResponse, deferred_response
+    from dragonfly import request
+    from dragonfly import ErrorResponse, deferred_response
 
     class ArticleMiddleware:
 
@@ -220,7 +220,7 @@ example of an articles model and the SQL it generates.
 
 .. code:: python
 
-    from dragonfly.db import models
+    from dragonfly import models
 
     class Article(models.Model):
 
@@ -285,8 +285,8 @@ Below is an example of a html file saved in
     <body>
         <div>
             {% for article in articles }}
-                <a href="http://{{ <article.slug()> }}">
-                    {{ <server.name> }}
+                <a href="http://{{ [article.slug()] }}">
+                    {{ [server.name] }}
                 </a>
             {{ end for %}
             
@@ -310,7 +310,7 @@ templating system:
 -  To write variables simply wrap ``{{ }}`` around the variable name.
 -  Due to the way the template compiler works if the variable is one
    'generated' by a for loop, like the ``article`` variable in the
-   example above, it must also be wrapped by ``< >``.
+   example above, it must also be wrapped by ``[ ]``.
 -  Command structures are declared by having the opening clause begin
    with ``{%`` and the ending clause close with ``%}``.
 -  The only command structures available currently are ``if`` and
@@ -321,4 +321,4 @@ templating system:
 Demo App
 ^^^^^^^^
 
-Please see `here <>`__ for an example articles project.
+Please see .. _here: https://github.com/MattJMLewis/dragonfly-demo for an example project.

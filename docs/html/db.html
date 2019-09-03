@@ -189,6 +189,11 @@
 </dl>
 </dd></dl>
 
+<dl class="attribute">
+<dt id="dragonfly.db.database.DB.comparison_operators">
+<code class="sig-name descname">comparison_operators</code><em class="property"> = ['=', '&lt;=&gt;', '&lt;&gt;', '!=', '&gt;', '&gt;=', '&lt;', '&lt;=', 'IN()', 'NOT', 'BETWEEN', 'IS NULL', 'IS NOT NULL', 'LIKE', 'EXISTS']</em><a class="headerlink" href="#dragonfly.db.database.DB.comparison_operators" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="dragonfly.db.database.DB.delete">
 <code class="sig-name descname">delete</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.database.DB.delete" title="Permalink to this definition">¶</a></dt>
@@ -222,10 +227,10 @@
 <dl class="method">
 <dt id="dragonfly.db.database.DB.multiple_where">
 <code class="sig-name descname">multiple_where</code><span class="sig-paren">(</span><em class="sig-param">where_dict</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.database.DB.multiple_where" title="Permalink to this definition">¶</a></dt>
-<dd><p>Allows for multiple where clauses through one command. Note this only supports the <code class="docutils literal notranslate"><span class="pre">=</span></code> operator.</p>
+<dd><p>Allows for multiple where clauses through one command. Note this only supports the = operator.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>where_dict</strong> (<em>dict</em>) – Each key, value pair in the dictionary becomes <code class="docutils literal notranslate"><span class="pre">WHERE</span> <span class="pre">key</span> <span class="pre">=</span> <span class="pre">value</span></code>.</p>
+<dd class="field-odd"><p><strong>where_dict</strong> (<em>dict</em>) – The values to match</p>
 </dd>
 </dl>
 </dd></dl>
@@ -267,13 +272,13 @@
 
 <dl class="method">
 <dt id="dragonfly.db.database.DB.where">
-<code class="sig-name descname">where</code><span class="sig-paren">(</span><em class="sig-param">condition_1</em>, <em class="sig-param">operator</em>, <em class="sig-param">condition_2</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.database.DB.where" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">where</code><span class="sig-paren">(</span><em class="sig-param">condition_1</em>, <em class="sig-param">comparison_operator</em>, <em class="sig-param">condition_2</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.database.DB.where" title="Permalink to this definition">¶</a></dt>
 <dd><p>Equivalent to the <code class="docutils literal notranslate"><span class="pre">WHERE</span></code> clause in SQL.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>condition_1</strong> – The value to the left of the operator.</p></li>
-<li><p><strong>operator</strong> (<em>str</em>) – The operator, e.g <code class="docutils literal notranslate"><span class="pre">=</span></code></p></li>
+<li><p><strong>comparison_operator</strong> (<em>str</em>) – The operator, e.g <code class="docutils literal notranslate"><span class="pre">=</span></code></p></li>
 <li><p><strong>condition_2</strong> – The value to the right of the operator.</p></li>
 </ul>
 </dd>
@@ -281,11 +286,6 @@
 </dd></dl>
 
 </dd></dl>
-
-<dl class="function">
-<dt id="dragonfly.db.database.to_mysql_type">
-<code class="sig-prename descclassname">dragonfly.db.database.</code><code class="sig-name descname">to_mysql_type</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.database.to_mysql_type" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 </div>
 <div class="section" id="fields">
@@ -686,6 +686,11 @@ database when updating the model.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="dragonfly.db.models.model.Model.delete">
+<code class="sig-name descname">delete</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.model.Model.delete" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="dragonfly.db.models.model.Model.find">
 <code class="sig-name descname">find</code><span class="sig-paren">(</span><em class="sig-param">primary_key</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.model.Model.find" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find a row by passing in the value of the desired row’s primary key.</p>
@@ -743,6 +748,11 @@ object).</p>
 <code class="sig-name descname">select</code><span class="sig-paren">(</span><em class="sig-param">*args</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.model.Model.select" title="Permalink to this definition">¶</a></dt>
 <dd><p>Same as the <cite>DB</cite> class <cite>select</cite> method.</p>
 </dd></dl>
+
+<dl class="method">
+<dt id="dragonfly.db.models.model.Model.update">
+<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param">update_dict</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.model.Model.update" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="dragonfly.db.models.model.Model.where">

@@ -15,12 +15,12 @@ First, download the Dragonfly repository
 
 - Via git
 
-    ``git clone git@github.com:MattJMLewis/dragonfly.git``
+    ``git clone git@github.com:MattJMLewis/dragonfly-app.git``
 
 - Via GitHub
 
     Simply download the
-    `repository <https://github.com/MattJMLewis/dragonfly/archive/master.zip>`__
+    `repository <https://github.com/MattJMLewis/dragonfly-app/archive/master.zip>`__
     and unzip it.
 
 Installing requirements
