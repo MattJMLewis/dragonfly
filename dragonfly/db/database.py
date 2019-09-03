@@ -7,57 +7,33 @@ from config import DATABASE
 class DB:
     """An easy way to interact with the configured database."""
 
+    comparison_operators = ['=', '<=>', '<>', '!=', '>', '>=', '<', '<=', 'IN()', 'NOT', 'BETWEEN', 'IS NULL',
+                            'IS NOT NULL', 'LIKE', 'EXISTS']
+
     def __init__(self, database_settings=DATABASE):
         """
         :param database_settings: The config for the database
         :type database_settings: dict
         """
-        self.query = {
-            'table': '',
-            'where': '',
-            'select': 'SELECT *'
-        }
         self.database = database_settings
-        self.raw_query = ''
-
         self.last_insert_id = None
 
-    # Required method
+        self.query = {
+            'select': 'SELECT *',
+            'where': ''
+        }
+
+        self.query_params = {
+            'select': [],
+            'where': []
+        }
+
+        self.generated_params = None
+        self.generated_query = None
+
     def table(self, table_name):
         """The table that the query should be run on. This method must be run for any query to be executed."""
         self.query['table'] = table_name
-        return self
-
-    def where(self, condition_1, operator, condition_2):
-        """
-        Equivalent to the ``WHERE`` clause in SQL.
-
-        :param condition_1: The value to the left of the operator.
-
-        :param operator: The operator, e.g ``=``
-        :type operator: str
-
-        :param condition_2: The value to the right of the operator.
-        """
-
-        self.query['where'] = f"WHERE {condition_1} {operator} {to_mysql_type(condition_2)}"
-        return self
-
-    def multiple_where(self, where_dict):
-        """
-        Allows for multiple where clauses through one command. Note this only supports the ``=`` operator.
-
-        :param where_dict: Each key, value pair in the dictionary becomes ``WHERE key = value``.
-        :type where_dict: dict
-        """
-
-        self.query['where'] = f"WHERE "
-
-        for key, value in where_dict.items():
-            self.query['where'] += f"{key} = {to_mysql_type(value)} AND "
-
-        self.query['where'] = self.query['where'][:-4]
-
         return self
 
     def select(self, *args):
@@ -72,22 +48,68 @@ class DB:
         .. note:: If you would like to select all (``*``) columns then simply do not use the select argument when
         building your query.
         """
-        columns = ','.join(f" `{column}`" for column in args)
-        self.query['select'] = f"SELECT {columns}"
+        self.query['select'] = f"SELECT "
+
+        for i in range(len(args)):
+            self.query['select'] += '%s, '
+
+        self.query['select'] = self.query['select'][:-2]
+
+        self.query_params['select'] = list(args)
+        return self
+
+    def where(self, condition_1, comparison_operator, condition_2):
+        """
+        Equivalent to the ``WHERE`` clause in SQL.
+
+        :param condition_1: The value to the left of the operator.
+
+        :param comparison_operator: The operator, e.g ``=``
+        :type comparison_operator: str
+
+        :param condition_2: The value to the right of the operator.
+        """
+        if comparison_operator not in self.comparison_operators:
+            raise Exception("Invalid comparison operator.")
+
+        self.query['where'] = f"WHERE {condition_1} {comparison_operator} %s"
+        self.query_params['where'] = [condition_2]
+
+        return self
+    
+    def multiple_where(self, where_dict):
+        """
+        Allows for multiple where clauses through one command. Note this only supports the = operator.
+
+        :param where_dict: The values to match
+        :type where_dict: dict
+        """
+        to_append = ''
+
+        for key, value in where_dict.items():
+            to_append += f"{key} = %s AND "
+
+        self.query['where'] = f"WHERE {to_append[:-4]}"
+        self.query_params['where'] = list(where_dict.values())
+
         return self
 
     # Terminal methods
     def get(self):
         """This will execute the query you have been building and return all results."""
         self.__validate(['select'])
-        self.raw_query = f"{self.query['select']} FROM `{self.query['table']}` {self.query['where']}"
+
+        self.generated_query = f"{self.query['select']} FROM {self.query['table']} {self.query['where']}"
+        self.generated_params = self.query_params['select'] + self.query_params['where']
 
         return self.__execute_sql()
 
     def first(self):
         """This will execute the query you have been building and return only the first result (uses ``LIMIT 1``)"""
         self.__validate(['select'])
-        self.raw_query = f"{self.query['select']} FROM `{self.query['table']}` {self.query['where']} LIMIT 1"
+
+        self.generated_query = f"{self.query['select']} FROM {self.query['table']} {self.query['where']}"
+        self.generated_params = self.query_params['select'] + self.query_params['where']
 
         return self.__execute_sql(1)
 
@@ -104,10 +126,14 @@ class DB:
         """
         self.__validate(['select'])
 
-        original = f"{self.query['select']} FROM `{self.query['table']}` {self.query['where']}"
-        is_where = bool(self.query['where'])
+        original = f"{self.query['select']} FROM `{self.query['table']}`"
 
-        self.raw_query = f"SELECT COUNT(*) FROM {self.query['table']}"
+        where = self.query['where']
+        where_params = self.query_params['where']
+
+        select_params = self.query_params['select']
+
+        self.generated_query = f"SELECT COUNT(*) FROM {self.query['table']}"
         rows = self.__execute_sql()[0]['COUNT(*)']
 
         chunks = math.ceil(rows / chunk_size)
@@ -118,12 +144,13 @@ class DB:
         max_id = chunk_size * chunk_loc
         min_id = max_id - (chunk_size - 1)
 
-        if is_where:
-            self.raw_query = f"{original}AND "
+        if bool(where):
+            self.generated_query = f"{original} {where} AND "
         else:
-            self.raw_query = f"{original}WHERE "
+            self.generated_query = f"{original} WHERE "
 
-        self.raw_query += f"id >= {min_id} AND id <= {max_id} LIMIT {chunk_size}"
+        self.generated_query += f"id >= {min_id} AND id <= {max_id} LIMIT {chunk_size}"
+        self.generated_params = select_params + where_params
 
         return self.__execute_sql()
 
@@ -140,11 +167,13 @@ class DB:
 
         self.__validate(['where'])
 
-        dictionary_string = ''
-        for key, value in update_dict.items():
-            dictionary_string += f"{key} = {to_mysql_type(value)}, "
+        self.generated_query = f"UPDATE `{self.query['table']}` SET "
 
-        self.raw_query = f"UPDATE `{self.query['table']}` SET {dictionary_string[:-2]} {self.query['where']}"
+        for key, value in update_dict.items():
+            self.generated_query += f"{key} = %s, "
+
+        self.generated_query = f"{self.generated_query[:-2]} {self.query['where']}"
+        self.generated_params = list(update_dict.values()) + self.query_params['where']
 
         return self.__execute_sql()
 
@@ -157,7 +186,9 @@ class DB:
         """
 
         self.__validate(['where'])
-        self.raw_query = f"DELETE FROM `{self.query['table']}` {self.query['where']}"
+
+        self.generated_query = f"DELETE FROM `{self.query['table']}` {self.query['where']}"
+        self.generated_params = self.query_params['where']
 
         return self.__execute_sql()
 
@@ -169,12 +200,15 @@ class DB:
         :type insert_dict: dict
 
         """
+        keys = ''
+        values = ''
 
-        value_str = ''
-        for value in insert_dict.values():
-            value_str += f"{to_mysql_type(value)}, "
+        for key in insert_dict.keys():
+            keys += f"{key}, "
+            values += '%s, '
 
-        self.raw_query = f"INSERT INTO `{self.query['table']}` ({', '.join(insert_dict.keys())}) VALUES ({value_str[:-2]})"
+        self.generated_query = f"INSERT INTO `{self.query['table']}` ({keys[:-2]}) VALUES ({values[:-2]})"
+        self.generated_params = list(insert_dict.values())
 
         return self.__execute_sql()
 
@@ -183,7 +217,8 @@ class DB:
 
         db = MySQLdb.connect(**self.database, cursorclass=MySQLdb.cursors.DictCursor)
         cursor = db.cursor()
-        cursor.execute(self.raw_query)
+
+        cursor.execute(self.generated_query, self.generated_params)
         db.commit()
 
         if n_rows is None:
@@ -201,11 +236,17 @@ class DB:
 
         self.query = {
             'table': self.query['table'],
-            'where': '',
-            'select': 'SELECT *'
+            'select': 'SELECT *',
+            'where': ''
         }
 
-        self.raw_query = ''
+        self.query_params = {
+            'select': [],
+            'where': []
+        }
+
+        self.generated_params = None
+        self.generated_query = None
 
         return results
 
@@ -218,10 +259,3 @@ class DB:
 
         if any(value == '' for value in required_dict.values()):
             raise Exception(f"Missing required parameter ({', '.join(required_parameters)})")
-
-
-def to_mysql_type(value):
-    if isinstance(value, str):
-        return f"'{value}'"
-
-    return value

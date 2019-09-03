@@ -1,6 +1,7 @@
 import cgi
 from urllib import parse
 from http.cookies import SimpleCookie
+from dragonfly.constants import DATA_METHODS
 
 
 class Request:
@@ -33,7 +34,7 @@ class Request:
 
     def get_data(self):
         if self.environ is not None:
-            if self.method == 'POST':
+            if self.method in DATA_METHODS:
                 environ_copy = self.environ
                 environ_copy['QUERY_STRING'] = ''
 

@@ -3,7 +3,7 @@ To do
 
 .. danger::
 	- [X] Fix :class:`Request` so that it does not crash when cookies are not present.
-	- Prevent MySQL injection on :class:`DB`.
+	- [X] Prevent MySQL injection on :class:`DB`.
 
 
 .. caution::

@@ -44,6 +44,16 @@ class Router:
         """
         Dispatches the appropriate route based on the request method and path.
         """
+        # See if there is a hidden input on the request that changes the request method.
+        data = request.get_data()
+        try:
+            new_method = data['_method'].upper()
+            if new_method in ['PUT', 'PATCH', 'DELETE']:
+                request.method = new_method
+
+            del data['_method']
+        except KeyError:
+            pass
 
         action, parameters = self.__routes.match_route(request.path, request.method)
 
@@ -66,7 +76,7 @@ class Router:
 
             # If there is a possibility that the given request method could send data e.g POST, try and fetch it.
             if request.method in DATA_METHODS:
-                parameters['request_data'] = request.get_data()
+                parameters['request_data'] = data
 
             # Run the appropriate function on the controller
             response = controller_function(**parameters)

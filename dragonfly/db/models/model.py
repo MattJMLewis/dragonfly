@@ -1,8 +1,9 @@
+import json
+
 from dragonfly.db.database import DB
 from dragonfly.db.models.fields import PrimaryKey
 from dragonfly.request import request
 from dragonfly.response import Response
-import json
 
 
 class Model(object):
@@ -156,6 +157,18 @@ class Model(object):
 
         return result
 
+    def update(self, update_dict):
+
+        if not all(item in self.types_keys for item in update_dict.keys()):
+            raise Exception("Mismatch between model defined columns and given columns")
+
+        for key in update_dict.keys():
+            self.__dict__[key] = update_dict[key]
+
+        self.save()
+
+        return self
+
     def save(self):
         """
         Permeate the changes to the model attributes, to the database.
@@ -167,6 +180,9 @@ class Model(object):
             self.new_values[key] = self.__dict__[key]
 
         self.db.multiple_where(self.database_values).update(self.new_values)
+
+    def delete(self):
+        self.db.multiple_where(self.database_values).delete()
 
     def data_to_model(self, data):
         """Starts the process of converting data from the database to model instances.
