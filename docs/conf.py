@@ -22,7 +22,7 @@ copyright = '2019, Matthew Lewis'
 author = 'Matthew Lewis'
 
 # The full version, including alpha/beta/rc tags
-release = '0'
+release = '0.0.1-alpha'
 
 
 # -- General configuration ---------------------------------------------------
