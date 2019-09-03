@@ -223,14 +223,14 @@ class View:
     """
     def __init__(self, view, **kwargs):
 
-        slash = '/'
+        self.slash = '/'
         if platform.system() == 'Windows':
-            slash = '\\'
+            self.slash = '\\'
 
-        local_loc = view.replace(".", slash)
-
-        self.file_path = os.path.join(ROOT_DIR, f"views{slash}" + local_loc + '.html')
-        self.template_path = os.path.join(ROOT_DIR, f"storage{slash}templates{slash}{local_loc}.py")
+        local_loc = view.replace(".", self.slash)
+        
+        self.file_path = os.path.join(ROOT_DIR, f"views{self.slash}" + local_loc + '.html')
+        self.template_path = os.path.join(ROOT_DIR, f"storage{self.slash}templates{self.slash}{local_loc}.py")
 
         try:
             os.path.getmtime(self.template_path)
@@ -257,5 +257,13 @@ class View:
         Write the generated template file from the template.
         """
         html = Converter(self.file_path).convert()
-        with open(self.template_path, 'w+') as f:
-            f.writelines(html)
+        try:
+            with open(self.template_path, 'w+') as f:
+                f.writelines(html)
+        except FileNotFoundError:
+            os.makedirs(self.template_path.rpartition(self.slash)[0], exist_ok=True)
+
+            with open(self.template_path, 'w+') as f:
+                f.writelines(html)
+
+

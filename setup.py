@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name="dragonfly-web",
-    version="0.0.1-alpha",
+    version="0.0.3",
     author="Matthew Lewis",
     description="A web framework.",
     long_description="A web framework that is loosely based on the syntax of Django and Laravel. It is inteded to be "
