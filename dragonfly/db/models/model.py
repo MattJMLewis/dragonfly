@@ -1,7 +1,7 @@
 import json
 
 from dragonfly.db.database import DB
-from dragonfly.db.models.fields import PrimaryKey
+from dragonfly.db.models.fields import PrimaryKey, ForeignKey
 from dragonfly.request import request
 from dragonfly.response import Response
 
@@ -43,6 +43,8 @@ class Model(object):
 
                     if isinstance(value, PrimaryKey):
                         self.primary_key = list(value.args)
+
+
         except KeyError:
             pass
 

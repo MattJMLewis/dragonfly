@@ -17,5 +17,3 @@ class TestRouteRuleCollection(TestCase):
         # Test that any non matching routes return False
         route_rule = RouteRule('testing/<test:int>')
         self.assertEqual(route_rule.match('testing/invalid'), False)
-
-

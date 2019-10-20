@@ -58,4 +58,3 @@ class MiddlewareController:
 
 
 middleware_controller = MiddlewareController()
-

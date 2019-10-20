@@ -44,6 +44,7 @@ class Router:
         """
         Dispatches the appropriate route based on the request method and path.
         """
+        
         # See if there is a hidden input on the request that changes the request method.
         data = request.get_data()
         try:

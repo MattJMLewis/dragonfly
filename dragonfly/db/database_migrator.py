@@ -54,4 +54,6 @@ class DatabaseMigrator:
         sql = sql[:-1]
         sql += "\n)"
 
+        print(sql)
+
         return sql
