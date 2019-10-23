@@ -55,6 +55,7 @@ class MiddlewareController:
         for middleware in self.registered_middleware:
             if action in middleware.actions:
                 self.cached_middleware[action].append(middleware)
+                self.registered_middleware.remove(middleware)
 
 
 middleware_controller = MiddlewareController()

@@ -8,6 +8,6 @@ from dragonfly.db.database import DB
 from dragonfly.request import request
 from dragonfly.response import Response, RedirectResponse, DeferredResponse, ErrorResponse
 
-from dragonfly.template.template import View
+from dragonfly.template.template_refactor import view
 
 name = "dragonfly"
