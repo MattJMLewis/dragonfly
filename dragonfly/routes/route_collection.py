@@ -1,5 +1,7 @@
-from dragonfly.routes.route_rule import RouteRule
+from collections import defaultdict
+
 from dragonfly.constants import METHODS
+from dragonfly.routes.route_rule import RouteRule
 
 
 class RouteCollection:
@@ -9,7 +11,7 @@ class RouteCollection:
 
     def __init__(self):
         self.static_routes = {}
-        self.dynamic_routes = {}
+        self.dynamic_routes = defaultdict(dict)
 
         for method in METHODS:
             self.static_routes[method] = {}
@@ -31,13 +33,27 @@ class RouteCollection:
         # Determine if the route is dynamic (contains a route parameter e.g <id:int> )
         if self.__is_dynamic(uri):
             # If we return a list of methods to add (this is primarily used for the `.any()` function on the router.
+            key_list = uri.split('<', 1)[0].split('/')
+            del key_list[-1]
+
             if isinstance(method, list):
                 route_rule = RouteRule(uri)
+
                 for method in METHODS:
-                    self.dynamic_routes[method][route_rule] = action
+                    sub_dict = self.dynamic_routes[method]
+
+                    for key in key_list:
+                        sub_dict = sub_dict.setdefault(key, {})
+
+                    sub_dict[route_rule] = action
             else:
-                # Store the dynamic route as a `RouteRule` object and assign it the value of its action.
-                self.dynamic_routes[method][RouteRule(uri)] = action
+                sub_dict = self.dynamic_routes[method]
+
+                for key in key_list:
+                    sub_dict = sub_dict.setdefault(key, {})
+
+                sub_dict[RouteRule(uri)] = action
+
         else:
             if isinstance(method, list):
                 # Used for the `.any()` function on the router.
@@ -57,10 +73,22 @@ class RouteCollection:
         except KeyError:
             # Potential refactor here. Have a dictionary that contains slugs and slugs of slugs etc... e.g
             # dynamic_routes['/articles']['/comments'] <- which would then contain a list of route rules to match.
-            for route, action in self.dynamic_routes[method].items():
-                match = route.match(uri)
-                if match:
-                    return action, match
+            key_list = uri.split('/')
+            sub_dict = self.dynamic_routes[method]
+
+            for key in key_list:
+                try:
+                    sub_dict = sub_dict[key]
+                except KeyError:
+                    pass
+
+            # Differentiate between iterating too far or nothing being found
+
+            for route, action in sub_dict.items():
+                if isinstance(route, RouteRule):
+                    match = route.match(uri)
+                    if match:
+                        return action, match
 
             return None, {}
 

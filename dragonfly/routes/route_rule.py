@@ -40,10 +40,13 @@ class RouteRule:
             return arg_dict
 
     def __convert_to_regex(self, uri):
-        uri = re.sub("<([^}]+)>", self.__map_to_regex, uri)
+        matches = re.findall("(<[^<]+:[^>]+>)", uri)
+        for match in matches:
+            uri = re.sub(match, self.__map_to_regex, uri)
+
         return uri
 
     def __map_to_regex(self, match):
-        name, type = match.group(1).split(":")
-        self.__groups.append([name, None, type])
-        return PYTHON_TO_REGEX[type]
+        name, type = match.group(0).split(":")
+        self.__groups.append([name[1:], None, type[:-1]])
+        return PYTHON_TO_REGEX[type[:-1]]
