@@ -215,7 +215,7 @@ class View:
 
     The class first finds the desired view. If a pre-compiled python version of the template does not exist or is out
     of date, the class will generate one. Otherwise it imports the compiled python file and runs the ``get_html``
-    method, passing in any variables that the user has given to the constructor (via ``**kwargs``). It then returns a
+    method, passing in any variables that the user.py has given to the constructor (via ``**kwargs``). It then returns a
     :class:`Response <dragonfly.response.Response>` with this HTML.
 
     :param view: The view to return

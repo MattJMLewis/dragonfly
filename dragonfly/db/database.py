@@ -212,6 +212,26 @@ class DB:
 
         return self.__execute_sql()
 
+    def custom_sql(self, sql, n_rows=None):
+
+        db = MySQLdb.connect(**self.database, cursorclass=MySQLdb.cursors.DictCursor)
+        cursor = db.cursor()
+
+        cursor.execute(sql)
+        db.commit()
+
+        if n_rows is None:
+            results = cursor.fetchall()
+        elif n_rows == 1:
+            results = cursor.fetchone()
+        else:
+            results = cursor.fetchmany(n_rows)
+
+        cursor.close()
+        db.close()
+
+        return results
+
     def __execute_sql(self, n_rows=None):
         """Executes the SQL that the user built"""
 

@@ -36,17 +36,16 @@ class DatabaseMigrator:
 
         for key, value in model.meta.items():
 
-            if key == 'table_name':
-                break
-
             if isinstance(value, ForeignKey):
                 to_append = Table.foreign_key(key, value.table, value.local_keys, value.foreign_keys)
 
-            if isinstance(value, Unique):
+            elif isinstance(value, Unique):
                 to_append = Table.unique(*value.args, constraint_name=key)
 
-            if isinstance(value, PrimaryKey):
+            elif isinstance(value, PrimaryKey):
                 to_append = Table.primary_key(*value.args)
+            else:
+                break
 
             sql += f"{to_append}, \n"
 
@@ -54,6 +53,6 @@ class DatabaseMigrator:
         sql = sql[:-1]
         sql += "\n)"
 
-        print(sql)
 
+        print(sql)
         return sql

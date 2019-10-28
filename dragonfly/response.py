@@ -7,7 +7,7 @@ class Response:
 
     Parameters
     ----------
-    :param content: The content that will be delivered to the user. This defaults to empty.
+    :param content: The content that will be delivered to the user.py. This defaults to empty.
     :type content: str
 
     :param content_type: The MIME type. This defaults to 'text/html'.

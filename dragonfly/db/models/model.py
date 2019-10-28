@@ -1,7 +1,8 @@
 import json
 
 from dragonfly.db.database import DB
-from dragonfly.db.models.fields import PrimaryKey, ForeignKey
+from dragonfly.db.models.fields import PrimaryKey, IntField, TimestampField
+from dragonfly.db.models.relationships import hasMany
 from dragonfly.request import request
 from dragonfly.response import Response
 
@@ -26,6 +27,7 @@ class Model(object):
         self.composite = False
 
         for (key, value) in self.__class__.__dict__.items():
+
             if not key.startswith("__") and not key == 'Meta':
 
                 if not callable(value):
@@ -35,18 +37,36 @@ class Model(object):
                         self.primary_key.append(key)
 
         self.meta = {}
+        self.relationships = []
 
         try:
             for (key, value) in self.__class__.__dict__['Meta'].__dict__.items():
                 if not key.startswith("__"):
-                    self.meta[key] = value
+                    if isinstance(value, hasMany):
+                        self.relationships.append((key, value))
+                    else:
+                        self.meta[key] = value
 
-                    if isinstance(value, PrimaryKey):
-                        self.primary_key = list(value.args)
-
-
+                        if isinstance(value, PrimaryKey):
+                            self.primary_key = list(value.args)
         except KeyError:
             pass
+
+        try:
+            if self.meta['id'] is True:
+                self.types['id'] = IntField(unsigned=True, auto_increment=True, primary_key=True)
+                self.primary_key.append('id')
+        except KeyError:
+            self.types['id'] = IntField(unsigned=True, auto_increment=True, primary_key=True)
+            self.primary_key.append('id')
+
+        try:
+            if self.meta['timestamps'] is True:
+                self.types['created_at'] = TimestampField(default='CURRENT_TIMESTAMP', null=False)
+                self.types['updated_at'] = TimestampField(default='NOW()', on="UPDATE NOW()", null=False)
+        except KeyError:
+            self.types['created_at'] = TimestampField(default='CURRENT_TIMESTAMP', null=False)
+            self.types['updated_at'] = TimestampField(default='NOW()', on="UPDATE NOW()", null=False)
 
         if len(self.primary_key) > 1:
             self.composite = True
@@ -130,6 +150,8 @@ class Model(object):
         """Same as the :class:`DB <dragonfly.db.database.DB>` class :meth:`where <dragonfly.db.database.DB.where>` method."""
 
         self.db.where(column, comparator, value)
+
+        return self
 
     def paginate(self, size, to_json=False):
         """
@@ -229,6 +251,11 @@ class Model(object):
 
             # Store a back up of the data values so the row can be found when updating the model
             self.database_values[key] = value
+
+        for key, value in self.relationships:
+            self.__dict__[key] = value.delayed_init(self.database_values, self.meta)
+
+        self.relationships = []
 
     def get_attributes(self):
         attributes = {}

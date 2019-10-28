@@ -45,7 +45,6 @@ class Field(abc.ABC):
         if default is None:
             del self.default_parameters['default']
 
-
     @abc.abstractmethod
     def to_python_type(cls, value):
         """
@@ -230,16 +229,17 @@ class DateTimeField(Field):
 
 class TimestampField(Field):
 
-    def __init__(self, fsp=None, **kwargs):
+    def __init__(self, fsp=None, on=None, **kwargs):
         super().__init__(**kwargs)
 
         self.fsp = fsp
+        self.on = on
 
     def to_python_type(self, value):
         return value
 
     def to_database_type(self):
-        return Table.timestamp(self.fsp, **self.default_parameters)
+        return Table.timestamp(self.fsp, self.on, **self.default_parameters)
 
 
 class TimeField(Field):
@@ -288,11 +288,12 @@ class CharField(Field):
 
 class TextField(Field):
 
-    def __init__(self, **kwargs):
+    def __init__(self, length=None, **kwargs):
         super().__init__(**kwargs)
+        self.length = length
 
     def to_python_type(self, value):
         return str(value)
 
     def to_database_type(self):
-        return Table.text(**self.default_parameters)
+        return Table.text(self.length, **self.default_parameters)

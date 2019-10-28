@@ -124,8 +124,15 @@ class Table:
 
     @staticmethod
     @handle_options
-    def timestamp(fsp=0):
-        return f"TIMESTAMP({fsp})"
+    def timestamp(fsp=None, on=None):
+        if fsp:
+            return f"TIMESTAMP({fsp})"
+        if on:
+            return f"TIMESTAMP ON {on}"
+        if on and fsp:
+            return f"TIMESTAMP({fsp}) ON {on}"
+
+        return "TIMESTAMP"
 
     @staticmethod
     @handle_options
@@ -227,4 +234,4 @@ class Table:
 
     @staticmethod
     def foreign_key(constraint_name, table, local_keys, foreign_keys):
-        return f"CONSTRAINT {constraint_name} FOREIGN KEY ({', '.join(local_keys)}) REFERENCES {table} ({', '.join(foreign_keys)})"
+        return f"CONSTRAINT {constraint_name} FOREIGN KEY ({', '.join(local_keys)}) REFERENCES {table}({', '.join(foreign_keys)})"
