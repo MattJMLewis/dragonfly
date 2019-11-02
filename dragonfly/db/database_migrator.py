@@ -22,12 +22,14 @@ class DatabaseMigrator:
         self.tables = {}
 
         for model in self.models:
-            cls = getattr(importlib.import_module(f"models.{model}"), model.capitalize())()
+            model_name = model.title().replace("_", "")
+            cls = getattr(importlib.import_module(f"models.{model}"), model_name)()
             self.tables[cls.meta['table_name']] = self.__generate_sql(cls)
 
     @staticmethod
     def __generate_sql(model):
         """Generate the SQL for the given model."""
+        depends = []
 
         sql = f"CREATE TABLE {model.meta['table_name']} (\n"
 
@@ -38,21 +40,19 @@ class DatabaseMigrator:
 
             if isinstance(value, ForeignKey):
                 to_append = Table.foreign_key(key, value.table, value.local_keys, value.foreign_keys)
+                depends.append(value.table)
+                sql += f"{to_append}, \n"
 
             elif isinstance(value, Unique):
                 to_append = Table.unique(*value.args, constraint_name=key)
+                sql += f"{to_append}, \n"
 
             elif isinstance(value, PrimaryKey):
                 to_append = Table.primary_key(*value.args)
-            else:
-                break
-
-            sql += f"{to_append}, \n"
+                sql += f"{to_append}, \n"
 
         sql = sql.rstrip()
         sql = sql[:-1]
         sql += "\n)"
 
-
-        print(sql)
-        return sql
+        return depends, sql

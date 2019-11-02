@@ -40,19 +40,20 @@ class RouteCollection:
                 route_rule = RouteRule(uri)
 
                 for method in METHODS:
-                    sub_dict = self.dynamic_routes[method]
+                    slug_dict = self.dynamic_routes[method]
 
                     for key in key_list:
-                        sub_dict = sub_dict.setdefault(key, {})
+                        slug_dict = slug_dict.setdefault(key, {})
 
-                    sub_dict[route_rule] = action
+                    slug_dict[route_rule] = action
+
             else:
-                sub_dict = self.dynamic_routes[method]
+                slug_dict = self.dynamic_routes[method]
 
                 for key in key_list:
-                    sub_dict = sub_dict.setdefault(key, {})
+                    slug_dict = slug_dict.setdefault(key, {})
 
-                sub_dict[RouteRule(uri)] = action
+                slug_dict[RouteRule(uri)] = action
 
         else:
             if isinstance(method, list):
@@ -74,17 +75,17 @@ class RouteCollection:
             # Potential refactor here. Have a dictionary that contains slugs and slugs of slugs etc... e.g
             # dynamic_routes['/articles']['/comments'] <- which would then contain a list of route rules to match.
             key_list = uri.split('/')
-            sub_dict = self.dynamic_routes[method]
+            slug_dict = self.dynamic_routes[method]
 
             for key in key_list:
                 try:
-                    sub_dict = sub_dict[key]
+                    slug_dict = slug_dict[key]
                 except KeyError:
                     pass
 
             # Differentiate between iterating too far or nothing being found
 
-            for route, action in sub_dict.items():
+            for route, action in slug_dict.items():
                 if isinstance(route, RouteRule):
                     match = route.match(uri)
                     if match:
@@ -94,7 +95,7 @@ class RouteCollection:
 
     @staticmethod
     def __is_dynamic(uri):
-        left = uri.count("<")
-        right = uri.count(">")
+        has_left = uri.count("<")
+        has_right = uri.count(">")
 
-        return left == right and left >= 1
+        return has_left == has_right and has_left >= 1

@@ -15,7 +15,7 @@ class DB:
         :param database_settings: The config for the database
         :type database_settings: dict
         """
-        self.database = database_settings
+        self.database_settings = database_settings
         self.last_insert_id = None
 
         self.query = {
@@ -214,7 +214,7 @@ class DB:
 
     def custom_sql(self, sql, n_rows=None):
 
-        db = MySQLdb.connect(**self.database, cursorclass=MySQLdb.cursors.DictCursor)
+        db = MySQLdb.connect(**self.database_settings, cursorclass=MySQLdb.cursors.DictCursor)
         cursor = db.cursor()
 
         cursor.execute(sql)
@@ -235,7 +235,7 @@ class DB:
     def __execute_sql(self, n_rows=None):
         """Executes the SQL that the user built"""
 
-        db = MySQLdb.connect(**self.database, cursorclass=MySQLdb.cursors.DictCursor)
+        db = MySQLdb.connect(**self.database_settings, cursorclass=MySQLdb.cursors.DictCursor)
         cursor = db.cursor()
 
         cursor.execute(self.generated_query, self.generated_params)

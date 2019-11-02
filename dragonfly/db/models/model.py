@@ -2,7 +2,7 @@ import json
 
 from dragonfly.db.database import DB
 from dragonfly.db.models.fields import PrimaryKey, IntField, TimestampField
-from dragonfly.db.models.relationships import hasMany
+from dragonfly.db.models.relationships import HasMany, BelongsTo, Relationship
 from dragonfly.request import request
 from dragonfly.response import Response
 
@@ -10,7 +10,7 @@ from dragonfly.response import Response
 class Model(object):
     """A way to easily interact with rows in a table."""
 
-    def __init__(self, data=None):
+    def __init__(self, data=None, allow_relationships=True):
         """
         By providing data to the constructor the class is converted from an object that represents the Model's table to
         a row in the Model's table.
@@ -20,6 +20,9 @@ class Model(object):
 
         # By default it is not a row
         self.is_row = False
+
+        # This prevents recursion errors when we look for a model relationship
+        self.allow_relationships = allow_relationships
 
         # Retrieve the types that were defined in the user defined model and set the primary key for the table
         self.types = {}
@@ -42,7 +45,8 @@ class Model(object):
         try:
             for (key, value) in self.__class__.__dict__['Meta'].__dict__.items():
                 if not key.startswith("__"):
-                    if isinstance(value, hasMany):
+
+                    if isinstance(value, Relationship):
                         self.relationships.append((key, value))
                     else:
                         self.meta[key] = value
@@ -88,7 +92,6 @@ class Model(object):
 
         # Shortcut to interact with DB
         self.db = DB().table(self.meta['table_name'])
-
         # Set the class attributes to the given data (if present), converting the class to a row
         if data is not None:
             self.is_row = True
@@ -98,7 +101,7 @@ class Model(object):
         if self.is_row:
             string = f"{self.__class__.__name__}\n"
             for key in self.types_keys:
-                string += f"{key}: {self.__dict__[key]}\n"
+                string += f"{key}: {self.__dict__[key]} |\n"
 
             return string
 
@@ -219,7 +222,7 @@ class Model(object):
             raise Exception("A data bound class cannot be rebound to more data")
 
         # Create new class instances passing in the given data
-        collection = [self.__class__(row) for row in data]
+        collection = [self.__class__(row, allow_relationships=self.allow_relationships) for row in data]
 
         return collection
 
@@ -252,8 +255,11 @@ class Model(object):
             # Store a back up of the data values so the row can be found when updating the model
             self.database_values[key] = value
 
-        for key, value in self.relationships:
-            self.__dict__[key] = value.delayed_init(self.database_values, self.meta)
+        if self.allow_relationships:
+            meta_copy = self.meta
+            meta_copy['primary_key'] = self.primary_key
+            for key, value in self.relationships:
+                self.__dict__[key] = value.delayed_init(self.database_values, meta_copy)
 
         self.relationships = []
 
