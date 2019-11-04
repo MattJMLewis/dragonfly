@@ -1,3 +1,4 @@
+PYTHON_TO_REGEX = {"int": "([0-9]+)", "str": "(.+)"}
 METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'OPTIONS', 'DELETE']
 DATA_METHODS = ['POST', 'PUT', 'PATCH']
 REASON_PHRASES = {

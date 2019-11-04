@@ -31,7 +31,6 @@ class Line:
         open_ctrl_matches = re.findall("(@[^(]{1,4}\([^)]*\))", self.line)
         close_ctr_matches = re.findall("(@endif)|(@endfor)", self.line)
 
-
         if variable_matches:
             self.matches = variable_matches
             return VAR
