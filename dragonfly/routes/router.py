@@ -22,7 +22,7 @@ class Router:
         self.__routes = RouteCollection()
 
     def get_routes(self):
-        return self.__routes.static_routes
+        return [self.__routes.static_routes, self.__routes.dynamic_routes]
 
     def add_route(self, uri, action, method):
         """

@@ -24,7 +24,6 @@ class DB:
         }
 
         self.query_params = {
-            'select': [],
             'where': []
         }
 
@@ -50,12 +49,11 @@ class DB:
         """
         self.query['select'] = f"SELECT "
 
-        for i in range(len(args)):
-            self.query['select'] += '%s, '
+        for arg in args:
+            self.query['select'] += f"{arg}, "
 
         self.query['select'] = self.query['select'][:-2]
 
-        self.query_params['select'] = list(args)
         return self
 
     def where(self, condition_1, comparison_operator, condition_2):
@@ -100,7 +98,7 @@ class DB:
         self.__validate(['select'])
 
         self.generated_query = f"{self.query['select']} FROM {self.query['table']} {self.query['where']}"
-        self.generated_params = self.query_params['select'] + self.query_params['where']
+        self.generated_params = self.query_params['where']
 
         return self.__execute_sql()
 
@@ -109,7 +107,7 @@ class DB:
         self.__validate(['select'])
 
         self.generated_query = f"{self.query['select']} FROM {self.query['table']} {self.query['where']}"
-        self.generated_params = self.query_params['select'] + self.query_params['where']
+        self.generated_params = self.query_params['where']
 
         return self.__execute_sql(1)
 
@@ -261,7 +259,6 @@ class DB:
         }
 
         self.query_params = {
-            'select': [],
             'where': []
         }
 
