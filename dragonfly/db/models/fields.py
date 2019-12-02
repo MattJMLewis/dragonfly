@@ -282,28 +282,140 @@ class YearField(Field):
 # String types
 
 
-class CharField(Field):
-
-    def __init__(self, max_length=255, **kwargs):
-        super().__init__(**kwargs)
-
-        self.max_length = max_length
-
-    def to_python_type(self, value):
-        return str(value)
-
-    def to_database_type(self):
-        return Table.char(self.max_length, **self.default_parameters)
-
-
-class TextField(Field):
+class StringField(Field):
 
     def __init__(self, length=None, **kwargs):
         super().__init__(**kwargs)
+
         self.length = length
 
     def to_python_type(self, value):
         return str(value)
 
     def to_database_type(self):
+        pass
+
+
+class VarCharField(StringField):
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def to_database_type(self):
+        return Table.varchar(self.length, **self.default_parameters)
+
+
+class CharField(StringField):
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def to_database_type(self):
+        return Table.char(self.length, **self.default_parameters)
+
+
+class TextField(StringField):
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def to_database_type(self):
         return Table.text(self.length, **self.default_parameters)
+
+
+class BinaryField(StringField):
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def to_python_type(self, value):
+        return bool(value)
+
+    def to_database_type(self):
+        return Table.varbinary(self.length, **self.default_parameters)
+
+
+class TinyBlobField(Field):
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def to_python_type(self, value):
+        return bytes(value)
+
+    def to_database_type(self):
+        return Table.tinyblob(**self.default_parameters)
+
+
+class TinyTextField(Field):
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def to_python_type(self, value):
+        return str(value)
+
+    def to_database_type(self):
+        return Table.tinytext(**self.default_parameters)
+
+
+class MediumBlob(Field):
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def to_python_type(self, value):
+        return bytes(value)
+
+    def to_database_type(self):
+        return Table.mediumblob(**self.default_parameters)
+
+
+class MediumText(Field):
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def to_python_type(self, value):
+        return str(value)
+
+    def to_database_type(self):
+        return Table.mediumtext(**self.default_parameters)
+
+
+class LongBlob(Field):
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def to_python_type(self, value):
+        return bytes(value)
+
+    def to_database_type(self):
+        return Table.longblob(**self.default_parameters)
+
+
+class Enum(Field):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(**kwargs)
+        self.enum = args
+
+    def to_python_type(self, value):
+        return list(value)
+
+    def to_database_type(self):
+        return Table.enum(*self.enum)
+
+
+class Set(Field):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(**kwargs)
+        self.set = args
+
+    def to_python_type(self, value):
+        return list(value)
+
+    def to_database_type(self):
+        return Table.set(*self.set)

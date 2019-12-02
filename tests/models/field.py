@@ -6,50 +6,77 @@ class Field(models.Model):
     # Numeric types
 
     empty_bit = models.BitField()
-    bit = models.BitField(length=10)
+    nbit = models.BitField(length=10)
 
     empty_tiny_int = models.TinyIntField()
-    tiny_int = models.TinyIntField(length=10)
+    ntiny_int = models.TinyIntField(length=10)
 
-    bool = models.BoolField()
+    nbool = models.BoolField()
 
     empty_small_int = models.SmallIntField()
-    small_int = models.SmallIntField(length=10)
+    nsmall_int = models.SmallIntField(length=10)
 
     empty_medium_int = models.MediumIntField()
-    medium_int = models.MediumIntField(length=10)
+    nmedium_int = models.MediumIntField(length=10)
 
     empty_int = models.IntField()
-    int = models.IntField(length=10)
+    nint = models.IntField(length=10)
 
     empty_big_int = models.BigIntField()
-    big_int = models.BigIntField(length=10)
+    nbig_int = models.BigIntField(length=10)
 
     empty_decimal = models.DecimalField()
-    decimal = models.DecimalField(5, 2)
+    ndecimal = models.DecimalField(5, 2)
 
     empty_float = models.FloatField()
-    float = models.FloatField(10)
+    nfloat = models.FloatField(10)
 
     empty_double = models.DoubleField()
-    double = models.DoubleField(5, 2)
+    ndouble = models.DoubleField(5, 2)
 
     # Date and time types
 
-    date = models.DateField()
+    ndate = models.DateField()
 
     empty_datetime = models.DateTimeField()
-    datetime = models.DateTimeField(6)
+    ndatetime = models.DateTimeField(6)
 
     empty_timestamp = models.TimestampField()
-    timestamp = models.TimestampField(fsp=6, on="UPDATE CURRENT_TIMESTAMP")
+    ntimestamp = models.TimestampField(on="UPDATE CURRENT_TIMESTAMP", default="CURRENT_TIMESTAMP")
+    nn_timestamp = models.TimestampField(6, null=True)
 
     empty_time = models.TimeField()
-    time = models.TimeField(6)
+    ntime = models.TimeField(6)
 
-    year = models.YearField()
+    nyear = models.YearField()
 
+    # String types
 
+    empty_varchar = models.VarCharField()
+    nvarchar = models.VarCharField(length=10)
+
+    empty_char = models.CharField()
+    nchar = models.CharField(length=255)
+
+    empty_binary = models.BinaryField()
+    nbinary = models.BinaryField(length=10)
+
+    ntiny_blob = models.TinyBlobField()
+
+    ntiny_text_field = models.TinyTextField()
+
+    empty_text = models.TextField()
+    ntext = models.TextField(length=10)
+
+    nmedium_blob = models.MediumBlob()
+
+    nmedium_text = models.MediumText()
+
+    nlong_blob = models.LongBlob()
+
+    nenum = models.Enum("test", "test_one")
+
+    nset = models.Set("test", "test_one")
 
 
 

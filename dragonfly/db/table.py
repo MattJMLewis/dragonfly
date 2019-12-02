@@ -167,22 +167,34 @@ class Table:
     @staticmethod
     @handle_options
     def char(size):
-        return f"CHAR({size})"
+        if size:
+            return f"CHAR({size})"
+
+        return "CHAR"
 
     @staticmethod
     @handle_options
     def varchar(size):
-        return f"VARCHAR({size})"
+        if size:
+            return f"VARCHAR({size})"
+
+        return "VARCHAR(15)"
 
     @staticmethod
     @handle_options
     def binary(size):
-        return f"BINARY({size})"
+        if size:
+            return f"BINARY({size})"
+
+        return "BINARY"
 
     @staticmethod
     @handle_options
     def varbinary(size):
-        return f"VARBINARY({size})"
+        if size:
+            return f"VARBINARY({size})"
+
+        return "VARBINARY(15)"
 
     @staticmethod
     @handle_options
@@ -197,15 +209,18 @@ class Table:
     @staticmethod
     @handle_options
     def blob(length):
-        return f"BLOB({length})"
+        if length:
+            return f"BLOB({length})"
+
+        return "BLOB"
 
     @staticmethod
     @handle_options
     def text(length):
         if length:
             return f"TEXT({length})"
-        else:
-            return "TEXT"
+
+        return "TEXT"
 
     @staticmethod
     @handle_options
@@ -230,12 +245,14 @@ class Table:
     @staticmethod
     @handle_options
     def enum(*args):
-        return f"ENUM({', '.join(args)})"
+        arg_list = ', '.join(f"'{arg}'" for arg in args)
+        return f"ENUM({arg_list})"
 
     @staticmethod
     @handle_options
     def set(*args):
-        return f"SET({', '.join(args)})"
+        arg_list = ', '.join(f"'{arg}'" for arg in args)
+        return f"SET({arg_list})"
 
     # Table functions
 
