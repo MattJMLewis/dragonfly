@@ -77,6 +77,7 @@ class Model(object):
 
         # Generate the table name if it has not been defined
         if 'table_name' not in self.meta.keys():
+            # TODO split at capital and add underscore
             self.meta['table_name'] = self.__class__.__name__.lower() + 's'
 
         # Shortcut

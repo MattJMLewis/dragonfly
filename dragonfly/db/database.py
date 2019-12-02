@@ -129,8 +129,6 @@ class DB:
         where = self.query['where']
         where_params = self.query_params['where']
 
-        select_params = self.query_params['select']
-
         self.generated_query = f"SELECT COUNT(*) FROM {self.query['table']}"
         rows = self.__execute_sql()[0]['COUNT(*)']
 
@@ -148,7 +146,7 @@ class DB:
             self.generated_query = f"{original} WHERE "
 
         self.generated_query += f"id >= {min_id} AND id <= {max_id} LIMIT {chunk_size}"
-        self.generated_params = select_params + where_params
+        self.generated_params = where_params
 
         return self.__execute_sql()
 
@@ -235,8 +233,8 @@ class DB:
 
         db = MySQLdb.connect(**self.database_settings, cursorclass=MySQLdb.cursors.DictCursor)
         cursor = db.cursor()
-
         cursor.execute(self.generated_query, self.generated_params)
+
         db.commit()
 
         if n_rows is None:

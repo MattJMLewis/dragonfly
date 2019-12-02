@@ -69,7 +69,10 @@ class Table:
     @staticmethod
     @handle_options
     def smallint(length):
-        return f"SMALLINT({length})"
+        if length:
+            return f"SMALLINT({length})"
+
+        return "SMALLINT"
 
     @staticmethod
     @handle_options
@@ -98,16 +101,25 @@ class Table:
     @staticmethod
     @handle_options
     def decimal(digits, decimal_places):
+        if digits is None and decimal_places is None:
+            return "DECIMAL"
+
         return f"DECIMAL({digits}, {decimal_places})"
 
     @staticmethod
     @handle_options
     def float(length):
-        return f"FLOAT({length})"
+        if length:
+            return f"FLOAT({length})"
+
+        return f"FLOAT"
 
     @staticmethod
     @handle_options
     def double(digits, decimal_places):
+        if digits is None and decimal_places is None:
+            return "DOUBLE"
+
         return f"DOUBLE({digits}, {decimal_places})"
 
     # Date and time types
@@ -119,25 +131,31 @@ class Table:
 
     @staticmethod
     @handle_options
-    def datetime(fsp=0):
-        return f"DATETIME({fsp})"
+    def datetime(fsp):
+        if fsp:
+            return f"DATETIME({fsp})"
+
+        return "DATETIME"
 
     @staticmethod
     @handle_options
-    def timestamp(fsp=None, on=None):
+    def timestamp(fsp, on):
+        if on and fsp:
+            return f"TIMESTAMP({fsp}) ON {on}"
         if fsp:
             return f"TIMESTAMP({fsp})"
         if on:
             return f"TIMESTAMP ON {on}"
-        if on and fsp:
-            return f"TIMESTAMP({fsp}) ON {on}"
 
         return "TIMESTAMP"
 
     @staticmethod
     @handle_options
-    def time(fsp=0):
-        return f"TIME({fsp})"
+    def time(fsp):
+        if fsp:
+            return f"TIME({fsp})"
+
+        return "TIME"
 
     @staticmethod
     @handle_options

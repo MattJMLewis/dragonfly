@@ -18,12 +18,14 @@ class DatabaseMigrator:
         :type path: str
         """
         self.path = path
-        self.models = [os.path.basename(x)[:-3] for x in glob.glob(f"{ROOT_DIR}/models/*.py")]
+        self.models = [os.path.basename(x)[:-3] for x in glob.glob(f"{ROOT_DIR}/{path}/*.py")]
         self.tables = {}
+
+        import_path = path.replace('/', '.')
 
         for model in self.models:
             model_name = model.title().replace("_", "")
-            cls = getattr(importlib.import_module(f"models.{model}"), model_name)()
+            cls = getattr(importlib.import_module(f"{import_path}.{model}"), model_name)()
             self.tables[cls.meta['table_name']] = self.__generate_sql(cls)
 
     @staticmethod

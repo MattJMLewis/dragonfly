@@ -111,7 +111,7 @@ class IntField(Field):
 
 class BigIntField(IntField):
 
-    def __init__(self, length=None, unsigned=False, auto_increment=False, zerofill=False, **kwargs):
+    def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
     def to_python_type(self, value):
@@ -121,9 +121,21 @@ class BigIntField(IntField):
         return Table.bigint(self.length, **self.integer_parameters, **self.default_parameters)
 
 
+class MediumIntField(IntField):
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def to_python_type(self, value):
+        return int(value)
+
+    def to_database_type(self):
+        return Table.mediumint(self.length, **self.integer_parameters, **self.default_parameters)
+
+
 class SmallIntField(IntField):
 
-    def __init__(self, length=None, unsigned=False, auto_increment=False, zerofill=False, **kwargs):
+    def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
     def to_database_type(self):
@@ -132,7 +144,7 @@ class SmallIntField(IntField):
 
 class TinyIntField(IntField):
 
-    def __init__(self, length=None, unsigned=False, auto_increment=False, zerofill=False, **kwargs):
+    def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
     def to_database_type(self):
@@ -256,12 +268,10 @@ class TimeField(Field):
         return Table.time(self.fsp, **self.default_parameters)
 
 
-class Year(Field):
+class YearField(Field):
 
-    def __init__(self, fsp=None, **kwargs):
+    def __init__(self, **kwargs):
         super().__init__(**kwargs)
-
-        self.fsp = fsp
 
     def to_python_type(self, value):
         return value
@@ -274,7 +284,7 @@ class Year(Field):
 
 class CharField(Field):
 
-    def __init__(self, max_length, **kwargs):
+    def __init__(self, max_length=255, **kwargs):
         super().__init__(**kwargs)
 
         self.max_length = max_length
