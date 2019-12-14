@@ -27,7 +27,7 @@ class TestModel(TestCase):
         self.assertEqual(model, {'title': 'Test Article', 'text': 'Testing'})
 
     def test_first(self):
-        model =
+        pass
 
     def test_find(self):
         model = self.model.find(1)
