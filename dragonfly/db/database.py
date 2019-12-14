@@ -1,5 +1,6 @@
 import MySQLdb.cursors
 import math
+import logging
 
 from config import DATABASE
 
@@ -246,6 +247,7 @@ class DB:
 
         cursor.execute("SELECT LAST_INSERT_ID()")
         self.last_insert_id = cursor.fetchone()['LAST_INSERT_ID()']
+        self.last_query = cursor._last_executed
 
         cursor.close()
         db.close()

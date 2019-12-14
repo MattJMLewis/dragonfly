@@ -115,6 +115,16 @@ class Model(object):
         if not self.composite:
             create_dict[self.primary_key[0]] = self.db.last_insert_id
 
+        try:
+            if self.meta['timestamps'] is True:
+                timestamp_values = self.db.custom_sql(f"SELECT created_at, updated_at FROM {self.meta['table_name']} WHERE {self.primary_key[0]} = {self.db.last_insert_id}")[0]
+                create_dict['created_at'] = timestamp_values['created_at']
+                create_dict['updated_at'] = timestamp_values['updated_at']
+        except KeyError:
+            timestamp_values = self.db.custom_sql(f"SELECT created_at, updated_at FROM {self.meta['table_name']} WHERE {self.primary_key[0]} = {self.db.last_insert_id}")[0]
+            create_dict['created_at'] = timestamp_values['created_at']
+            create_dict['updated_at'] = timestamp_values['updated_at']
+
         return self.data_to_model([create_dict])[0]
 
     def first(self):
@@ -211,6 +221,12 @@ class Model(object):
 
     def delete(self):
         self.db.multiple_where(self.database_values).delete()
+
+    def to_dict(self):
+        if not self.is_row:
+            raise Exception("A non data bound class cannot be converted to a dictionary")
+
+        return self.database_values
 
     def data_to_model(self, data):
         """Starts the process of converting data from the database to model instances.
