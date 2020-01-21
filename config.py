@@ -6,8 +6,8 @@ PYTHON_TO_REGEX = {"int": "([0-9]+)", "str": "(.+)"}
 URL = "http://localhost:8080"
 
 DATABASE = {
-    'user': 'testing',
-    'passwd': 'testing',
+    'user': 'dragonfly',
+    'passwd': 'password',
     'host': '127.0.0.1',
-    'db': 'testing'
+    'db': 'dragonfly_testing'
 }

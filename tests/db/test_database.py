@@ -24,14 +24,16 @@ class TestDB(TestCase):
 
     def test_get(self):
         self.assertEqual(self.database.get(), (
-        {'id': 1, 'string': 'Test'}, {'id': 2, 'string': 'Test 1'}, {'id': 3, 'string': 'Test 2'},
-        {'id': 4, 'string': 'Test 3'}, {'id': 5, 'string': 'Test 4'}))
+            {'id': 1, 'string': 'Test'}, {'id': 2, 'string': 'Test 1'}, {'id': 3, 'string': 'Test 2'},
+            {'id': 4, 'string': 'Test 3'}, {'id': 5, 'string': 'Test 4'}))
 
     def test_first(self):
         self.assertEqual(self.database.first(), {'id': 1, 'string': 'Test'})
 
     def test_chunk(self):
-        self.assertEqual(self.database.chunk(2, 2), ({'id': 3, 'string': 'Test 2'}, {'id': 4, 'string': 'Test 3'}))
+        self.assertEqual(self.database.chunk(2, 2), ((({'id': 3, 'string': 'Test 2'}, {'id': 4, 'string': 'Test 3'}),
+                                                      {'current_page': 2, 'from': 3, 'last_page': 3, 'per_page': 2,
+                                                       'to': 4, 'total': 5})))
 
     def test_update(self):
         self.database.where('id', '=', 1).update({'string': 'Updated'})
@@ -44,4 +46,3 @@ class TestDB(TestCase):
     def test_insert(self):
         self.database.insert({'string': 'Testing 5'})
         self.assertEqual(self.database.where('id', '=', 6).first(), {'id': 6, 'string': 'Testing 5'})
-

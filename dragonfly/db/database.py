@@ -149,7 +149,9 @@ class DB:
         self.generated_query += f"id >= {min_id} AND id <= {max_id} LIMIT {chunk_size}"
         self.generated_params = where_params
 
-        return self.__execute_sql()
+        meta = {'total': rows, 'per_page': chunk_size, 'current_page': chunk_loc, 'last_page': chunks, 'from': min_id, 'to': max_id}
+
+        return self.__execute_sql(), meta
 
     def update(self, update_dict):
         """
@@ -231,6 +233,9 @@ class DB:
 
     def __execute_sql(self, n_rows=None):
         """Executes the SQL that the user built"""
+
+        print(self.generated_query)
+        print(self.generated_params)
 
         db = MySQLdb.connect(**self.database_settings, cursorclass=MySQLdb.cursors.DictCursor)
         cursor = db.cursor()

@@ -4,8 +4,14 @@ from dragonfly.db.database import DB
 from dragonfly.db.models.fields import PrimaryKey, IntField, TimestampField
 from dragonfly.db.models.relationships import HasMany, BelongsTo, Relationship
 from dragonfly.request import request
+
+import datetime
+
 from dragonfly.response import Response
 
+def default(o):
+    if isinstance(o, (datetime.date, datetime.datetime)):
+        return o.isoformat()
 
 class Model(object):
     """A way to easily interact with rows in a table."""
@@ -17,6 +23,8 @@ class Model(object):
 
         :param data: The data to initialise the class with if it represents a row in the database.
         """
+
+        self.has_select = False
 
         # By default it is not a row
         self.is_row = False
@@ -157,8 +165,12 @@ class Model(object):
         return self.first()
 
     def select(self, *args):
-        """Same as the `DB` class `select` method."""
+        """Same as the `DB` class `select` method. Note that a dictionary will be returned as a model cannot be represented with incomplete data."""
         self.db.select(*args)
+        self.has_select = True
+        print(self.has_select)
+
+        return self
 
     def where(self, column, comparator, value):
         """Same as the :class:`DB <dragonfly.db.database.DB>` class :meth:`where <dragonfly.db.database.DB.where>` method."""
@@ -187,13 +199,17 @@ class Model(object):
         else:
             page_number = request.get_data()['page'][0]
 
-        result = self.data_to_model(self.db.chunk(int(page_number), size))
+        result, meta = self.db.chunk(int(page_number), size)
+
+        result = self.data_to_model(result)
 
         if to_json:
-            json_rep = json.dumps([row.get_attributes() for row in result])
-            return Response(content=json_rep, content_type='application/json')
 
-        return result
+            meta['data'] = [row.get_attributes() for row in result]
+
+            return Response(content=json.dumps(meta, default=default), content_type='application/json')
+
+        return result, meta
 
     def update(self, update_dict):
 
@@ -211,11 +227,16 @@ class Model(object):
         """
         Permeate the changes to the model attributes, to the database.
         """
+
         # Iterate over each new attribute (check if changed) and validate using Field class. Then save to DB
         self.new_values = {}
 
         for key in self.types_keys:
-            self.new_values[key] = self.__dict__[key]
+            if self.__dict__[key] is not None:
+                self.new_values[key] = self.__dict__[key]
+
+        print(self.database_values)
+        print(self.new_values)
 
         self.db.multiple_where(self.database_values).update(self.new_values)
 
@@ -234,6 +255,10 @@ class Model(object):
         :param data: The data to convert
         :return:
         """
+
+        if self.has_select:
+            self.has_select = False
+            return data
 
         if self.is_row:
             raise Exception("A data bound class cannot be rebound to more data")
