@@ -16,6 +16,7 @@ class TestRouteRule(TestCase):
         self.assertEqual(route_rule.match('test/1'), {'id': 1})
         self.assertEqual(route_rule.match('testing'), False)
 
+    # This is a boundary test
     def test_multiple_dynamic_route(self):
         route_rule = RouteRule('test/<id:int>/<name:str>')
 

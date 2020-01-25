@@ -3,7 +3,7 @@ import math
 import logging
 
 from config import DATABASE
-
+from dragonfly.exceptions import MissingClause, MissingTable, InvalidOperator, ChunkOutOfRange
 
 class DB:
     """An easy way to interact with the configured database."""
@@ -21,7 +21,8 @@ class DB:
 
         self.query = {
             'select': 'SELECT *',
-            'where': ''
+            'where': '',
+            'table': ''
         }
 
         self.query_params = {
@@ -69,7 +70,7 @@ class DB:
         :param condition_2: The value to the right of the operator.
         """
         if comparison_operator not in self.comparison_operators:
-            raise Exception("Invalid comparison operator.")
+            raise InvalidOperator(f"Invalid comparison operator {comparison_operator} used")
 
         self.query['where'] = f"WHERE {condition_1} {comparison_operator} %s"
         self.query_params['where'] = [condition_2]
@@ -133,13 +134,16 @@ class DB:
         self.generated_query = f"SELECT COUNT(*) FROM {self.query['table']}"
         rows = self.__execute_sql()[0]['COUNT(*)']
 
+        self.generated_query = f"SELECT id FROM {self.query['table']} ORDER BY id ASC LIMIT 1"
+        lowest_id = self.__execute_sql()[0]['id']
+
         chunks = math.ceil(rows / chunk_size)
 
         if chunks < chunk_loc:
-            raise Exception("Chunk loc out of range")
+            raise ChunkOutOfRange(f"Chunk location of {chunk_loc} is greater than the number of chunks possible ({chunks})")
 
-        max_id = chunk_size * chunk_loc
-        min_id = max_id - (chunk_size - 1)
+        max_id = (chunk_size * chunk_loc) + lowest_id
+        min_id = (max_id - (chunk_size - 1)) - 1
 
         if bool(where):
             self.generated_query = f"{original} {where} AND "
@@ -150,7 +154,6 @@ class DB:
         self.generated_params = where_params
 
         meta = {'total': rows, 'per_page': chunk_size, 'current_page': chunk_loc, 'last_page': chunks, 'from': min_id, 'to': max_id}
-
         return self.__execute_sql(), meta
 
     def update(self, update_dict):
@@ -234,9 +237,6 @@ class DB:
     def __execute_sql(self, n_rows=None):
         """Executes the SQL that the user built"""
 
-        print(self.generated_query)
-        print(self.generated_params)
-
         db = MySQLdb.connect(**self.database_settings, cursorclass=MySQLdb.cursors.DictCursor)
         cursor = db.cursor()
         cursor.execute(self.generated_query, self.generated_params)
@@ -275,9 +275,9 @@ class DB:
     def __validate(self, required_parameters):
         """Validates that the given parameter has been filled."""
         if self.query['table'] == '':
-            raise Exception('Table must be defined')
+            raise MissingTable('A valid table must be defined/chosen')
 
         required_dict = {k: v for k, v in self.query.items() if k in required_parameters}
 
         if any(value == '' for value in required_dict.values()):
-            raise Exception(f"Missing required parameter ({', '.join(required_parameters)})")
+            raise MissingClause(f"Missing required SQL clause ({', '.join(required_parameters)})")

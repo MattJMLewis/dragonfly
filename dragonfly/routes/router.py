@@ -5,6 +5,7 @@ from dragonfly.response import Response, ErrorResponse, deferred_response
 from dragonfly.request import request
 from dragonfly.middleware.middleware_controller import middleware_controller
 import re
+import os
 
 
 def to_snake(name):
@@ -44,9 +45,10 @@ class Router:
         """
         Dispatches the appropriate route based on the request method and path.
         """
-        
+
         # See if there is a hidden input on the request that changes the request method.
         request_data = request.get_data()
+
         try:
             method = request_data['_method'].upper()
             if method in ['PUT', 'PATCH', 'DELETE']:

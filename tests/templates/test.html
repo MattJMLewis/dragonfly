@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+</head>
+<body>
+
+    @if(var == 1)
+        <p>1</p>
+    @elif(var == 2)
+        <p>2</p>
+    @else
+        <p>3</p>
+    @endif
+
+    @for(item in items)
+        {{ $item$ }} \n
+    @endfor
+
+    @for(item in items)
+        @for(element in $item$)
+            {{ $element$ }}
+        @endfor
+    @endfor
+
+</body>
+</html>

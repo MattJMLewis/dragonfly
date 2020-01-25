@@ -26,18 +26,18 @@ class RouteRule:
 
         if match is None:
             return False
-        else:
-            for i in range(len(self.__groups)):
-                self.__groups[i][1] = match.group(i + 1)
 
-            arg_dict = {}
-            for el in self.__groups:
-                if el[2] == 'int':
-                    arg_dict[el[0]] = int(el[1])
-                else:
-                    arg_dict[el[0]] = str(el[1])
+        for i in range(len(self.__groups)):
+            self.__groups[i][1] = match.group(i + 1)
 
-            return arg_dict
+        arg_dict = {}
+        for el in self.__groups:
+            if el[2] == 'int':
+                arg_dict[el[0]] = int(el[1])
+            else:
+                arg_dict[el[0]] = str(el[1])
+
+        return arg_dict
 
     def __convert_to_regex(self, uri):
         matches = re.findall("(<[^<]+:[^>]+>)", uri)

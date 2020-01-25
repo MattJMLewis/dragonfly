@@ -168,7 +168,6 @@ class Model(object):
         """Same as the `DB` class `select` method. Note that a dictionary will be returned as a model cannot be represented with incomplete data."""
         self.db.select(*args)
         self.has_select = True
-        print(self.has_select)
 
         return self
 
@@ -234,9 +233,6 @@ class Model(object):
         for key in self.types_keys:
             if self.__dict__[key] is not None:
                 self.new_values[key] = self.__dict__[key]
-
-        print(self.database_values)
-        print(self.new_values)
 
         self.db.multiple_where(self.database_values).update(self.new_values)
 

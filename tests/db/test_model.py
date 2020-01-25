@@ -28,13 +28,18 @@ class TestModel(TestCase):
 
     def test_create(self):
         self.model.create({'title': 'Test Article', 'text': 'Testing'})
-        model = self.model.where('title', '=', 'Test Article').first().to_dict()
+        model = self.model.where('title', '=', 'Test Article').first()
 
-        del model['created_at']
-        del model['updated_at']
-        del model['id']
+        md = model.to_dict()
 
-        self.assertEqual(model, {'title': 'Test Article', 'text': 'Testing'})
+        del md['created_at']
+        del md['updated_at']
+        del md['id']
+
+        model.delete()
+
+        self.assertEqual(md, {'title': 'Test Article', 'text': 'Testing'})
+
 
     def test_first(self):
         model = self.model.first().to_dict()
@@ -45,19 +50,20 @@ class TestModel(TestCase):
 
     def test_get(self):
         model = self.model.get()
-        self.assertEqual(len(model), 11)
+        self.assertEqual(len(model), 10)
 
     def test_all(self):
         model = self.model.get()
         self.assertEqual(len(model), 10)
 
     def test_find(self):
-        model = self.model.find(1)
-        self.assertEqual([model.id, model.title, model.text], [1, 'Article 0', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'])
+        model = self.model.find(2)
+
+        self.assertEqual([model.id, model.title, model.text], [2, 'Article 1', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'])
 
     def test_select(self):
-        model = self.model.select('title', 'text').first()
-        self.assertEqual(model, {'title': 'Article 0', 'text': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'})
+        model = self.model.select('title', 'text').find(2)
+        self.assertEqual(model, {'title': 'Article 1', 'text': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'})
 
     def test_where(self):
         model = self.model.where('title', '=', 'Article 1').first().to_dict()
@@ -75,14 +81,30 @@ class TestModel(TestCase):
 
     def test_save(self):
 
-        model = self.model.find(10)
-        first_model_dict = model.to_dict()
+        model = self.model.first()
+
+        id = model.id
+
+        model.title = 'Modified title'
+        model.text = 'Modified text'
+
+        model.save()
+
+        retrieved_model = self.model.where('title', '=', 'Modified title').first()
+
+        self.assertEqual(id, retrieved_model.id)
+
+    def test_delete(self):
+
+        self.model.create({'title': 'Dummy', 'text': 'Dummy text'})
+
+        m = self.model.where('title', '=', 'Dummy').first()
+        m.delete()
+
+        self.assertEqual(len(self.model.where('title', '=', 'Dummy').get()), 0)
 
 
-        self.model.title = 'Modified title'
-        self.model.text = 'Modified text'
 
-        self.model.save()
 
 
 

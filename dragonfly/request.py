@@ -27,6 +27,7 @@ class Request:
             self.wsgi = {'url_scheme': environ.get('wsgi.url_scheme'), 'input': environ.get('wsgi.input'),
                          'errors': environ.get('wsgi.errors'), }
 
+            self.base_uri = 'http://' + self.headers['HTTP_HOST']
             self.uri = self.headers['HTTP_HOST'] + '/' + self.path
             self.environ = environ
         else:

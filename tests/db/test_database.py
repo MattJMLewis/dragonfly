@@ -1,6 +1,8 @@
 from unittest import TestCase
 from dragonfly.db.database import DB
 
+from dragonfly.exceptions import MissingTable, MissingClause, InvalidOperator, ChunkOutOfRange
+from MySQLdb._exceptions import ProgrammingError, OperationalError
 
 class TestDB(TestCase):
 
@@ -46,3 +48,30 @@ class TestDB(TestCase):
     def test_insert(self):
         self.database.insert({'string': 'Testing 5'})
         self.assertEqual(self.database.where('id', '=', 6).first(), {'id': 6, 'string': 'Testing 5'})
+
+    # Erroneous
+    def test_missing_clause(self):
+        with self.assertRaises(MissingClause):
+            self.database.update({'string': 'Testing'})
+
+    # Erroneous
+    def test_no_table(self):
+        with self.assertRaises(MissingTable):
+            DB().where('string', '=', 'Testing').get()
+
+    def test_erroneous_sql(self):
+        # As all methods will eventually call 'custom_sql' or 'execute_sql' we only need to check those two methods
+
+        with self.assertRaises(ProgrammingError):
+            self.database.custom_sql("CREATE TABLE_ERROR error (id INT PRIMARY KEY)")
+
+        with self.assertRaises(OperationalError):
+            self.database.where('id', '=', 1).update({'invalid_column': 'invalid'})
+
+    def test_erroneous_comparison_operator(self):
+        with self.assertRaises(InvalidOperator):
+            self.database.where('id', '==', 1).get()
+
+    def test_erroneous_chunk(self):
+        with self.assertRaises(ChunkOutOfRange):
+            self.database.chunk(200, 20)

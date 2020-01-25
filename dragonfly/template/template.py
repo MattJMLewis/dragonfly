@@ -14,6 +14,7 @@ LINE = 1
 VAR = 2
 OPEN_CONTROL = 3
 CLOSE_CONTROL = 4
+ELSE_CONTROL = 5
 
 class Line:
 
@@ -28,7 +29,8 @@ class Line:
 
     def __identify(self):
         variable_matches = re.findall("({{[^{}*]*}})", self.line)
-        open_ctrl_matches = re.findall("(@[^(]{1,4}\([^)]*\))", self.line)
+        open_ctrl_matches = re.findall("(@[^(]{1,4}\(.*\))", self.line)
+        else_ctrl_matches = re.findall("@else", self.line)
         close_ctr_matches = re.findall("(@endif)|(@endfor)", self.line)
 
         if variable_matches:
@@ -37,7 +39,13 @@ class Line:
 
         elif open_ctrl_matches:
             self.matches = open_ctrl_matches[0]
+
             return OPEN_CONTROL
+
+        elif else_ctrl_matches:
+            self.matches = else_ctrl_matches[0]
+
+            return ELSE_CONTROL
 
         elif close_ctr_matches:
             self.matches = close_ctr_matches[0]
@@ -62,6 +70,7 @@ class Line:
             return python
 
         elif self.identity == OPEN_CONTROL:
+
             in_brackets = re.findall("@(.{1,4})\((.*)\)", self.matches)
 
             clause = in_brackets[0][0]
@@ -70,14 +79,40 @@ class Line:
 
             if "for" not in clause:
                 for i, word in enumerate(words):
-                    if not("'" in word or '"' in word) and i != 1:
-                        words[i] = self.__fix_variable(word)
+                    if not (word[0] == "'" or word[0] == '"') and not (word[-1] == "'" or word[-1] == '"'):
+                        if i != 1:
+                            try:
+                                int(word)
+                            except ValueError:
+                                words[i] = self.__fix_variable(word)
+
             else:
-                words[2] = self.__fix_variable(words[2])
+                if "range" in words[2]:
+
+                    range_words = []
+                    range_words.append(words[2].split('(', 1)[1][:-1])
+                    range_words.append(words[3][:-1])
+
+                    for i, word in enumerate(range_words):
+                        if not (word[0] == "'" or word[0] == '"') and not (word[-1] == "'" or word[-1] == '"'):
+                            try:
+                                int(word)
+                            except ValueError:
+                                range_words[i] = self.__fix_variable(word)
+
+                    return f"'''\n{INDENT * self.indent}for {words[0]} in range({range_words[0]}, {range_words[1]}):\n{INDENT * (self.indent + 1)}template += '''"
+                else:
+                    words[2] = self.__fix_variable(words[2])
 
             statement = " ".join(words)
 
             python = f"'''\n{INDENT * self.indent}{clause} {statement}:\n{INDENT * (self.indent + 1)}template += '''"
+
+            return python
+
+        elif self.identity == ELSE_CONTROL:
+
+            python = f"'''\n{INDENT * self.indent}else:\n{INDENT * (self.indent + 1)}template += '''"
 
             return python
 
@@ -93,7 +128,11 @@ class Line:
                 before, after = variable.split('.', 1)
                 return f"kwargs['{before}'].{after}"
             except ValueError:
-                return f"kwargs['{variable}']"
+                try:
+                    before, after = variable.split('[', 1)
+                    return f"kwargs['{before}'][{after}"
+                except ValueError:
+                    return f"kwargs['{variable}']"
 
 class Template:
 
@@ -115,7 +154,13 @@ class Template:
             line_object = Line(line, indent)
 
             if line_object.identity == OPEN_CONTROL:
-                if "elif" in line_object.line or "else" in line_object.line:
+                if "elif" in line_object.line:
+                    line_object.reduce_indent()
+                else:
+                    indent += 1
+
+            elif line_object.identity == ELSE_CONTROL:
+                if "else" in line_object.line:
                     line_object.reduce_indent()
                 else:
                     indent += 1

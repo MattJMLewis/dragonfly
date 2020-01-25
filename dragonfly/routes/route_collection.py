@@ -2,7 +2,9 @@ from collections import defaultdict
 
 from dragonfly.constants import METHODS
 from dragonfly.routes.route_rule import RouteRule
+from dragonfly.exceptions import MethodDoesNotExist, InvalidControllerMethod
 
+import re
 
 class RouteCollection:
     """
@@ -30,6 +32,14 @@ class RouteCollection:
         :param method: The route HTTP method
         :type method: str
         """
+
+        if method not in METHODS:
+            raise MethodDoesNotExist(f"{method} is not a valid HTTP method")
+
+        if re.fullmatch("(.+@.+)", action) is None:
+            raise InvalidControllerMethod(f"{action} does not conform to the controller method naming scheme. See docs "
+                                          f"for more info")
+
         # Determine if the route is dynamic (contains a route parameter e.g <id:int> )
         if self.__is_dynamic(uri):
             # If we return a list of methods to add (this is primarily used for the `.any()` function on the router.
