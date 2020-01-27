@@ -44,7 +44,6 @@ class RouteCollection:
         if self.__is_dynamic(uri):
             # If we return a list of methods to add (this is primarily used for the `.any()` function on the router.
             key_list = uri.split('<', 1)[0].split('/')
-            del key_list[-1]
 
             if isinstance(method, list):
                 route_rule = RouteRule(uri)
@@ -79,10 +78,11 @@ class RouteCollection:
         Match the given route using its URI and method. First we check if it is a static route before checking all
         dynamic routes
         """
+
         try:
             return self.static_routes[method][uri], {}
         except KeyError:
-            # Potential refactor here. Have a dictionary that contains slugs and slugs of slugs etc... e.g
+            # Refactor here. Have a dictionary that contains slugs and slugs of slugs etc... e.g
             # dynamic_routes['/articles']['/comments'] <- which would then contain a list of route rules to match.
             key_list = uri.split('/')
             slug_dict = self.dynamic_routes[method]
