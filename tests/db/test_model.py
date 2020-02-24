@@ -74,6 +74,7 @@ class TestModel(TestCase):
         self.assertEqual(model, {'title': 'Article 1', 'text': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'id': 2})
 
     def test_paginate(self):
+
         result = self.model.paginate(size=5)
 
         self.assertEqual(5, len(result[0]))

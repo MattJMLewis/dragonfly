@@ -28,6 +28,7 @@ class DatabaseMigrator:
             cls = getattr(importlib.import_module(f"{import_path}.{model}"), model_name)()
             self.tables[cls.meta['table_name']] = self.__generate_sql(cls)
 
+
     @staticmethod
     def __generate_sql(model):
         """Generate the SQL for the given model."""

@@ -5,6 +5,9 @@ import importlib
 
 from dragonfly.response import Response
 from dragonfly.request import request
+from dragonfly.auth import Auth
+from dragonfly.utils import Utils
+
 from config import ROOT_DIR
 
 
@@ -76,11 +79,11 @@ class Line:
             clause = in_brackets[0][0]
             statement = in_brackets[0][1]
             words = statement.split(' ')
-
+            
             if "for" not in clause:
                 for i, word in enumerate(words):
                     if not (word[0] == "'" or word[0] == '"') and not (word[-1] == "'" or word[-1] == '"'):
-                        if i != 1:
+                        if i != 1 and word not in ['None', 'True', 'False', 'is', 'not']:
                             try:
                                 int(word)
                             except ValueError:
@@ -214,6 +217,9 @@ class View:
             self.__write_to_file()
 
         kwargs['request'] = request
+        kwargs['Auth'] = Auth
+        kwargs['Utils'] = Utils
+
         self.html = importlib.import_module(f"storage.templates.{view}").get_html(kwargs)
 
     def make(self):

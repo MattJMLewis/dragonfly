@@ -59,6 +59,7 @@ class Router:
             pass
 
         action, parameters = self.__routes.match_route(request.path, request.method)
+
         # If no route is found
         if action is None:
             return ErrorResponse("Route not found", status_code=404)
@@ -75,6 +76,11 @@ class Router:
             controller_class = getattr(importlib.import_module(f"controllers.{to_snake(controller_file)}"), controller_file)
             controller_class = controller_class(request)
             controller_function = getattr(controller_class, controller_function_name)
+
+            try:
+                del request_data['csrf_token']
+            except KeyError:
+                pass
 
             # If there is a possibility that the given request method could send data e.g POST, try and fetch it.
             if request.method in DATA_METHODS:

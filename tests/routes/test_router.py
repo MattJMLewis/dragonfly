@@ -23,7 +23,6 @@ class TestRouter(TestCase):
 		self.router.get('', 'TestController@test')
 
 	def test_dispatch_route(self):
-		print(os.getcwd())
 		response = self.router.dispatch_route()
 		self.assertIsInstance(response, Response)
 

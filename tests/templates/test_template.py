@@ -2,6 +2,7 @@ from unittest import TestCase
 from dragonfly.template.template import Template
 import importlib
 
+
 class TestTemplate(TestCase):
 
     def test_convert(self):
@@ -25,6 +26,5 @@ class TestTemplate(TestCase):
             f.writelines(res)
 
         with self.assertRaises(KeyError):
-            html = importlib.import_module("for_error").get_html(items=[1, 2, 3])
-
-
+            arg_dict = {'items': [1, 2, 3]}
+            html = importlib.import_module("for_error").get_html(arg_dict)

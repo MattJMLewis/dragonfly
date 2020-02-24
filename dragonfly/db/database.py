@@ -1,9 +1,8 @@
 import MySQLdb.cursors
 import math
-import logging
-
 from config import DATABASE
 from dragonfly.exceptions import MissingClause, MissingTable, InvalidOperator, ChunkOutOfRange
+
 
 class DB:
     """An easy way to interact with the configured database."""
@@ -76,7 +75,7 @@ class DB:
         self.query_params['where'] = [condition_2]
 
         return self
-    
+
     def multiple_where(self, where_dict):
         """
         Allows for multiple where clauses through one command. Note this only supports the = operator.
@@ -134,13 +133,17 @@ class DB:
         self.generated_query = f"SELECT COUNT(*) FROM {self.query['table']}"
         rows = self.__execute_sql()[0]['COUNT(*)']
 
+        if rows == 0:
+            return None, None
+
         self.generated_query = f"SELECT id FROM {self.query['table']} ORDER BY id ASC LIMIT 1"
         lowest_id = self.__execute_sql()[0]['id']
 
         chunks = math.ceil(rows / chunk_size)
 
         if chunks < chunk_loc:
-            raise ChunkOutOfRange(f"Chunk location of {chunk_loc} is greater than the number of chunks possible ({chunks})")
+            raise ChunkOutOfRange(
+                f"Chunk location of {chunk_loc} is greater than the number of chunks possible ({chunks})")
 
         max_id = (chunk_size * chunk_loc) + lowest_id
         min_id = (max_id - (chunk_size - 1)) - 1
@@ -153,7 +156,8 @@ class DB:
         self.generated_query += f"id >= {min_id} AND id <= {max_id} LIMIT {chunk_size}"
         self.generated_params = where_params
 
-        meta = {'total': rows, 'per_page': chunk_size, 'current_page': chunk_loc, 'last_page': chunks, 'from': min_id, 'to': max_id}
+        meta = {'total': rows, 'per_page': chunk_size, 'current_page': chunk_loc, 'last_page': chunks, 'from': min_id,
+                'to': max_id - 1}
         return self.__execute_sql(), meta
 
     def update(self, update_dict):

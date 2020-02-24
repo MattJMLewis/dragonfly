@@ -44,6 +44,7 @@ class RouteCollection:
         if self.__is_dynamic(uri):
             # If we return a list of methods to add (this is primarily used for the `.any()` function on the router.
             key_list = uri.split('<', 1)[0].split('/')
+            del key_list[-1]
 
             if isinstance(method, list):
                 route_rule = RouteRule(uri)
@@ -94,8 +95,8 @@ class RouteCollection:
                     pass
 
             # Differentiate between iterating too far or nothing being found
-
             for route, action in slug_dict.items():
+
                 if isinstance(route, RouteRule):
                     match = route.match(uri)
                     if match:

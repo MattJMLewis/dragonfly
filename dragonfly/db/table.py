@@ -32,6 +32,9 @@ def handle_options(func):
             else:
                 if kwargs[key]:
                     append += ' ' + key_tuple[0]
+                if key == 'null':
+                    if not kwargs[key]:
+                        append += ' NOT NULL'
 
             del kwargs[key]
 

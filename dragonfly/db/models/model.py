@@ -2,21 +2,25 @@ import json
 
 from dragonfly.db.database import DB
 from dragonfly.db.models.fields import PrimaryKey, IntField, TimestampField
-from dragonfly.db.models.relationships import HasMany, BelongsTo, Relationship
 from dragonfly.request import request
 
 import datetime
 
 from dragonfly.response import Response
 
+
 def default(o):
+    """
+    Function from StackOverflow - https://stackoverflow.com/questions/12122007/python-json-encoder-to-support-datetime
+    """
     if isinstance(o, (datetime.date, datetime.datetime)):
         return o.isoformat()
+
 
 class Model(object):
     """A way to easily interact with rows in a table."""
 
-    def __init__(self, data=None, allow_relationships=True):
+    def __init__(self, data=None):
         """
         By providing data to the constructor the class is converted from an object that represents the Model's table to
         a row in the Model's table.
@@ -29,13 +33,12 @@ class Model(object):
         # By default it is not a row
         self.is_row = False
 
-        # This prevents recursion errors when we look for a model relationship
-        self.allow_relationships = allow_relationships
-
         # Retrieve the types that were defined in the user defined model and set the primary key for the table
         self.types = {}
         self.primary_key = []
         self.composite = False
+
+        self.relationships = {}
 
         for (key, value) in self.__class__.__dict__.items():
 
@@ -48,19 +51,14 @@ class Model(object):
                         self.primary_key.append(key)
 
         self.meta = {}
-        self.relationships = []
 
         try:
             for (key, value) in self.__class__.__dict__['Meta'].__dict__.items():
                 if not key.startswith("__"):
+                    self.meta[key] = value
 
-                    if isinstance(value, Relationship):
-                        self.relationships.append((key, value))
-                    else:
-                        self.meta[key] = value
-
-                        if isinstance(value, PrimaryKey):
-                            self.primary_key = list(value.args)
+                    if isinstance(value, PrimaryKey):
+                        self.primary_key = list(value.args)
         except KeyError:
             pass
 
@@ -88,6 +86,8 @@ class Model(object):
             # TODO split at capital and add underscore
             self.meta['table_name'] = self.__class__.__name__.lower() + 's'
 
+        self.meta['primary_key'] = self.primary_key
+
         # Shortcut
         self.types_keys = self.types.keys()
 
@@ -110,12 +110,18 @@ class Model(object):
         if self.is_row:
             string = f"{self.__class__.__name__}\n"
             for key in self.types_keys:
-                string += f"{key}: {self.__dict__[key]} |\n"
+                string += f"{key}: {self.__dict__[key]} \n"
 
             return string
 
         else:
             return f"{self.__class__.__name__} instance. No data is bound"
+
+    def __bool__(self):
+        if self.is_row:
+            return True
+
+        return False
 
     def create(self, create_dict):
         self.db.insert(create_dict)
@@ -125,11 +131,15 @@ class Model(object):
 
         try:
             if self.meta['timestamps'] is True:
-                timestamp_values = self.db.custom_sql(f"SELECT created_at, updated_at FROM {self.meta['table_name']} WHERE {self.primary_key[0]} = {self.db.last_insert_id}")[0]
+                timestamp_values = self.db.custom_sql(
+                    f"SELECT created_at, updated_at FROM {self.meta['table_name']} WHERE {self.primary_key[0]} = {self.db.last_insert_id}")[
+                    0]
                 create_dict['created_at'] = timestamp_values['created_at']
                 create_dict['updated_at'] = timestamp_values['updated_at']
         except KeyError:
-            timestamp_values = self.db.custom_sql(f"SELECT created_at, updated_at FROM {self.meta['table_name']} WHERE {self.primary_key[0]} = {self.db.last_insert_id}")[0]
+            timestamp_values = self.db.custom_sql(
+                f"SELECT created_at, updated_at FROM {self.meta['table_name']} WHERE {self.primary_key[0]} = {self.db.last_insert_id}")[
+                0]
             create_dict['created_at'] = timestamp_values['created_at']
             create_dict['updated_at'] = timestamp_values['updated_at']
 
@@ -178,6 +188,12 @@ class Model(object):
 
         return self
 
+    def multiple_where(self, where_dict):
+
+        self.db.multiple_where(where_dict)
+
+        return self
+
     def paginate(self, size, to_json=False):
         """
         Paginates the data in the table by the given size.
@@ -200,10 +216,12 @@ class Model(object):
 
         result, meta = self.db.chunk(int(page_number), size)
 
+        if result is None:
+            return None, None
+
         result = self.data_to_model(result)
 
         if to_json:
-
             meta['data'] = [row.get_attributes() for row in result]
 
             return Response(content=json.dumps(meta, default=default), content_type='application/json')
@@ -234,6 +252,8 @@ class Model(object):
             if self.__dict__[key] is not None:
                 self.new_values[key] = self.__dict__[key]
 
+        self.database_values = {k: v for k, v in self.database_values.items() if v is not None}
+
         self.db.multiple_where(self.database_values).update(self.new_values)
 
     def delete(self):
@@ -260,7 +280,7 @@ class Model(object):
             raise Exception("A data bound class cannot be rebound to more data")
 
         # Create new class instances passing in the given data
-        collection = [self.__class__(row, allow_relationships=self.allow_relationships) for row in data]
+        collection = [self.__class__(row) for row in data]
 
         return collection
 
@@ -278,6 +298,11 @@ class Model(object):
         if not self.is_row:
             raise Exception("A non data bound class cannot be bound to data without being converted")
 
+        for k, v in self.types.items():
+            if v.default_parameters['null']:
+                if k not in data:
+                    data[k] = None
+
         # Ensure that the retrieved data and the defined model match
         if not data.keys() == self.types_keys:
             raise Exception("Mismatch between model defined columns and database columns")
@@ -293,17 +318,24 @@ class Model(object):
             # Store a back up of the data values so the row can be found when updating the model
             self.database_values[key] = value
 
-        if self.allow_relationships:
-            meta_copy = self.meta
-            meta_copy['primary_key'] = self.primary_key
-            for key, value in self.relationships:
-                self.__dict__[key] = value.delayed_init(self.database_values, meta_copy)
-
-        self.relationships = []
-
     def get_attributes(self):
         attributes = {}
         for key in self.types_keys:
             attributes[key] = self.__dict__[key]
 
         return attributes
+
+    def add_relationship(self, relationship_class, update=False):
+
+        target_name = relationship_class.target_name
+
+        if update:
+            self.relationships[target_name] = relationship_class.delayed_init(self.database_values,
+                                                                                                 self.meta)
+            return self.relationships[target_name]
+        try:
+            return self.relationships[target_name]
+        except KeyError:
+            self.relationships[target_name] = relationship_class.delayed_init(self.database_values,
+                                                                              self.meta)
+            return self.relationships[target_name]

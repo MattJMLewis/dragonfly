@@ -8,6 +8,8 @@ class Request:
 
     def __init__(self, environ):
 
+        self.field_dict = None
+
         if environ is not None:
             self.path = environ.get('PATH_INFO')[1:]
             self.method = environ.get('REQUEST_METHOD')
@@ -34,17 +36,24 @@ class Request:
             self.environ = None
 
     def get_data(self):
+
+        if self.field_dict is not None:
+            return self.field_dict
+
         if self.environ is not None:
             if self.method in DATA_METHODS:
+
                 environ_copy = self.environ
                 environ_copy['QUERY_STRING'] = ''
 
-                field_storage = cgi.FieldStorage(fp=environ_copy['wsgi.input'], environ=environ_copy, keep_blank_values=True)
+                field_storage = cgi.FieldStorage(fp=environ_copy['wsgi.input'], environ=environ_copy, keep_blank_values=False)
 
                 field_dict = {}
 
                 for key in field_storage.keys():
                     field_dict[key] = field_storage[key].value
+
+                self.field_dict = field_dict
 
                 return field_dict
 
@@ -52,10 +61,10 @@ class Request:
                 if self.query_string is not None:
                     return parse.parse_qs(self.query_string)
 
-        return None
+        return {}
 
     def update_environ(self, new_environ):
         self.__init__(new_environ)
-
+        self.field_dict = None
 
 request = Request(None)

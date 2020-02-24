@@ -10,4 +10,7 @@ from dragonfly.response import Response, RedirectResponse, DeferredResponse, Err
 
 from dragonfly.template.template import view
 
+from dragonfly.auth import Auth
+from dragonfly.utils import Utils
+
 name = "dragonfly"
