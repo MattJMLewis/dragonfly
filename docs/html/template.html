@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -85,22 +85,19 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quick-start.html">Quick Start</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="api-reference.html">API Reference</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="db.html">Database package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="middleware.html">Middleware package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="db.html">Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="middleware.html">Middleware</a></li>
 <li class="toctree-l2"><a class="reference internal" href="routes.html">Routes</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Templates</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#view">View</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#line">Line</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#converter">Converter</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#parser">Parser</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-dragonfly.template.classes.Clause">Clause</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-dragonfly.template.classes.Snippet">Snippet</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-dragonfly.template.classes.Stack">Stack</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="web.html">Web</a></li>
+<li class="toctree-l2"><a class="reference internal" href="other.html">Other</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="to-do.html">To do</a></li>
 </ul>
 
             
@@ -173,30 +170,21 @@
 <h2>View<a class="headerlink" href="#view" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="dragonfly.template.template.View">
-<em class="property">class </em><code class="sig-prename descclassname">dragonfly.template.template.</code><code class="sig-name descname">View</code><span class="sig-paren">(</span><em class="sig-param">view</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.template.template.View" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">dragonfly.template.template.</code><code class="sig-name descname">View</code><span class="sig-paren">(</span><em class="sig-param">template</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.template.template.View" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Returns a HTML version of the requested template.</p>
-<p>The class first finds the desired view. If a pre-compiled python version of the template does not exist or is out
+<p>Returns a HTML version (view) of the requested template.
+The class first finds the desired view. If a pre-compiled python version of the template does not exist or is out
 of date, the class will generate one. Otherwise it imports the compiled python file and runs the <code class="docutils literal notranslate"><span class="pre">get_html</span></code>
-method, passing in any variables that the user has given to the constructor (via <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code>). It then returns a
-<a class="reference internal" href="web.html#dragonfly.response.Response" title="dragonfly.response.Response"><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code></a> with this HTML.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>view</strong> (<em>str</em>) – The view to return</p>
-</dd>
-</dl>
+method, passing in any variables that the user.py has given to the constructor (via <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code>). It then returns a
+<a class="reference internal" href="web.html#dragonfly.response.Response" title="dragonfly.response.Response"><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code></a> with this HTML.
+:param template: The view to return
+:type template: str</p>
 <dl class="method">
 <dt id="dragonfly.template.template.View.make">
 <code class="sig-name descname">make</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.template.template.View.make" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a response with the generated HTML.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>The response</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="web.html#dragonfly.response.Response" title="dragonfly.response.Response">Response</a></p>
-</dd>
-</dl>
+<dd><p>Returns a response with the generated HTML.
+:return: The response
+:rtype: <a class="reference internal" href="web.html#dragonfly.response.Response" title="dragonfly.response.Response"><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code></a></p>
 </dd></dl>
 
 </dd></dl>
@@ -206,74 +194,41 @@ method, passing in any variables that the user has given to the constructor (via
 <p>The following classes should not be called directly.</p>
 </div>
 </div>
+<div class="section" id="line">
+<h2>Line<a class="headerlink" href="#line" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="dragonfly.template.template.Line">
+<em class="property">class </em><code class="sig-prename descclassname">dragonfly.template.template.</code><code class="sig-name descname">Line</code><span class="sig-paren">(</span><em class="sig-param">line</em>, <em class="sig-param">indent</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.template.template.Line" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Object to represent a single line in the template file</p>
+<dl class="method">
+<dt id="dragonfly.template.template.Line.reduce_indent">
+<code class="sig-name descname">reduce_indent</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.template.template.Line.reduce_indent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reduce the indent of the <code class="xref py py-class docutils literal notranslate"><span class="pre">Line</span></code> by 1</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dragonfly.template.template.Line.to_python">
+<code class="sig-name descname">to_python</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.template.template.Line.to_python" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts the <code class="xref py py-class docutils literal notranslate"><span class="pre">Line</span></code> to its Python equivalent</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
 <div class="section" id="converter">
 <h2>Converter<a class="headerlink" href="#converter" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="dragonfly.template.template.Converter">
 <em class="property">class </em><code class="sig-prename descclassname">dragonfly.template.template.</code><code class="sig-name descname">Converter</code><span class="sig-paren">(</span><em class="sig-param">file</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.template.template.Converter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>The <a class="reference internal" href="#dragonfly.template.template.Converter" title="dragonfly.template.template.Converter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Converter</span></code></a> converts the given template file to the <code class="docutils literal notranslate"><span class="pre">.py</span></code> equivalent. This enables control structures and
-variables to be easily injected into HTML.</p>
-<p>The <a class="reference internal" href="#dragonfly.template.template.Converter" title="dragonfly.template.template.Converter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Converter</span></code></a> calls the <a class="reference internal" href="#dragonfly.template.template.Parser" title="dragonfly.template.template.Parser"><code class="xref py py-class docutils literal notranslate"><span class="pre">Parser</span></code></a> class first before generating the <code class="docutils literal notranslate"><span class="pre">.py</span></code> file.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>file</strong> (<em>str</em>) – The template file to convert.</p>
-</dd>
-</dl>
 <dl class="method">
 <dt id="dragonfly.template.template.Converter.convert">
 <code class="sig-name descname">convert</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.template.template.Converter.convert" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts the template HTML to python.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="dragonfly.template.template.Converter.fix_clause">
-<code class="sig-name descname">fix_clause</code><span class="sig-paren">(</span><em class="sig-param">snippet_str</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.template.template.Converter.fix_clause" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fixes clauses in <code class="docutils literal notranslate"><span class="pre">if</span></code> and <code class="docutils literal notranslate"><span class="pre">else</span> <span class="pre">if</span></code> statements.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>snippet_str</strong> (<em>str</em>) – The templating language to fix.</p>
-</dd>
-</dl>
-<p>:return dict</p>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
-</div>
-<div class="section" id="parser">
-<h2>Parser<a class="headerlink" href="#parser" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="dragonfly.template.template.Parser">
-<em class="property">class </em><code class="sig-prename descclassname">dragonfly.template.template.</code><code class="sig-name descname">Parser</code><span class="sig-paren">(</span><em class="sig-param">file</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.template.template.Parser" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>The <a class="reference internal" href="#dragonfly.template.template.Parser" title="dragonfly.template.template.Parser"><code class="xref py py-class docutils literal notranslate"><span class="pre">Parser</span></code></a> reads from the given template file and converts it to a flat list of <code class="xref py py-class docutils literal notranslate"><span class="pre">Snippet</span></code> objects.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>file</strong> (<em>str</em>) – The file to convert.</p>
-</dd>
-</dl>
-<dl class="method">
-<dt id="dragonfly.template.template.Parser.parse">
-<code class="sig-name descname">parse</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.template.template.Parser.parse" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parses the given file to a list of :class:<a href="#id1"><span class="problematic" id="id2">`</span></a>Snippet`s</p>
-</dd></dl>
-
-</dd></dl>
-
-</div>
-<div class="section" id="module-dragonfly.template.classes.Clause">
-<span id="clause"></span><h2>Clause<a class="headerlink" href="#module-dragonfly.template.classes.Clause" title="Permalink to this headline">¶</a></h2>
-<p>A <cite>Clause</cite> represents an entire command structure. This includes the <cite>Snippet`s for its opening and closing tags and
-any `Clause</cite> or <cite>Snippet</cite> contained within it.</p>
-</div>
-<div class="section" id="module-dragonfly.template.classes.Snippet">
-<span id="snippet"></span><h2>Snippet<a class="headerlink" href="#module-dragonfly.template.classes.Snippet" title="Permalink to this headline">¶</a></h2>
-<p>A <cite>Snippet</cite> represents a line of templating code e.g if, etc…</p>
-</div>
-<div class="section" id="module-dragonfly.template.classes.Stack">
-<span id="stack"></span><h2>Stack<a class="headerlink" href="#module-dragonfly.template.classes.Stack" title="Permalink to this headline">¶</a></h2>
-<p>A simple stack structure for the <cite>Parser</cite></p>
 </div>
 </div>
 

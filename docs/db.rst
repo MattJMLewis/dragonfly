@@ -1,4 +1,4 @@
-Database package
+Database
 ====================
 
 DB
@@ -23,6 +23,13 @@ Fields
 Model
 ^^^^^
 .. automodule:: dragonfly.db.models.model
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Relationships
+^^^^^^^^^^^^^
+.. automodule:: dragonfly.db.models.relationships
    :members:
    :undoc-members:
    :show-inheritance:

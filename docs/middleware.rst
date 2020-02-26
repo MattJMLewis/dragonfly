@@ -1,4 +1,4 @@
-Middleware package
+Middleware
 ============================
 
 .. warning:: The following classes should not be called directly.

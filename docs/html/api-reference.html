@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Database package" href="db.html" />
+    <link rel="next" title="Database" href="db.html" />
     <link rel="prev" title="Quick Start" href="quick-start.html" /> 
 </head>
 
@@ -85,14 +85,14 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quick-start.html">Quick Start</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="db.html">Database package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="middleware.html">Middleware package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="db.html">Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="middleware.html">Middleware</a></li>
 <li class="toctree-l2"><a class="reference internal" href="routes.html">Routes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="template.html">Templates</a></li>
 <li class="toctree-l2"><a class="reference internal" href="web.html">Web</a></li>
+<li class="toctree-l2"><a class="reference internal" href="other.html">Other</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="to-do.html">To do</a></li>
 </ul>
 
             
@@ -161,15 +161,16 @@
 <h1>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="db.html">Database package</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="db.html">Database</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="db.html#module-dragonfly.db.database">DB</a></li>
 <li class="toctree-l2"><a class="reference internal" href="db.html#fields">Fields</a></li>
 <li class="toctree-l2"><a class="reference internal" href="db.html#module-dragonfly.db.models.model">Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="db.html#module-dragonfly.db.models.relationships">Relationships</a></li>
 <li class="toctree-l2"><a class="reference internal" href="db.html#module-dragonfly.db.database_migrator">DatabaseMigrator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="db.html#module-dragonfly.db.table">Table</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="middleware.html">Middleware package</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="middleware.html">Middleware</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="middleware.html#module-dragonfly.middleware.middleware_controller">MiddlewareController</a></li>
 </ul>
 </li>
@@ -181,11 +182,8 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="template.html">Templates</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="template.html#view">View</a></li>
+<li class="toctree-l2"><a class="reference internal" href="template.html#line">Line</a></li>
 <li class="toctree-l2"><a class="reference internal" href="template.html#converter">Converter</a></li>
-<li class="toctree-l2"><a class="reference internal" href="template.html#parser">Parser</a></li>
-<li class="toctree-l2"><a class="reference internal" href="template.html#module-dragonfly.template.classes.Clause">Clause</a></li>
-<li class="toctree-l2"><a class="reference internal" href="template.html#module-dragonfly.template.classes.Snippet">Snippet</a></li>
-<li class="toctree-l2"><a class="reference internal" href="template.html#module-dragonfly.template.classes.Stack">Stack</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="web.html">Web</a><ul>
@@ -193,6 +191,13 @@
 <li class="toctree-l2"><a class="reference internal" href="web.html#response">Response</a></li>
 <li class="toctree-l2"><a class="reference internal" href="web.html#errorresponse">ErrorResponse</a></li>
 <li class="toctree-l2"><a class="reference internal" href="web.html#deferredresponse">DeferredResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="web.html#auth">Auth</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="other.html">Other</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="other.html#module-dragonfly.utils.Utils">Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="other.html#module-dragonfly.exceptions">Exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="other.html#module-dragonfly.constants">Constants</a></li>
 </ul>
 </li>
 </ul>
@@ -207,7 +212,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="db.html" class="btn btn-neutral float-right" title="Database package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="db.html" class="btn btn-neutral float-right" title="Database" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="quick-start.html" class="btn btn-neutral float-left" title="Quick Start" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

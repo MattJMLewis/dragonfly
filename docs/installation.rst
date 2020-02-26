@@ -46,15 +46,9 @@ more details on how to set up a server.
 
 Running dragonfly
 ^^^^^^^^^^^^^^^^^
+Simply run the ``main.py`` file. However before you do this you should
+modify the ``config.py`` file to match your setup. As ``dragonfly`` implements the Python WSGI interface any WSGI server should work with the application.
 
-- Development
-
-    Simply run the ``main.py`` file. However before you do this you should
-    modify the ``config.py`` file to match your setup.
-
-- Production
-
-    Coming soon...
 
 Usage
 ^^^^^

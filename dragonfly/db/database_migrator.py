@@ -1,7 +1,8 @@
-import importlib
-from config import ROOT_DIR
-import os
 import glob
+import importlib
+import os
+
+from config import ROOT_DIR
 from dragonfly.db.models.fields import ForeignKey, Unique, PrimaryKey
 from dragonfly.db.table import Table
 
@@ -24,34 +25,44 @@ class DatabaseMigrator:
         import_path = path.replace('/', '.')
 
         for model in self.models:
+            # Generate model name
             model_name = model.title().replace("_", "")
             cls = getattr(importlib.import_module(f"{import_path}.{model}"), model_name)()
             self.tables[cls.meta['table_name']] = self.__generate_sql(cls)
 
-
     @staticmethod
     def __generate_sql(model):
-        """Generate the SQL for the given model."""
+        """
+        Generate the SQL for the given model.
+
+        :param model: The model class
+        :type :class:`Model <dragonfly.db.models.model.Model>`
+
+        :return: The generated SQL
+        """
         depends = []
 
         sql = f"CREATE TABLE {model.meta['table_name']} (\n"
 
-        for key, value in model.types.items():
+        # Get all fields
+        for key, value in model.fields.items():
             sql += f"{key} {value.to_database_type()},\n"
 
+        # Get any meta information
         for key, value in model.meta.items():
 
             if isinstance(value, ForeignKey):
                 to_append = Table.foreign_key(key, value.table, value.local_keys, value.foreign_keys)
+                # If foreign key present this table must depend __on the existence of another
                 depends.append(value.table)
                 sql += f"{to_append}, \n"
 
             elif isinstance(value, Unique):
-                to_append = Table.unique(*value.args, constraint_name=key)
+                to_append = Table.unique(*value.fields, constraint_name=key)
                 sql += f"{to_append}, \n"
 
             elif isinstance(value, PrimaryKey):
-                to_append = Table.primary_key(*value.args)
+                to_append = Table.primary_key(*value.fields)
                 sql += f"{to_append}, \n"
 
         sql = sql.rstrip()

@@ -1,6 +1,7 @@
 import abc
-from dragonfly.db.database import DB
 import importlib
+
+from dragonfly.db.database import DB
 
 
 class Relationship(abc.ABC):
@@ -9,22 +10,35 @@ class Relationship(abc.ABC):
     def __init__(self, target, this_key=None, target_key=None):
         super().__init__()
 
+        # Name of __target model
         self.target_name = target
-        self.this_key = this_key
-        self.target_key = target_key
 
-        self.values = None
-        self.target = None
+        self._this_key = this_key
+        self._target_key = target_key
+
+        self._values = None
+        self._target = None
 
     @abc.abstractmethod
     def delayed_init(cls, values, meta):
         """
-        How the relationship should retrieve the given data.
+        This function is executed when data needs to be retrieved.
+
+        :param values: The database values of the given model
+        :type: dict
+
+        :param meta: The meta values of the model
+        :type: dict
+
+        :return: The relationship class
+        :rtype: :class:`DB <dragonfly.db.models.relationships.Relationships>`
         """
-        pass
 
 
 class HasMany(Relationship):
+    """
+    Retrieves all rows that have a have-many relationship with the model this class is initialised in.
+    """
 
     def __init__(self, **kwargs):
 
@@ -36,15 +50,18 @@ class HasMany(Relationship):
 
         self.index = 0
 
-        self.target = getattr(importlib.import_module(f"models.{self.target_name}"), self.target_name.capitalize())()
+        # Get the target model class
+        self.__target = getattr(importlib.import_module(f"models.{self.target_name}"), self.target_name.capitalize())()
 
-        if self.target_key is None:
-            self.target_key = meta['table_name'][:-1] + '_id'
+        # If no target key (foreign key) has been given, generate from table name
+        if self._target_key is None:
+            self._target_key = meta['table_name'][:-1] + '_id'
 
-        if self.this_key is None:
-            self.this_key = meta['primary_key'][0]
+        # If no primary key for this table has been given, generate from table name.
+        if self._this_key is None:
+            self._this_key = meta['primary_key'][0]
 
-        self.values = self.target.where(self.target_key, '=', values[self.this_key]).get()
+        self._values = self.__target.where(self._target_key, '=', values[self._this_key]).get()
 
         return self
 
@@ -52,8 +69,9 @@ class HasMany(Relationship):
         return self
 
     def __next__(self):
+        # Enables class to be iterated over like list
         try:
-            result = self.values[self.index]
+            result = self._values[self.index]
         except IndexError:
             raise StopIteration
 
@@ -62,16 +80,18 @@ class HasMany(Relationship):
         return result
 
     def __getitem__(self, index):
-        return self.values[index]
+        return self._values[index]
 
     def __len__(self):
-        return len(self.values)
+        return len(self._values)
 
     def __bool__(self):
-        return len(self.values) != 0
+        # Returns False if no values retrieved
+        return len(self._values) != 0
 
 
 class BelongsTo(Relationship):
+    """Retrieves the class that 'owns' the model this relationship is defined in."""
 
     def __init__(self, **kwargs):
 
@@ -79,24 +99,26 @@ class BelongsTo(Relationship):
 
     def delayed_init(self, values, meta):
 
-        self.target = getattr(importlib.import_module(f"models.{self.target_name}"), self.target_name.capitalize())(
+        self.__target = getattr(importlib.import_module(f"models.{self.target_name}"), self.target_name.capitalize())(
         )
 
-        if self.target_key is None:
-            self.target_key = self.target.primary_key[0]
+        # The primary key of this target model
+        if self._target_key is None:
+            self._target_key = self.__target.primary_key[0]
 
-        if self.this_key is None:
-            self.this_key = self.target.meta['table_name'][:-1] + '_id'
+        # The foreign key on the model relationship defined in
+        if self._this_key is None:
+            self._this_key = self.__target.meta['table_name'][:-1] + '_id'
 
-        self.values = self.target.where(self.target_key, '=', values[self.this_key]).first()
+        self._values = self.__target.where(self._target_key, '=', values[self._this_key]).first()
 
-        return self.values
+        return self._values
 
     def __bool__(self):
-        return len(self.values) != 0
+        return len(self._values) != 0
 
     def __repr__(self):
-        return self.values
+        return self._values
 
 
 class ManyToMany(Relationship):
@@ -104,37 +126,43 @@ class ManyToMany(Relationship):
     def __init__(self, table=None, **kwargs):
         super().__init__(**kwargs)
 
-        self.table = table
-        self.index = 0
+        self.__table = table
+        self.__index = 0
 
     def delayed_init(self, values, meta):
 
-        self.index = 0
+        self.__index = 0
 
-        self.target_pre_init = self.target = getattr(importlib.import_module(f"models.{self.target_name}"),
+        # Store target model before it is initialised
+        self.__target_pre_init = self.__target = getattr(importlib.import_module(f"models.{self.target_name}"),
                                                      self.target_name.capitalize())
-        self.target = self.target_pre_init()
+        self.__target = self.__target_pre_init()
 
-        target_table = self.target.meta['table_name']
-        target_pk = self.target.primary_key[0]
+        target_table = self.__target.meta['table_name']
+        target_pk = self.__target.primary_key[0]
 
-        if self.target_key is None:
-            self.target_key = target_table[:-1] + '_id'
+        # Generate keys if not passed in by user
+        if self._target_key is None:
+            self._target_key = target_table[:-1] + '_id'
 
-        if self.this_key is None:
-            self.this_key = meta['table_name'][:-1] + '_id'
+        if self._this_key is None:
+            self._this_key = meta['table_name'][:-1] + '_id'
 
-        if self.table is None:
+        # Generate name of pivot table
+        if self.__table is None:
             table_names = [meta['table_name'], target_table]
-            self.table = "_".join(sorted(table_names))
+            self.__table = "_".join(sorted(table_names))
 
-        columns = [f"{target_table}.{column}" for column in self.target.types_keys]
+        # List of all columns in the target model table.
+        columns = [f"{target_table}.{column}" for column in self.__target.fields_keys]
 
+        # Select all the columns in the target model table where the primary key is equal to one of the keys in the
+        # pivot table where the other key is equal to the id of this model.
         res = DB().custom_sql(
-            f"SELECT {', '.join(columns)} FROM {target_table} INNER JOIN {self.table} ON {target_table}.{target_pk} "
-            f"= {self.table}.{self.target_key} WHERE {self.table}.{self.this_key} = {values[meta['primary_key'][0]]}")
+            f"SELECT {', '.join(columns)} FROM {target_table} INNER JOIN {self.__table} ON {target_table}.{target_pk} "
+            f"= {self.__table}.{self._target_key} WHERE {self.__table}.{self._this_key} = {values[meta['primary_key'][0]]}")
 
-        self.values = [self.target_pre_init(data=row) for row in res]
+        self.values = [self.__target_pre_init(data=row) for row in res]
 
         return self
 
@@ -143,19 +171,19 @@ class ManyToMany(Relationship):
 
     def __next__(self):
         try:
-            result = self.values[self.index]
+            result = self._values[self.__index]
         except IndexError:
             raise StopIteration
 
-        self.index += 1
+        self.__index += 1
 
         return result
 
     def __getitem__(self, index):
-        return self.values[index]
+        return self._values[index]
 
     def __len__(self):
-        return len(self.values)
+        return len(self._values)
 
     def __bool__(self):
-        return len(self.values) != 0
+        return len(self._values) != 0

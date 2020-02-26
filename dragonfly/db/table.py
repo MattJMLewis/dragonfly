@@ -1,5 +1,6 @@
 from string import Template
 
+# In format of option name: (SQL equivalent, is a template)
 sql_to_var = \
     {
         # Numeric types only
@@ -22,22 +23,28 @@ def handle_options(func):
         append = ''
 
         for key in list(kwargs):
+            # If not a valid SQL option
             if key not in sql_to_var.keys():
                 raise Exception("Invalid argument")
 
             key_tuple = sql_to_var[key]
 
+            # If a template substitute the given value into the string
             if key_tuple[1]:
                 append += ' ' + key_tuple[0].substitute(parameter=kwargs[key])
             else:
+                # If key passed into function add the SQL to a string
                 if kwargs[key]:
                     append += ' ' + key_tuple[0]
                 if key == 'null':
+                    # Null works in the opposite way to the other values. If null not true __set SQL to NOT NULL
                     if not kwargs[key]:
                         append += ' NOT NULL'
 
+            # Delete the key from the kwargs so it does not interfere with the function to be executed.
             del kwargs[key]
 
+        # Get the SQL result from the function and append the extra SQL generated
         return func(*args, **kwargs) + append
 
     return wrapper

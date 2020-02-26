@@ -493,7 +493,7 @@ currently in use as the MySQL adapter does this automatically</p>
 
 <dl class="method">
 <dt id="dragonfly.db.models.model.Model.data_to_attributes">
-<code class="sig-name descname">data_to_attributes</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.model.Model.data_to_attributes" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__data_to_attributes</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.model.Model.data_to_attributes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts the given data to class attributes in the class instance</p>
 <p>The given data (from the database) is first converted to its equivalent python type and then assigned to the
 class dictionary as well as a ‘database_values’ dictionary that is used to retrieve the correct row from the
@@ -510,7 +510,7 @@ database when updating the model.</p>
 
 <dl class="method">
 <dt id="dragonfly.db.models.model.Model.data_to_model">
-<code class="sig-name descname">data_to_model</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.model.Model.data_to_model" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__data_to_model</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.model.Model.data_to_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Starts the process of converting data from the database to model instances.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

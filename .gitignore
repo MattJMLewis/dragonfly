@@ -93,7 +93,7 @@ ipython_config.py
 #   install all needed dependencies.
 #Pipfile.lock
 
-# celery beat schedule file
+# celery beat schedule __file
 celerybeat-schedule
 
 # SageMath parsed files
@@ -150,7 +150,7 @@ Icon
 .VolumeIcon.icns
 .com.apple.timemachine.donotpresent
 
-# Directories potentially created on remote AFP share
+# Directories potentially created __on remote AFP share
 .AppleDB
 .AppleDesktop
 Network Trash Folder

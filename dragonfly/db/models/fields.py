@@ -4,36 +4,94 @@ from dragonfly.db.table import Table
 
 
 class ForeignKey:
+    """
+    Provides a way to define foreign key relationships in a model
+
+    Should be called in the following order:
+        ForeignKey('local_key').refrences('foreign_key').on('table')
+
+    """
 
     def __init__(self, *args):
+        """
+        Defines the list of local keys that reference a field on another table.
+
+        :param args: A list of local keys that reference a field on another table.
+        """
         self.local_keys = args
 
     def references(self, *args):
+        """
+        Defines the foreign keys that the local keys reference.
+
+        :param args: A list of foreign keys that the defined local keys reference.
+
+        :return: This ForeignKey object.
+        :rtype: :class:`ForeignKey <dragonfly.db.models.fields.ForeignKey>`
+        """
         self.foreign_keys = args
         return self
 
     def on(self, table):
+        """
+        The table the foreign keys are on.
+
+        :param table: The table that the foreign keys are located on
+
+        :return: This ForeignKey object.
+        :rtype: :class:`ForeignKey <dragonfly.db.models.fields.ForeignKey>`
+        """
         self.table = table
+
         return self
 
 
 class Unique:
+    """Provides a way to make a field a model unique """
+
     def __init__(self, *args):
-        self.args = args
+        """
+        :param args: The fields to make unique
+        """
+        self.fields = args
 
 
 class PrimaryKey:
+    """Provides a way to make """
+
     def __init__(self, *args):
-        self.args = args
+        self.fields = args
 
 
 class Field(abc.ABC):
     """An abstract class that defines the interface each `Field` class should have."""
 
     def __init__(self, name=None, null=False, blank=False, default=None, unique=False, primary_key=False):
+        """
+
+        :param name: The name of the field
+        :type: str
+
+        :param null: If the field should be nullable
+        :type: bool
+
+        :param blank: If the field can be _blank
+        :type: bool
+
+        :param default: The default value of the field (if any)
+        :type: str
+
+        :param unique: If the field should be unique
+        :type: bool
+
+        :param primary_key: If the field is a primary key
+        :type: bool
+
+        """
+
         super().__init__()
-        self.name = name
-        self.blank = blank
+        self._name = name
+        self._blank = blank
 
         self.default_parameters = {
             'null': null,
@@ -49,15 +107,15 @@ class Field(abc.ABC):
     def to_python_type(cls, value):
         """
         This is how the value from the database should be converted to python. Note that at the moment this is not
-        currently in use as the MySQL adapter does this automatically
+        currently in use as the MySQLdb package does this automatically.
+
+        :param value: The value to convert
         """
         pass
 
     @abc.abstractmethod
     def to_database_type(cls):
-        """
-        This instructs the database migrator on how to generate the SQL for the model.
-        """
+        """This instructs the database migrator on how to generate the SQL for the model."""
         pass
 
 
@@ -68,13 +126,13 @@ class BitField(Field):
     def __init__(self, length=None, **kwargs):
         super().__init__(**kwargs)
 
-        self.length = length
+        self.__length = length
 
     def to_python_type(self, value):
         return int(value)
 
     def to_database_type(self):
-        return Table.bit(self.length, **self.default_parameters)
+        return Table.bit(self.__length, **self.default_parameters)
 
 
 class BoolField(Field):
@@ -100,13 +158,13 @@ class IntField(Field):
             'zerofill': zerofill
         }
 
-        self.length = length
+        self._length = length
 
     def to_python_type(self, value):
         return int(value)
 
     def to_database_type(self):
-        return Table.integer(self.length, **self.integer_parameters, **self.default_parameters)
+        return Table.integer(self._length, **self.integer_parameters, **self.default_parameters)
 
 
 class BigIntField(IntField):
@@ -118,7 +176,7 @@ class BigIntField(IntField):
         return int(value)
 
     def to_database_type(self):
-        return Table.bigint(self.length, **self.integer_parameters, **self.default_parameters)
+        return Table.bigint(self._length, **self.integer_parameters, **self.default_parameters)
 
 
 class MediumIntField(IntField):
@@ -130,7 +188,7 @@ class MediumIntField(IntField):
         return int(value)
 
     def to_database_type(self):
-        return Table.mediumint(self.length, **self.integer_parameters, **self.default_parameters)
+        return Table.mediumint(self._length, **self.integer_parameters, **self.default_parameters)
 
 
 class SmallIntField(IntField):
@@ -139,7 +197,7 @@ class SmallIntField(IntField):
         super().__init__(**kwargs)
 
     def to_database_type(self):
-        return Table.smallint(self.length, **self.integer_parameters, **self.default_parameters)
+        return Table.smallint(self._length, **self.integer_parameters, **self.default_parameters)
 
 
 class TinyIntField(IntField):
@@ -148,7 +206,7 @@ class TinyIntField(IntField):
         super().__init__(**kwargs)
 
     def to_database_type(self):
-        return Table.tinyint(self.length, **self.integer_parameters, **self.default_parameters)
+        return Table.tinyint(self._length, **self.integer_parameters, **self.default_parameters)
 
 
 class DecimalField(Field):
@@ -161,14 +219,14 @@ class DecimalField(Field):
             'zerofill': zerofill
         }
 
-        self.digits = digits
-        self.decimal_places = decimal_places
+        self.__digits = digits
+        self.__decimal_places = decimal_places
 
     def to_python_type(self, value):
         return float(value)
 
     def to_database_type(self):
-        return Table.decimal(self.digits, self.decimal_places, **self.decimal_parameters, **self.default_parameters)
+        return Table.decimal(self.__digits, self.__decimal_places, **self.decimal_parameters, **self.default_parameters)
 
 
 class DoubleField(Field):
@@ -181,14 +239,14 @@ class DoubleField(Field):
             'zerofill': zerofill
         }
 
-        self.digits = digits
-        self.decimal_places = decimal_places
+        self.__digits = digits
+        self.__decimal_places = decimal_places
 
     def to_python_type(self, value):
         return float(value)
 
     def to_database_type(self):
-        return Table.double(self.digits, self.decimal_places, **self.decimal_parameters, **self.default_parameters)
+        return Table.double(self.__digits, self.__decimal_places, **self.decimal_parameters, **self.default_parameters)
 
 
 class FloatField(Field):
@@ -201,13 +259,13 @@ class FloatField(Field):
             'zerofill': zerofill
         }
 
-        self.digits = digits
+        self.__digits = digits
 
     def to_python_type(self, value):
         return float(value)
 
     def to_database_type(self):
-        return Table.float(self.digits, **self.decimal_parameters, **self.default_parameters)
+        return Table.float(self.__digits, **self.decimal_parameters, **self.default_parameters)
 
 
 # Date and time types
@@ -230,13 +288,13 @@ class DateTimeField(Field):
     def __init__(self, fsp=None, **kwargs):
         super().__init__(**kwargs)
 
-        self.fsp = fsp
+        self.__fsp = fsp
 
     def to_python_type(self, value):
         return value
 
     def to_database_type(self):
-        return Table.datetime(self.fsp, **self.default_parameters)
+        return Table.datetime(self.__fsp, **self.default_parameters)
 
 
 class TimestampField(Field):
@@ -244,14 +302,14 @@ class TimestampField(Field):
     def __init__(self, fsp=None, on=None, **kwargs):
         super().__init__(**kwargs)
 
-        self.fsp = fsp
-        self.on = on
+        self.__fsp = fsp
+        self.__on = on
 
     def to_python_type(self, value):
         return value
 
     def to_database_type(self):
-        return Table.timestamp(self.fsp, self.on, **self.default_parameters)
+        return Table.timestamp(self.__fsp, self.__on, **self.default_parameters)
 
 
 class TimeField(Field):
@@ -259,13 +317,13 @@ class TimeField(Field):
     def __init__(self, fsp=None, **kwargs):
         super().__init__(**kwargs)
 
-        self.fsp = fsp
+        self.__fsp = fsp
 
     def to_python_type(self, value):
         return value
 
     def to_database_type(self):
-        return Table.time(self.fsp, **self.default_parameters)
+        return Table.time(self.__fsp, **self.default_parameters)
 
 
 class YearField(Field):
@@ -279,6 +337,7 @@ class YearField(Field):
     def to_database_type(self):
         return Table.year(**self.default_parameters)
 
+
 # String types
 
 
@@ -287,7 +346,7 @@ class StringField(Field):
     def __init__(self, length=None, **kwargs):
         super().__init__(**kwargs)
 
-        self.length = length
+        self._length = length
 
     def to_python_type(self, value):
         return str(value)
@@ -302,7 +361,7 @@ class VarCharField(StringField):
         super().__init__(**kwargs)
 
     def to_database_type(self):
-        return Table.varchar(self.length, **self.default_parameters)
+        return Table.varchar(self._length, **self.default_parameters)
 
 
 class CharField(StringField):
@@ -311,7 +370,7 @@ class CharField(StringField):
         super().__init__(**kwargs)
 
     def to_database_type(self):
-        return Table.char(self.length, **self.default_parameters)
+        return Table.char(self._length, **self.default_parameters)
 
 
 class TextField(StringField):
@@ -320,7 +379,7 @@ class TextField(StringField):
         super().__init__(**kwargs)
 
     def to_database_type(self):
-        return Table.text(self.length, **self.default_parameters)
+        return Table.text(self._length, **self.default_parameters)
 
 
 class BinaryField(StringField):
@@ -332,7 +391,7 @@ class BinaryField(StringField):
         return bool(value)
 
     def to_database_type(self):
-        return Table.varbinary(self.length, **self.default_parameters)
+        return Table.varbinary(self._length, **self.default_parameters)
 
 
 class TinyBlobField(Field):
@@ -412,10 +471,10 @@ class Set(Field):
 
     def __init__(self, *args, **kwargs):
         super().__init__(**kwargs)
-        self.set = args
+        self.__set = args
 
     def to_python_type(self, value):
         return list(value)
 
     def to_database_type(self):
-        return Table.set(*self.set)
+        return Table.set(*self.__set)

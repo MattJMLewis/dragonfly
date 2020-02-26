@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Database package &mdash; dragonfly 0.0.3 documentation</title>
+  <title>Database &mdash; dragonfly 0.0.3 documentation</title>
   
 
   
@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Middleware package" href="middleware.html" />
+    <link rel="next" title="Middleware" href="middleware.html" />
     <link rel="prev" title="API Reference" href="api-reference.html" /> 
 </head>
 
@@ -85,21 +85,22 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quick-start.html">Quick Start</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="api-reference.html">API Reference</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Database package</a><ul>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Database</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#module-dragonfly.db.database">DB</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#fields">Fields</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-dragonfly.db.models.model">Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-dragonfly.db.models.relationships">Relationships</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-dragonfly.db.database_migrator">DatabaseMigrator</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-dragonfly.db.table">Table</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="middleware.html">Middleware package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="middleware.html">Middleware</a></li>
 <li class="toctree-l2"><a class="reference internal" href="routes.html">Routes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="template.html">Templates</a></li>
 <li class="toctree-l2"><a class="reference internal" href="web.html">Web</a></li>
+<li class="toctree-l2"><a class="reference internal" href="other.html">Other</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="to-do.html">To do</a></li>
 </ul>
 
             
@@ -147,7 +148,7 @@
         
           <li><a href="api-reference.html">API Reference</a> &raquo;</li>
         
-      <li>Database package</li>
+      <li>Database</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -166,8 +167,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="database-package">
-<h1>Database package<a class="headerlink" href="#database-package" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="database">
+<h1>Database<a class="headerlink" href="#database" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="module-dragonfly.db.database">
 <span id="db"></span><h2>DB<a class="headerlink" href="#module-dragonfly.db.database" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
@@ -178,7 +179,7 @@
 <dl class="method">
 <dt id="dragonfly.db.database.DB.chunk">
 <code class="sig-name descname">chunk</code><span class="sig-paren">(</span><em class="sig-param">chunk_loc</em>, <em class="sig-param">chunk_size</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.database.DB.chunk" title="Permalink to this definition">¶</a></dt>
-<dd><p>This will run the given query and return the given number of results at the given location.</p>
+<dd><p>This will run the given __query and return the given number of results at the given location.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -195,6 +196,29 @@
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="dragonfly.db.database.DB.custom_sql">
+<code class="sig-name descname">custom_sql</code><span class="sig-paren">(</span><em class="sig-param">sql</em>, <em class="sig-param">n_rows=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.database.DB.custom_sql" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute the custom SQL passed to the function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sql</strong> – The SQL code to execute</p></li>
+<li><p><strong>n_rows</strong> – The number of rows to retrieve. If set to <cite>None</cite> returns all rows</p></li>
+</ul>
+</dd>
+<dt class="field-even">Type</dt>
+<dd class="field-even"><p>int</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The result of the SQL executed</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="dragonfly.db.database.DB.delete">
 <code class="sig-name descname">delete</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.database.DB.delete" title="Permalink to this definition">¶</a></dt>
 <dd><p>Deletes the given row/rows.</p>
@@ -204,13 +228,13 @@
 <dl class="method">
 <dt id="dragonfly.db.database.DB.first">
 <code class="sig-name descname">first</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.database.DB.first" title="Permalink to this definition">¶</a></dt>
-<dd><p>This will execute the query you have been building and return only the first result (uses <code class="docutils literal notranslate"><span class="pre">LIMIT</span> <span class="pre">1</span></code>)</p>
+<dd><p>This will execute the __query you have been building and return only the first result (uses <code class="docutils literal notranslate"><span class="pre">LIMIT</span> <span class="pre">1</span></code>)</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="dragonfly.db.database.DB.get">
 <code class="sig-name descname">get</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.database.DB.get" title="Permalink to this definition">¶</a></dt>
-<dd><p>This will execute the query you have been building and return all results.</p>
+<dd><p>This will execute the __query you have been building and return all results.</p>
 </dd></dl>
 
 <dl class="method">
@@ -249,7 +273,7 @@
 <p class="admonition-title">Note</p>
 <p>If you would like to select all (<code class="docutils literal notranslate"><span class="pre">*</span></code>) columns then simply do not use the select argument when</p>
 </div>
-<p>building your query.</p>
+<p>building your __query.</p>
 </dd></dl>
 
 <dl class="method">
@@ -261,7 +285,7 @@
 <dl class="method">
 <dt id="dragonfly.db.database.DB.update">
 <code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param">update_dict</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.database.DB.update" title="Permalink to this definition">¶</a></dt>
-<dd><p>Updates the given row/rows based on the dictionary.</p>
+<dd><p>Updates the given row/rows based __on the dictionary.</p>
 <p>For this method to run the <a class="reference internal" href="#dragonfly.db.database.DB.where" title="dragonfly.db.database.DB.where"><code class="xref py py-meth docutils literal notranslate"><span class="pre">where</span></code></a> method must have been called before this one.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -299,7 +323,7 @@
 </div>
 <span class="target" id="module-dragonfly.db.models.fields"></span><dl class="class">
 <dt id="dragonfly.db.models.fields.BigIntField">
-<em class="property">class </em><code class="sig-prename descclassname">dragonfly.db.models.fields.</code><code class="sig-name descname">BigIntField</code><span class="sig-paren">(</span><em class="sig-param">length=None</em>, <em class="sig-param">unsigned=False</em>, <em class="sig-param">auto_increment=False</em>, <em class="sig-param">zerofill=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.BigIntField" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">dragonfly.db.models.fields.</code><code class="sig-name descname">BigIntField</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.BigIntField" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#dragonfly.db.models.fields.IntField" title="dragonfly.db.models.fields.IntField"><code class="xref py py-class docutils literal notranslate"><span class="pre">dragonfly.db.models.fields.IntField</span></code></a></p>
 <dl class="method">
 <dt id="dragonfly.db.models.fields.BigIntField.to_database_type">
@@ -311,7 +335,36 @@
 <dt id="dragonfly.db.models.fields.BigIntField.to_python_type">
 <code class="sig-name descname">to_python_type</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.BigIntField.to_python_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is how the value from the database should be converted to python. Note that at the moment this is not
-currently in use as the MySQL adapter does this automatically</p>
+currently in use as the MySQLdb package does this automatically.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – The value to convert</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dragonfly.db.models.fields.BinaryField">
+<em class="property">class </em><code class="sig-prename descclassname">dragonfly.db.models.fields.</code><code class="sig-name descname">BinaryField</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.BinaryField" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dragonfly.db.models.fields.StringField" title="dragonfly.db.models.fields.StringField"><code class="xref py py-class docutils literal notranslate"><span class="pre">dragonfly.db.models.fields.StringField</span></code></a></p>
+<dl class="method">
+<dt id="dragonfly.db.models.fields.BinaryField.to_database_type">
+<code class="sig-name descname">to_database_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.BinaryField.to_database_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>This instructs the database migrator on how to generate the SQL for the model.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dragonfly.db.models.fields.BinaryField.to_python_type">
+<code class="sig-name descname">to_python_type</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.BinaryField.to_python_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is how the value from the database should be converted to python. Note that at the moment this is not
+currently in use as the MySQLdb package does this automatically.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – The value to convert</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -330,7 +383,12 @@ currently in use as the MySQL adapter does this automatically</p>
 <dt id="dragonfly.db.models.fields.BitField.to_python_type">
 <code class="sig-name descname">to_python_type</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.BitField.to_python_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is how the value from the database should be converted to python. Note that at the moment this is not
-currently in use as the MySQL adapter does this automatically</p>
+currently in use as the MySQLdb package does this automatically.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – The value to convert</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -349,26 +407,24 @@ currently in use as the MySQL adapter does this automatically</p>
 <dt id="dragonfly.db.models.fields.BoolField.to_python_type">
 <code class="sig-name descname">to_python_type</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.BoolField.to_python_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is how the value from the database should be converted to python. Note that at the moment this is not
-currently in use as the MySQL adapter does this automatically</p>
+currently in use as the MySQLdb package does this automatically.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – The value to convert</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="dragonfly.db.models.fields.CharField">
-<em class="property">class </em><code class="sig-prename descclassname">dragonfly.db.models.fields.</code><code class="sig-name descname">CharField</code><span class="sig-paren">(</span><em class="sig-param">max_length</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.CharField" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#dragonfly.db.models.fields.Field" title="dragonfly.db.models.fields.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">dragonfly.db.models.fields.Field</span></code></a></p>
+<em class="property">class </em><code class="sig-prename descclassname">dragonfly.db.models.fields.</code><code class="sig-name descname">CharField</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.CharField" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dragonfly.db.models.fields.StringField" title="dragonfly.db.models.fields.StringField"><code class="xref py py-class docutils literal notranslate"><span class="pre">dragonfly.db.models.fields.StringField</span></code></a></p>
 <dl class="method">
 <dt id="dragonfly.db.models.fields.CharField.to_database_type">
 <code class="sig-name descname">to_database_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.CharField.to_database_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>This instructs the database migrator on how to generate the SQL for the model.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="dragonfly.db.models.fields.CharField.to_python_type">
-<code class="sig-name descname">to_python_type</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.CharField.to_python_type" title="Permalink to this definition">¶</a></dt>
-<dd><p>This is how the value from the database should be converted to python. Note that at the moment this is not
-currently in use as the MySQL adapter does this automatically</p>
 </dd></dl>
 
 </dd></dl>
@@ -387,7 +443,12 @@ currently in use as the MySQL adapter does this automatically</p>
 <dt id="dragonfly.db.models.fields.DateField.to_python_type">
 <code class="sig-name descname">to_python_type</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.DateField.to_python_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is how the value from the database should be converted to python. Note that at the moment this is not
-currently in use as the MySQL adapter does this automatically</p>
+currently in use as the MySQLdb package does this automatically.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – The value to convert</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -406,7 +467,12 @@ currently in use as the MySQL adapter does this automatically</p>
 <dt id="dragonfly.db.models.fields.DateTimeField.to_python_type">
 <code class="sig-name descname">to_python_type</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.DateTimeField.to_python_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is how the value from the database should be converted to python. Note that at the moment this is not
-currently in use as the MySQL adapter does this automatically</p>
+currently in use as the MySQLdb package does this automatically.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – The value to convert</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -425,7 +491,12 @@ currently in use as the MySQL adapter does this automatically</p>
 <dt id="dragonfly.db.models.fields.DecimalField.to_python_type">
 <code class="sig-name descname">to_python_type</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.DecimalField.to_python_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is how the value from the database should be converted to python. Note that at the moment this is not
-currently in use as the MySQL adapter does this automatically</p>
+currently in use as the MySQLdb package does this automatically.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – The value to convert</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -444,7 +515,36 @@ currently in use as the MySQL adapter does this automatically</p>
 <dt id="dragonfly.db.models.fields.DoubleField.to_python_type">
 <code class="sig-name descname">to_python_type</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.DoubleField.to_python_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is how the value from the database should be converted to python. Note that at the moment this is not
-currently in use as the MySQL adapter does this automatically</p>
+currently in use as the MySQLdb package does this automatically.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – The value to convert</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dragonfly.db.models.fields.Enum">
+<em class="property">class </em><code class="sig-prename descclassname">dragonfly.db.models.fields.</code><code class="sig-name descname">Enum</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.Enum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dragonfly.db.models.fields.Field" title="dragonfly.db.models.fields.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">dragonfly.db.models.fields.Field</span></code></a></p>
+<dl class="method">
+<dt id="dragonfly.db.models.fields.Enum.to_database_type">
+<code class="sig-name descname">to_database_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.Enum.to_database_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>This instructs the database migrator on how to generate the SQL for the model.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dragonfly.db.models.fields.Enum.to_python_type">
+<code class="sig-name descname">to_python_type</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.Enum.to_python_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is how the value from the database should be converted to python. Note that at the moment this is not
+currently in use as the MySQLdb package does this automatically.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – The value to convert</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -464,7 +564,12 @@ currently in use as the MySQL adapter does this automatically</p>
 <dt id="dragonfly.db.models.fields.Field.to_python_type">
 <em class="property">abstract </em><code class="sig-name descname">to_python_type</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.Field.to_python_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is how the value from the database should be converted to python. Note that at the moment this is not
-currently in use as the MySQL adapter does this automatically</p>
+currently in use as the MySQLdb package does this automatically.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – The value to convert</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -483,7 +588,12 @@ currently in use as the MySQL adapter does this automatically</p>
 <dt id="dragonfly.db.models.fields.FloatField.to_python_type">
 <code class="sig-name descname">to_python_type</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.FloatField.to_python_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is how the value from the database should be converted to python. Note that at the moment this is not
-currently in use as the MySQL adapter does this automatically</p>
+currently in use as the MySQLdb package does this automatically.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – The value to convert</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -492,15 +602,44 @@ currently in use as the MySQL adapter does this automatically</p>
 <dt id="dragonfly.db.models.fields.ForeignKey">
 <em class="property">class </em><code class="sig-prename descclassname">dragonfly.db.models.fields.</code><code class="sig-name descname">ForeignKey</code><span class="sig-paren">(</span><em class="sig-param">*args</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.ForeignKey" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Provides a way to define foreign key relationships in a model</p>
+<dl class="simple">
+<dt>Should be called in the following order:</dt><dd><p>ForeignKey(‘local_key’).refrences(‘foreign_key’).on(‘table’)</p>
+</dd>
+</dl>
 <dl class="method">
 <dt id="dragonfly.db.models.fields.ForeignKey.on">
 <code class="sig-name descname">on</code><span class="sig-paren">(</span><em class="sig-param">table</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.ForeignKey.on" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>The table the foreign keys are on.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>table</strong> – The table that the foreign keys are located on</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>This ForeignKey object.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#dragonfly.db.models.fields.ForeignKey" title="dragonfly.db.models.fields.ForeignKey"><code class="xref py py-class docutils literal notranslate"><span class="pre">ForeignKey</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="method">
 <dt id="dragonfly.db.models.fields.ForeignKey.references">
 <code class="sig-name descname">references</code><span class="sig-paren">(</span><em class="sig-param">*args</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.ForeignKey.references" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Defines the foreign keys that the local keys reference.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>args</strong> – A list of foreign keys that the defined local keys reference.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>This ForeignKey object.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#dragonfly.db.models.fields.ForeignKey" title="dragonfly.db.models.fields.ForeignKey"><code class="xref py py-class docutils literal notranslate"><span class="pre">ForeignKey</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -518,7 +657,108 @@ currently in use as the MySQL adapter does this automatically</p>
 <dt id="dragonfly.db.models.fields.IntField.to_python_type">
 <code class="sig-name descname">to_python_type</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.IntField.to_python_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is how the value from the database should be converted to python. Note that at the moment this is not
-currently in use as the MySQL adapter does this automatically</p>
+currently in use as the MySQLdb package does this automatically.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – The value to convert</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dragonfly.db.models.fields.LongBlob">
+<em class="property">class </em><code class="sig-prename descclassname">dragonfly.db.models.fields.</code><code class="sig-name descname">LongBlob</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.LongBlob" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dragonfly.db.models.fields.Field" title="dragonfly.db.models.fields.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">dragonfly.db.models.fields.Field</span></code></a></p>
+<dl class="method">
+<dt id="dragonfly.db.models.fields.LongBlob.to_database_type">
+<code class="sig-name descname">to_database_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.LongBlob.to_database_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>This instructs the database migrator on how to generate the SQL for the model.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dragonfly.db.models.fields.LongBlob.to_python_type">
+<code class="sig-name descname">to_python_type</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.LongBlob.to_python_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is how the value from the database should be converted to python. Note that at the moment this is not
+currently in use as the MySQLdb package does this automatically.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – The value to convert</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dragonfly.db.models.fields.MediumBlob">
+<em class="property">class </em><code class="sig-prename descclassname">dragonfly.db.models.fields.</code><code class="sig-name descname">MediumBlob</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.MediumBlob" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dragonfly.db.models.fields.Field" title="dragonfly.db.models.fields.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">dragonfly.db.models.fields.Field</span></code></a></p>
+<dl class="method">
+<dt id="dragonfly.db.models.fields.MediumBlob.to_database_type">
+<code class="sig-name descname">to_database_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.MediumBlob.to_database_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>This instructs the database migrator on how to generate the SQL for the model.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dragonfly.db.models.fields.MediumBlob.to_python_type">
+<code class="sig-name descname">to_python_type</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.MediumBlob.to_python_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is how the value from the database should be converted to python. Note that at the moment this is not
+currently in use as the MySQLdb package does this automatically.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – The value to convert</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dragonfly.db.models.fields.MediumIntField">
+<em class="property">class </em><code class="sig-prename descclassname">dragonfly.db.models.fields.</code><code class="sig-name descname">MediumIntField</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.MediumIntField" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dragonfly.db.models.fields.IntField" title="dragonfly.db.models.fields.IntField"><code class="xref py py-class docutils literal notranslate"><span class="pre">dragonfly.db.models.fields.IntField</span></code></a></p>
+<dl class="method">
+<dt id="dragonfly.db.models.fields.MediumIntField.to_database_type">
+<code class="sig-name descname">to_database_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.MediumIntField.to_database_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>This instructs the database migrator on how to generate the SQL for the model.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dragonfly.db.models.fields.MediumIntField.to_python_type">
+<code class="sig-name descname">to_python_type</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.MediumIntField.to_python_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is how the value from the database should be converted to python. Note that at the moment this is not
+currently in use as the MySQLdb package does this automatically.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – The value to convert</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dragonfly.db.models.fields.MediumText">
+<em class="property">class </em><code class="sig-prename descclassname">dragonfly.db.models.fields.</code><code class="sig-name descname">MediumText</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.MediumText" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dragonfly.db.models.fields.Field" title="dragonfly.db.models.fields.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">dragonfly.db.models.fields.Field</span></code></a></p>
+<dl class="method">
+<dt id="dragonfly.db.models.fields.MediumText.to_database_type">
+<code class="sig-name descname">to_database_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.MediumText.to_database_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>This instructs the database migrator on how to generate the SQL for the model.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dragonfly.db.models.fields.MediumText.to_python_type">
+<code class="sig-name descname">to_python_type</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.MediumText.to_python_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is how the value from the database should be converted to python. Note that at the moment this is not
+currently in use as the MySQLdb package does this automatically.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – The value to convert</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -527,11 +767,36 @@ currently in use as the MySQL adapter does this automatically</p>
 <dt id="dragonfly.db.models.fields.PrimaryKey">
 <em class="property">class </em><code class="sig-prename descclassname">dragonfly.db.models.fields.</code><code class="sig-name descname">PrimaryKey</code><span class="sig-paren">(</span><em class="sig-param">*args</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.PrimaryKey" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Provides a way to make</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="dragonfly.db.models.fields.Set">
+<em class="property">class </em><code class="sig-prename descclassname">dragonfly.db.models.fields.</code><code class="sig-name descname">Set</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.Set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dragonfly.db.models.fields.Field" title="dragonfly.db.models.fields.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">dragonfly.db.models.fields.Field</span></code></a></p>
+<dl class="method">
+<dt id="dragonfly.db.models.fields.Set.to_database_type">
+<code class="sig-name descname">to_database_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.Set.to_database_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>This instructs the database migrator on how to generate the SQL for the model.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dragonfly.db.models.fields.Set.to_python_type">
+<code class="sig-name descname">to_python_type</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.Set.to_python_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is how the value from the database should be converted to python. Note that at the moment this is not
+currently in use as the MySQLdb package does this automatically.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – The value to convert</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="class">
 <dt id="dragonfly.db.models.fields.SmallIntField">
-<em class="property">class </em><code class="sig-prename descclassname">dragonfly.db.models.fields.</code><code class="sig-name descname">SmallIntField</code><span class="sig-paren">(</span><em class="sig-param">length=None</em>, <em class="sig-param">unsigned=False</em>, <em class="sig-param">auto_increment=False</em>, <em class="sig-param">zerofill=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.SmallIntField" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">dragonfly.db.models.fields.</code><code class="sig-name descname">SmallIntField</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.SmallIntField" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#dragonfly.db.models.fields.IntField" title="dragonfly.db.models.fields.IntField"><code class="xref py py-class docutils literal notranslate"><span class="pre">dragonfly.db.models.fields.IntField</span></code></a></p>
 <dl class="method">
 <dt id="dragonfly.db.models.fields.SmallIntField.to_database_type">
@@ -542,20 +807,37 @@ currently in use as the MySQL adapter does this automatically</p>
 </dd></dl>
 
 <dl class="class">
-<dt id="dragonfly.db.models.fields.TextField">
-<em class="property">class </em><code class="sig-prename descclassname">dragonfly.db.models.fields.</code><code class="sig-name descname">TextField</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.TextField" title="Permalink to this definition">¶</a></dt>
+<dt id="dragonfly.db.models.fields.StringField">
+<em class="property">class </em><code class="sig-prename descclassname">dragonfly.db.models.fields.</code><code class="sig-name descname">StringField</code><span class="sig-paren">(</span><em class="sig-param">length=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.StringField" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#dragonfly.db.models.fields.Field" title="dragonfly.db.models.fields.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">dragonfly.db.models.fields.Field</span></code></a></p>
 <dl class="method">
-<dt id="dragonfly.db.models.fields.TextField.to_database_type">
-<code class="sig-name descname">to_database_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.TextField.to_database_type" title="Permalink to this definition">¶</a></dt>
+<dt id="dragonfly.db.models.fields.StringField.to_database_type">
+<code class="sig-name descname">to_database_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.StringField.to_database_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>This instructs the database migrator on how to generate the SQL for the model.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dragonfly.db.models.fields.TextField.to_python_type">
-<code class="sig-name descname">to_python_type</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.TextField.to_python_type" title="Permalink to this definition">¶</a></dt>
+<dt id="dragonfly.db.models.fields.StringField.to_python_type">
+<code class="sig-name descname">to_python_type</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.StringField.to_python_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is how the value from the database should be converted to python. Note that at the moment this is not
-currently in use as the MySQL adapter does this automatically</p>
+currently in use as the MySQLdb package does this automatically.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – The value to convert</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dragonfly.db.models.fields.TextField">
+<em class="property">class </em><code class="sig-prename descclassname">dragonfly.db.models.fields.</code><code class="sig-name descname">TextField</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.TextField" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dragonfly.db.models.fields.StringField" title="dragonfly.db.models.fields.StringField"><code class="xref py py-class docutils literal notranslate"><span class="pre">dragonfly.db.models.fields.StringField</span></code></a></p>
+<dl class="method">
+<dt id="dragonfly.db.models.fields.TextField.to_database_type">
+<code class="sig-name descname">to_database_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.TextField.to_database_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>This instructs the database migrator on how to generate the SQL for the model.</p>
 </dd></dl>
 
 </dd></dl>
@@ -574,14 +856,19 @@ currently in use as the MySQL adapter does this automatically</p>
 <dt id="dragonfly.db.models.fields.TimeField.to_python_type">
 <code class="sig-name descname">to_python_type</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.TimeField.to_python_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is how the value from the database should be converted to python. Note that at the moment this is not
-currently in use as the MySQL adapter does this automatically</p>
+currently in use as the MySQLdb package does this automatically.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – The value to convert</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="dragonfly.db.models.fields.TimestampField">
-<em class="property">class </em><code class="sig-prename descclassname">dragonfly.db.models.fields.</code><code class="sig-name descname">TimestampField</code><span class="sig-paren">(</span><em class="sig-param">fsp=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.TimestampField" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">dragonfly.db.models.fields.</code><code class="sig-name descname">TimestampField</code><span class="sig-paren">(</span><em class="sig-param">fsp=None</em>, <em class="sig-param">on=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.TimestampField" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#dragonfly.db.models.fields.Field" title="dragonfly.db.models.fields.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">dragonfly.db.models.fields.Field</span></code></a></p>
 <dl class="method">
 <dt id="dragonfly.db.models.fields.TimestampField.to_database_type">
@@ -593,14 +880,43 @@ currently in use as the MySQL adapter does this automatically</p>
 <dt id="dragonfly.db.models.fields.TimestampField.to_python_type">
 <code class="sig-name descname">to_python_type</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.TimestampField.to_python_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is how the value from the database should be converted to python. Note that at the moment this is not
-currently in use as the MySQL adapter does this automatically</p>
+currently in use as the MySQLdb package does this automatically.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – The value to convert</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dragonfly.db.models.fields.TinyBlobField">
+<em class="property">class </em><code class="sig-prename descclassname">dragonfly.db.models.fields.</code><code class="sig-name descname">TinyBlobField</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.TinyBlobField" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dragonfly.db.models.fields.Field" title="dragonfly.db.models.fields.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">dragonfly.db.models.fields.Field</span></code></a></p>
+<dl class="method">
+<dt id="dragonfly.db.models.fields.TinyBlobField.to_database_type">
+<code class="sig-name descname">to_database_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.TinyBlobField.to_database_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>This instructs the database migrator on how to generate the SQL for the model.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dragonfly.db.models.fields.TinyBlobField.to_python_type">
+<code class="sig-name descname">to_python_type</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.TinyBlobField.to_python_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is how the value from the database should be converted to python. Note that at the moment this is not
+currently in use as the MySQLdb package does this automatically.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – The value to convert</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="dragonfly.db.models.fields.TinyIntField">
-<em class="property">class </em><code class="sig-prename descclassname">dragonfly.db.models.fields.</code><code class="sig-name descname">TinyIntField</code><span class="sig-paren">(</span><em class="sig-param">length=None</em>, <em class="sig-param">unsigned=False</em>, <em class="sig-param">auto_increment=False</em>, <em class="sig-param">zerofill=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.TinyIntField" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">dragonfly.db.models.fields.</code><code class="sig-name descname">TinyIntField</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.TinyIntField" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#dragonfly.db.models.fields.IntField" title="dragonfly.db.models.fields.IntField"><code class="xref py py-class docutils literal notranslate"><span class="pre">dragonfly.db.models.fields.IntField</span></code></a></p>
 <dl class="method">
 <dt id="dragonfly.db.models.fields.TinyIntField.to_database_type">
@@ -611,26 +927,68 @@ currently in use as the MySQL adapter does this automatically</p>
 </dd></dl>
 
 <dl class="class">
-<dt id="dragonfly.db.models.fields.Unique">
-<em class="property">class </em><code class="sig-prename descclassname">dragonfly.db.models.fields.</code><code class="sig-name descname">Unique</code><span class="sig-paren">(</span><em class="sig-param">*args</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.Unique" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-</dd></dl>
-
-<dl class="class">
-<dt id="dragonfly.db.models.fields.Year">
-<em class="property">class </em><code class="sig-prename descclassname">dragonfly.db.models.fields.</code><code class="sig-name descname">Year</code><span class="sig-paren">(</span><em class="sig-param">fsp=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.Year" title="Permalink to this definition">¶</a></dt>
+<dt id="dragonfly.db.models.fields.TinyTextField">
+<em class="property">class </em><code class="sig-prename descclassname">dragonfly.db.models.fields.</code><code class="sig-name descname">TinyTextField</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.TinyTextField" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#dragonfly.db.models.fields.Field" title="dragonfly.db.models.fields.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">dragonfly.db.models.fields.Field</span></code></a></p>
 <dl class="method">
-<dt id="dragonfly.db.models.fields.Year.to_database_type">
-<code class="sig-name descname">to_database_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.Year.to_database_type" title="Permalink to this definition">¶</a></dt>
+<dt id="dragonfly.db.models.fields.TinyTextField.to_database_type">
+<code class="sig-name descname">to_database_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.TinyTextField.to_database_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>This instructs the database migrator on how to generate the SQL for the model.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dragonfly.db.models.fields.Year.to_python_type">
-<code class="sig-name descname">to_python_type</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.Year.to_python_type" title="Permalink to this definition">¶</a></dt>
+<dt id="dragonfly.db.models.fields.TinyTextField.to_python_type">
+<code class="sig-name descname">to_python_type</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.TinyTextField.to_python_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is how the value from the database should be converted to python. Note that at the moment this is not
-currently in use as the MySQL adapter does this automatically</p>
+currently in use as the MySQLdb package does this automatically.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – The value to convert</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dragonfly.db.models.fields.Unique">
+<em class="property">class </em><code class="sig-prename descclassname">dragonfly.db.models.fields.</code><code class="sig-name descname">Unique</code><span class="sig-paren">(</span><em class="sig-param">*args</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.Unique" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Provides a way to make a field a model unique</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="dragonfly.db.models.fields.VarCharField">
+<em class="property">class </em><code class="sig-prename descclassname">dragonfly.db.models.fields.</code><code class="sig-name descname">VarCharField</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.VarCharField" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dragonfly.db.models.fields.StringField" title="dragonfly.db.models.fields.StringField"><code class="xref py py-class docutils literal notranslate"><span class="pre">dragonfly.db.models.fields.StringField</span></code></a></p>
+<dl class="method">
+<dt id="dragonfly.db.models.fields.VarCharField.to_database_type">
+<code class="sig-name descname">to_database_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.VarCharField.to_database_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>This instructs the database migrator on how to generate the SQL for the model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dragonfly.db.models.fields.YearField">
+<em class="property">class </em><code class="sig-prename descclassname">dragonfly.db.models.fields.</code><code class="sig-name descname">YearField</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.YearField" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dragonfly.db.models.fields.Field" title="dragonfly.db.models.fields.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">dragonfly.db.models.fields.Field</span></code></a></p>
+<dl class="method">
+<dt id="dragonfly.db.models.fields.YearField.to_database_type">
+<code class="sig-name descname">to_database_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.YearField.to_database_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>This instructs the database migrator on how to generate the SQL for the model.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dragonfly.db.models.fields.YearField.to_python_type">
+<code class="sig-name descname">to_python_type</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.fields.YearField.to_python_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is how the value from the database should be converted to python. Note that at the moment this is not
+currently in use as the MySQLdb package does this automatically.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – The value to convert</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -644,43 +1002,56 @@ currently in use as the MySQL adapter does this automatically</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A way to easily interact with rows in a table.</p>
 <dl class="method">
-<dt id="dragonfly.db.models.model.Model.all">
-<code class="sig-name descname">all</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.model.Model.all" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get all rows in the database.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="dragonfly.db.models.model.Model.create">
-<code class="sig-name descname">create</code><span class="sig-paren">(</span><em class="sig-param">create_dict</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.model.Model.create" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="dragonfly.db.models.model.Model.data_to_attributes">
-<code class="sig-name descname">data_to_attributes</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.model.Model.data_to_attributes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts the given data to class attributes in the class instance.</p>
-<p>The given data (from the database) is first converted to its equivalent python type and then assigned to the
-class dictionary as well as a <code class="docutils literal notranslate"><span class="pre">database_values</span></code> dictionary that is used to retrieve the correct row from the
-database when updating the model.</p>
+<dt id="dragonfly.db.models.model.Model.add_relationship">
+<code class="sig-name descname">add_relationship</code><span class="sig-paren">(</span><em class="sig-param">relationship_class</em>, <em class="sig-param">update=False</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.model.Model.add_relationship" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a relationship to another model to this model instance using the relationship classes. Note that the method
+will cache the values of a relationship unless update is set to true.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>data</strong> – The data to assign to the model instance</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>relationship_class</strong> – An instantiated relationship class.</p></li>
+<li><p><strong>update</strong> – If the method should retrieve fresh data from the database.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
+<dd class="field-even"><p>The retrieved, related, model(s).</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#dragonfly.db.models.relationships.Relationship" title="dragonfly.db.models.relationships.Relationship"><code class="xref py py-class docutils literal notranslate"><span class="pre">Relationship</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
-<dt id="dragonfly.db.models.model.Model.data_to_model">
-<code class="sig-name descname">data_to_model</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.model.Model.data_to_model" title="Permalink to this definition">¶</a></dt>
-<dd><p>Starts the process of converting data from the database to model instances.</p>
+<dt id="dragonfly.db.models.model.Model.all">
+<code class="sig-name descname">all</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.model.Model.all" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all rows in the table .</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>An object model</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dragonfly.db.models.model.Model.create">
+<code class="sig-name descname">create</code><span class="sig-paren">(</span><em class="sig-param">create_dict</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.model.Model.create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new row in the table and returns a model representation of this row.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>data</strong> – The data to convert</p>
+<dd class="field-odd"><p><strong>create_dict</strong> – The values to create the new row with</p>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
+<dt class="field-even">Type</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of object models</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list</p>
 </dd>
 </dl>
 </dd></dl>
@@ -688,7 +1059,8 @@ database when updating the model.</p>
 <dl class="method">
 <dt id="dragonfly.db.models.model.Model.delete">
 <code class="sig-name descname">delete</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.model.Model.delete" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Delete this row from the database using all fields retrieved from database.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="dragonfly.db.models.model.Model.find">
@@ -700,6 +1072,18 @@ column and value.</p>
 <dt class="field-odd">Example</dt>
 <dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">Article().find({'id':</span> <span class="pre">1,</span> <span class="pre">'author':</span> <span class="pre">1})</span></code></p>
 </dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><p><strong>primary_key</strong> – The value of the primary key to find.</p>
+</dd>
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An object model that has the given value as its primary key</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#dragonfly.db.models.model.Model" title="dragonfly.db.models.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -707,18 +1091,45 @@ column and value.</p>
 <dt id="dragonfly.db.models.model.Model.first">
 <code class="sig-name descname">first</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.model.Model.first" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the first row in the table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>An object model</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#dragonfly.db.models.model.Model" title="dragonfly.db.models.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="dragonfly.db.models.model.Model.get">
 <code class="sig-name descname">get</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.model.Model.get" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get all rows in the table that correspond to the other specified selectors.</p>
+<dd><p>Get all rows in the table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>An object model</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
-<dt id="dragonfly.db.models.model.Model.get_attributes">
-<code class="sig-name descname">get_attributes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.model.Model.get_attributes" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="dragonfly.db.models.model.Model.multiple_where">
+<code class="sig-name descname">multiple_where</code><span class="sig-paren">(</span><em class="sig-param">where_dict</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.model.Model.multiple_where" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select a row from the table using multiple values/columns</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>where_dict</strong> – A dictionary where the key is the column in the table and the value is the value in the table.</p>
+</dd>
+<dt class="field-even">Type</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+<p>:return This model object
+:rtype: <a class="reference internal" href="#dragonfly.db.models.model.Model" title="dragonfly.db.models.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a></p>
+</dd></dl>
 
 <dl class="method">
 <dt id="dragonfly.db.models.model.Model.paginate">
@@ -734,30 +1145,228 @@ object).</p>
 <li><p><strong>to_json</strong> (<em>bool</em>) – If the function should return a JSON response, default is False</p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A tuple containing a dictionary if results and a dictionary contaning meta information</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="dragonfly.db.models.model.Model.save">
 <code class="sig-name descname">save</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.model.Model.save" title="Permalink to this definition">¶</a></dt>
-<dd><p>Permeate the changes to the model attributes, to the database.</p>
+<dd><p>Permeate the changes to the model attributes to the database.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="dragonfly.db.models.model.Model.select">
 <code class="sig-name descname">select</code><span class="sig-paren">(</span><em class="sig-param">*args</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.model.Model.select" title="Permalink to this definition">¶</a></dt>
-<dd><p>Same as the <cite>DB</cite> class <cite>select</cite> method.</p>
+<dd><p>Same as the <cite>DB</cite> class <cite>select</cite> method. Note that a dictionary will be returned as a model cannot be represented with incomplete data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>args</strong> – A list of</p>
+</dd>
+<dt class="field-even">Type</dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+<p>:return This model object
+:rtype: <a class="reference internal" href="#dragonfly.db.models.model.Model" title="dragonfly.db.models.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dragonfly.db.models.model.Model.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.model.Model.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a dictionary equivalent of this row</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A dictionary equivalent of this row</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="dragonfly.db.models.model.Model.update">
 <code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param">update_dict</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.model.Model.update" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Update this model with the given values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>update_dict</strong> – Update the given columns (key) with the given values</p>
+</dd>
+<dt class="field-even">Type</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+<p>:return This model object
+:rtype: <a class="reference internal" href="#dragonfly.db.models.model.Model" title="dragonfly.db.models.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a></p>
+</dd></dl>
 
 <dl class="method">
 <dt id="dragonfly.db.models.model.Model.where">
 <code class="sig-name descname">where</code><span class="sig-paren">(</span><em class="sig-param">column</em>, <em class="sig-param">comparator</em>, <em class="sig-param">value</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.model.Model.where" title="Permalink to this definition">¶</a></dt>
 <dd><p>Same as the <a class="reference internal" href="#dragonfly.db.database.DB" title="dragonfly.db.database.DB"><code class="xref py py-class docutils literal notranslate"><span class="pre">DB</span></code></a> class <a class="reference internal" href="#dragonfly.db.database.DB.where" title="dragonfly.db.database.DB.where"><code class="xref py py-meth docutils literal notranslate"><span class="pre">where</span></code></a> method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>column</strong> – The column in the database to check the value for</p></li>
+<li><p><strong>comparator</strong> – The comparison operator e.g. =</p></li>
+<li><p><strong>value</strong> – The value to test for</p></li>
+</ul>
+</dd>
+<dt class="field-even">Type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+<p>:return This model object
+:rtype: <a class="reference internal" href="#dragonfly.db.models.model.Model" title="dragonfly.db.models.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="dragonfly.db.models.model.default">
+<code class="sig-prename descclassname">dragonfly.db.models.model.</code><code class="sig-name descname">default</code><span class="sig-paren">(</span><em class="sig-param">o</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.model.default" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function from StackOverflow - <a class="reference external" href="https://stackoverflow.com/questions/12122007/python-json-encoder-to-support-datetime">https://stackoverflow.com/questions/12122007/python-json-encoder-to-support-datetime</a></p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-dragonfly.db.models.relationships">
+<span id="relationships"></span><h2>Relationships<a class="headerlink" href="#module-dragonfly.db.models.relationships" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="dragonfly.db.models.relationships.BelongsTo">
+<em class="property">class </em><code class="sig-prename descclassname">dragonfly.db.models.relationships.</code><code class="sig-name descname">BelongsTo</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.relationships.BelongsTo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dragonfly.db.models.relationships.Relationship" title="dragonfly.db.models.relationships.Relationship"><code class="xref py py-class docutils literal notranslate"><span class="pre">dragonfly.db.models.relationships.Relationship</span></code></a></p>
+<p>Retrieves the class that ‘owns’ the model this relationship is defined in.</p>
+<dl class="method">
+<dt id="dragonfly.db.models.relationships.BelongsTo.delayed_init">
+<code class="sig-name descname">delayed_init</code><span class="sig-paren">(</span><em class="sig-param">values</em>, <em class="sig-param">meta</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.relationships.BelongsTo.delayed_init" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function is executed when data needs to be retrieved.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>values</strong> – The database values of the given model</p></li>
+<li><p><strong>meta</strong> – The meta values of the model</p></li>
+</ul>
+</dd>
+<dt class="field-even">Type</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The relationship class</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DB</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dragonfly.db.models.relationships.HasMany">
+<em class="property">class </em><code class="sig-prename descclassname">dragonfly.db.models.relationships.</code><code class="sig-name descname">HasMany</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.relationships.HasMany" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dragonfly.db.models.relationships.Relationship" title="dragonfly.db.models.relationships.Relationship"><code class="xref py py-class docutils literal notranslate"><span class="pre">dragonfly.db.models.relationships.Relationship</span></code></a></p>
+<p>Retrieves all rows that have a have-many relationship with the model this class is initialised in.</p>
+<dl class="method">
+<dt id="dragonfly.db.models.relationships.HasMany.delayed_init">
+<code class="sig-name descname">delayed_init</code><span class="sig-paren">(</span><em class="sig-param">values</em>, <em class="sig-param">meta</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.relationships.HasMany.delayed_init" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function is executed when data needs to be retrieved.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>values</strong> – The database values of the given model</p></li>
+<li><p><strong>meta</strong> – The meta values of the model</p></li>
+</ul>
+</dd>
+<dt class="field-even">Type</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The relationship class</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DB</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dragonfly.db.models.relationships.ManyToMany">
+<em class="property">class </em><code class="sig-prename descclassname">dragonfly.db.models.relationships.</code><code class="sig-name descname">ManyToMany</code><span class="sig-paren">(</span><em class="sig-param">table=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.relationships.ManyToMany" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dragonfly.db.models.relationships.Relationship" title="dragonfly.db.models.relationships.Relationship"><code class="xref py py-class docutils literal notranslate"><span class="pre">dragonfly.db.models.relationships.Relationship</span></code></a></p>
+<dl class="method">
+<dt id="dragonfly.db.models.relationships.ManyToMany.delayed_init">
+<code class="sig-name descname">delayed_init</code><span class="sig-paren">(</span><em class="sig-param">values</em>, <em class="sig-param">meta</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.relationships.ManyToMany.delayed_init" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function is executed when data needs to be retrieved.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>values</strong> – The database values of the given model</p></li>
+<li><p><strong>meta</strong> – The meta values of the model</p></li>
+</ul>
+</dd>
+<dt class="field-even">Type</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The relationship class</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DB</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dragonfly.db.models.relationships.Relationship">
+<em class="property">class </em><code class="sig-prename descclassname">dragonfly.db.models.relationships.</code><code class="sig-name descname">Relationship</code><span class="sig-paren">(</span><em class="sig-param">target</em>, <em class="sig-param">this_key=None</em>, <em class="sig-param">target_key=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.relationships.Relationship" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>An abstract class that defines the interface each <cite>Relationship</cite> class should have</p>
+<dl class="method">
+<dt id="dragonfly.db.models.relationships.Relationship.delayed_init">
+<em class="property">abstract </em><code class="sig-name descname">delayed_init</code><span class="sig-paren">(</span><em class="sig-param">values</em>, <em class="sig-param">meta</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.db.models.relationships.Relationship.delayed_init" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function is executed when data needs to be retrieved.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>values</strong> – The database values of the given model</p></li>
+<li><p><strong>meta</strong> – The meta values of the model</p></li>
+</ul>
+</dd>
+<dt class="field-even">Type</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The relationship class</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DB</span></code></p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -963,7 +1572,7 @@ object).</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="middleware.html" class="btn btn-neutral float-right" title="Middleware package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="middleware.html" class="btn btn-neutral float-right" title="Middleware" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="api-reference.html" class="btn btn-neutral float-left" title="API Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

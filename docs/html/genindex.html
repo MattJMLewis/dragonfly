@@ -22,10 +22,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -84,7 +84,6 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quick-start.html">Quick Start</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api-reference.html">API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="to-do.html">To do</a></li>
 </ul>
 
             
@@ -178,6 +177,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="routes.html#dragonfly.routes.route_collection.RouteCollection.add">add() (dragonfly.routes.route_collection.RouteCollection method)</a>
 </li>
+      <li><a href="db.html#dragonfly.db.models.model.Model.add_relationship">add_relationship() (dragonfly.db.models.model.Model method)</a>
+</li>
       <li><a href="routes.html#dragonfly.routes.router.Router.add_route">add_route() (dragonfly.routes.router.Router method)</a>
 </li>
   </ul></td>
@@ -186,22 +187,28 @@
 </li>
       <li><a href="routes.html#dragonfly.routes.router.Router.any">any() (dragonfly.routes.router.Router method)</a>
 </li>
+      <li><a href="web.html#dragonfly.auth.Auth">Auth (class in dragonfly.auth)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="B">B</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="db.html#dragonfly.db.models.relationships.BelongsTo">BelongsTo (class in dragonfly.db.models.relationships)</a>
+</li>
       <li><a href="db.html#dragonfly.db.table.Table.bigint">bigint() (dragonfly.db.table.Table static method)</a>
 </li>
       <li><a href="db.html#dragonfly.db.models.fields.BigIntField">BigIntField (class in dragonfly.db.models.fields)</a>
 </li>
       <li><a href="db.html#dragonfly.db.table.Table.binary">binary() (dragonfly.db.table.Table static method)</a>
 </li>
-      <li><a href="db.html#dragonfly.db.table.Table.bit">bit() (dragonfly.db.table.Table static method)</a>
+      <li><a href="db.html#dragonfly.db.models.fields.BinaryField">BinaryField (class in dragonfly.db.models.fields)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="db.html#dragonfly.db.table.Table.bit">bit() (dragonfly.db.table.Table static method)</a>
+</li>
       <li><a href="db.html#dragonfly.db.models.fields.BitField">BitField (class in dragonfly.db.models.fields)</a>
 </li>
       <li><a href="db.html#dragonfly.db.table.Table.blob">blob() (dragonfly.db.table.Table static method)</a>
@@ -222,17 +229,19 @@
 </li>
       <li><a href="db.html#dragonfly.db.database.DB.chunk">chunk() (dragonfly.db.database.DB method)</a>
 </li>
-      <li><a href="db.html#dragonfly.db.database.DB.comparison_operators">comparison_operators (dragonfly.db.database.DB attribute)</a>
+      <li><a href="other.html#dragonfly.exceptions.ChunkOutOfRange">ChunkOutOfRange</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="db.html#dragonfly.db.database.DB.comparison_operators">comparison_operators (dragonfly.db.database.DB attribute)</a>
+</li>
       <li><a href="template.html#dragonfly.template.template.Converter.convert">convert() (dragonfly.template.template.Converter method)</a>
 </li>
       <li><a href="template.html#dragonfly.template.template.Converter">Converter (class in dragonfly.template.template)</a>
 </li>
       <li><a href="db.html#dragonfly.db.models.model.Model.create">create() (dragonfly.db.models.model.Model method)</a>
 </li>
-      <li><a href="middleware.html#dragonfly.middleware.middleware_controller.MiddlewareController.create_action_cache">create_action_cache() (dragonfly.middleware.middleware_controller.MiddlewareController method)</a>
+      <li><a href="db.html#dragonfly.db.database.DB.custom_sql">custom_sql() (dragonfly.db.database.DB method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -240,10 +249,6 @@
 <h2 id="D">D</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="db.html#dragonfly.db.models.model.Model.data_to_attributes">data_to_attributes() (dragonfly.db.models.model.Model method)</a>
-</li>
-      <li><a href="db.html#dragonfly.db.models.model.Model.data_to_model">data_to_model() (dragonfly.db.models.model.Model method)</a>
-</li>
       <li><a href="db.html#dragonfly.db.database_migrator.DatabaseMigrator">DatabaseMigrator (class in dragonfly.db.database_migrator)</a>
 </li>
       <li><a href="db.html#dragonfly.db.table.Table.date">date() (dragonfly.db.table.Table static method)</a>
@@ -260,8 +265,20 @@
 </li>
       <li><a href="db.html#dragonfly.db.models.fields.DecimalField">DecimalField (class in dragonfly.db.models.fields)</a>
 </li>
+      <li><a href="db.html#dragonfly.db.models.model.default">default() (in module dragonfly.db.models.model)</a>
+</li>
       <li><a href="web.html#dragonfly.response.DeferredResponse">DeferredResponse (class in dragonfly.response)</a>
 </li>
+      <li><a href="db.html#dragonfly.db.models.relationships.BelongsTo.delayed_init">delayed_init() (dragonfly.db.models.relationships.BelongsTo method)</a>
+
+      <ul>
+        <li><a href="db.html#dragonfly.db.models.relationships.HasMany.delayed_init">(dragonfly.db.models.relationships.HasMany method)</a>
+</li>
+        <li><a href="db.html#dragonfly.db.models.relationships.ManyToMany.delayed_init">(dragonfly.db.models.relationships.ManyToMany method)</a>
+</li>
+        <li><a href="db.html#dragonfly.db.models.relationships.Relationship.delayed_init">(dragonfly.db.models.relationships.Relationship method)</a>
+</li>
+      </ul></li>
       <li><a href="db.html#dragonfly.db.database.DB.delete">delete() (dragonfly.db.database.DB method)</a>
 
       <ul>
@@ -270,13 +287,15 @@
         <li><a href="routes.html#dragonfly.routes.router.Router.delete">(dragonfly.routes.router.Router method)</a>
 </li>
       </ul></li>
-      <li><a href="routes.html#dragonfly.routes.router.Router.dispatch_route">dispatch_route() (dragonfly.routes.router.Router method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="routes.html#dragonfly.routes.router.Router.dispatch_route">dispatch_route() (dragonfly.routes.router.Router method)</a>
+</li>
       <li><a href="db.html#dragonfly.db.table.Table.double">double() (dragonfly.db.table.Table static method)</a>
 </li>
       <li><a href="db.html#dragonfly.db.models.fields.DoubleField">DoubleField (class in dragonfly.db.models.fields)</a>
+</li>
+      <li><a href="other.html#module-dragonfly.constants">dragonfly.constants (module)</a>
 </li>
       <li><a href="db.html#module-dragonfly.db.database">dragonfly.db.database (module)</a>
 </li>
@@ -286,7 +305,11 @@
 </li>
       <li><a href="db.html#module-dragonfly.db.models.model">dragonfly.db.models.model (module)</a>
 </li>
+      <li><a href="db.html#module-dragonfly.db.models.relationships">dragonfly.db.models.relationships (module)</a>
+</li>
       <li><a href="db.html#module-dragonfly.db.table">dragonfly.db.table (module)</a>
+</li>
+      <li><a href="other.html#module-dragonfly.exceptions">dragonfly.exceptions (module)</a>
 </li>
       <li><a href="middleware.html#module-dragonfly.middleware.middleware_controller">dragonfly.middleware.middleware_controller (module)</a>
 </li>
@@ -298,11 +321,7 @@
 </li>
       <li><a href="routes.html#module-dragonfly.routes.router">dragonfly.routes.router (module)</a>
 </li>
-      <li><a href="template.html#module-dragonfly.template.classes.Clause">dragonfly.template.classes.Clause (module)</a>
-</li>
-      <li><a href="template.html#module-dragonfly.template.classes.Snippet">dragonfly.template.classes.Snippet (module)</a>
-</li>
-      <li><a href="template.html#module-dragonfly.template.classes.Stack">dragonfly.template.classes.Stack (module)</a>
+      <li><a href="other.html#module-dragonfly.utils.Utils">dragonfly.utils.Utils (module)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -310,10 +329,12 @@
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="db.html#dragonfly.db.table.Table.enum">enum() (dragonfly.db.table.Table static method)</a>
+      <li><a href="db.html#dragonfly.db.models.fields.Enum">Enum (class in dragonfly.db.models.fields)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="db.html#dragonfly.db.table.Table.enum">enum() (dragonfly.db.table.Table static method)</a>
+</li>
       <li><a href="web.html#dragonfly.response.ErrorResponse">ErrorResponse (class in dragonfly.response)</a>
 </li>
   </ul></td>
@@ -334,8 +355,6 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="template.html#dragonfly.template.template.Converter.fix_clause">fix_clause() (dragonfly.template.template.Converter method)</a>
-</li>
       <li><a href="db.html#dragonfly.db.table.Table.float">float() (dragonfly.db.table.Table static method)</a>
 </li>
       <li><a href="db.html#dragonfly.db.models.fields.FloatField">FloatField (class in dragonfly.db.models.fields)</a>
@@ -350,9 +369,11 @@
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="db.html#dragonfly.db.database.DB.get">get() (dragonfly.db.database.DB method)</a>
+      <li><a href="web.html#dragonfly.auth.Auth.get">get() (dragonfly.auth.Auth static method)</a>
 
       <ul>
+        <li><a href="db.html#dragonfly.db.database.DB.get">(dragonfly.db.database.DB method)</a>
+</li>
         <li><a href="db.html#dragonfly.db.models.model.Model.get">(dragonfly.db.models.model.Model method)</a>
 </li>
         <li><a href="routes.html#dragonfly.routes.router.Router.get">(dragonfly.routes.router.Router method)</a>
@@ -360,11 +381,7 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="db.html#dragonfly.db.models.model.Model.get_attributes">get_attributes() (dragonfly.db.models.model.Model method)</a>
-</li>
       <li><a href="web.html#dragonfly.request.Request.get_data">get_data() (dragonfly.request.Request method)</a>
-</li>
-      <li><a href="routes.html#dragonfly.routes.router.Router.get_routes">get_routes() (dragonfly.routes.router.Router method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -373,6 +390,8 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="db.html#dragonfly.db.table.handle_options">handle_options() (in module dragonfly.db.table)</a>
+</li>
+      <li><a href="db.html#dragonfly.db.models.relationships.HasMany">HasMany (class in dragonfly.db.models.relationships)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -390,11 +409,15 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="db.html#dragonfly.db.database.DB.insert">insert() (dragonfly.db.database.DB method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="db.html#dragonfly.db.table.Table.integer">integer() (dragonfly.db.table.Table static method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="db.html#dragonfly.db.models.fields.IntField">IntField (class in dragonfly.db.models.fields)</a>
+</li>
+      <li><a href="other.html#dragonfly.exceptions.InvalidControllerMethod">InvalidControllerMethod</a>
+</li>
+      <li><a href="other.html#dragonfly.exceptions.InvalidOperator">InvalidOperator</a>
 </li>
   </ul></td>
 </tr></table>
@@ -402,10 +425,14 @@
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="db.html#dragonfly.db.table.Table.longblob">longblob() (dragonfly.db.table.Table static method)</a>
+      <li><a href="template.html#dragonfly.template.template.Line">Line (class in dragonfly.template.template)</a>
+</li>
+      <li><a href="db.html#dragonfly.db.models.fields.LongBlob">LongBlob (class in dragonfly.db.models.fields)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="db.html#dragonfly.db.table.Table.longblob">longblob() (dragonfly.db.table.Table static method)</a>
+</li>
       <li><a href="db.html#dragonfly.db.table.Table.longtext">longtext() (dragonfly.db.table.Table static method)</a>
 </li>
   </ul></td>
@@ -416,24 +443,42 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="template.html#dragonfly.template.template.View.make">make() (dragonfly.template.template.View method)</a>
 </li>
+      <li><a href="db.html#dragonfly.db.models.relationships.ManyToMany">ManyToMany (class in dragonfly.db.models.relationships)</a>
+</li>
       <li><a href="routes.html#dragonfly.routes.route_rule.RouteRule.match">match() (dragonfly.routes.route_rule.RouteRule method)</a>
 </li>
       <li><a href="routes.html#dragonfly.routes.route_collection.RouteCollection.match_route">match_route() (dragonfly.routes.route_collection.RouteCollection method)</a>
 </li>
+      <li><a href="db.html#dragonfly.db.models.fields.MediumBlob">MediumBlob (class in dragonfly.db.models.fields)</a>
+</li>
       <li><a href="db.html#dragonfly.db.table.Table.mediumblob">mediumblob() (dragonfly.db.table.Table static method)</a>
+</li>
+      <li><a href="db.html#dragonfly.db.table.Table.mediumint">mediumint() (dragonfly.db.table.Table static method)</a>
+</li>
+      <li><a href="db.html#dragonfly.db.models.fields.MediumIntField">MediumIntField (class in dragonfly.db.models.fields)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="db.html#dragonfly.db.table.Table.mediumint">mediumint() (dragonfly.db.table.Table static method)</a>
+      <li><a href="db.html#dragonfly.db.models.fields.MediumText">MediumText (class in dragonfly.db.models.fields)</a>
 </li>
       <li><a href="db.html#dragonfly.db.table.Table.mediumtext">mediumtext() (dragonfly.db.table.Table static method)</a>
 </li>
+      <li><a href="other.html#dragonfly.exceptions.MethodDoesNotExist">MethodDoesNotExist</a>
+</li>
       <li><a href="middleware.html#dragonfly.middleware.middleware_controller.MiddlewareController">MiddlewareController (class in dragonfly.middleware.middleware_controller)</a>
+</li>
+      <li><a href="other.html#dragonfly.exceptions.MissingClause">MissingClause</a>
+</li>
+      <li><a href="other.html#dragonfly.exceptions.MissingTable">MissingTable</a>
 </li>
       <li><a href="db.html#dragonfly.db.models.model.Model">Model (class in dragonfly.db.models.model)</a>
 </li>
       <li><a href="db.html#dragonfly.db.database.DB.multiple_where">multiple_where() (dragonfly.db.database.DB method)</a>
+
+      <ul>
+        <li><a href="db.html#dragonfly.db.models.model.Model.multiple_where">(dragonfly.db.models.model.Model method)</a>
 </li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -454,16 +499,12 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="db.html#dragonfly.db.models.model.Model.paginate">paginate() (dragonfly.db.models.model.Model method)</a>
 </li>
-      <li><a href="template.html#dragonfly.template.template.Parser.parse">parse() (dragonfly.template.template.Parser method)</a>
-</li>
-      <li><a href="template.html#dragonfly.template.template.Parser">Parser (class in dragonfly.template.template)</a>
-</li>
       <li><a href="routes.html#dragonfly.routes.router.Router.patch">patch() (dragonfly.routes.router.Router method)</a>
+</li>
+      <li><a href="routes.html#dragonfly.routes.router.Router.post">post() (dragonfly.routes.router.Router method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="routes.html#dragonfly.routes.router.Router.post">post() (dragonfly.routes.router.Router method)</a>
-</li>
       <li><a href="db.html#dragonfly.db.table.Table.primary_key">primary_key() (dragonfly.db.table.Table static method)</a>
 </li>
       <li><a href="db.html#dragonfly.db.models.fields.PrimaryKey">PrimaryKey (class in dragonfly.db.models.fields)</a>
@@ -476,18 +517,20 @@
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="template.html#dragonfly.template.template.Line.reduce_indent">reduce_indent() (dragonfly.template.template.Line method)</a>
+</li>
       <li><a href="db.html#dragonfly.db.models.fields.ForeignKey.references">references() (dragonfly.db.models.fields.ForeignKey method)</a>
 </li>
-      <li><a href="middleware.html#dragonfly.middleware.middleware_controller.MiddlewareController.register_middleware">register_middleware() (dragonfly.middleware.middleware_controller.MiddlewareController method)</a>
+      <li><a href="db.html#dragonfly.db.models.relationships.Relationship">Relationship (class in dragonfly.db.models.relationships)</a>
 </li>
       <li><a href="web.html#dragonfly.request.Request">Request (class in dragonfly.request)</a>
 </li>
       <li><a href="routes.html#dragonfly.routes.router.Router.resource">resource() (dragonfly.routes.router.Router method)</a>
 </li>
-      <li><a href="web.html#dragonfly.response.Response">Response (class in dragonfly.response)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="web.html#dragonfly.response.Response">Response (class in dragonfly.response)</a>
+</li>
       <li><a href="routes.html#dragonfly.routes.route_collection.RouteCollection">RouteCollection (class in dragonfly.routes.route_collection)</a>
 </li>
       <li><a href="routes.html#dragonfly.routes.router.Router">Router (class in dragonfly.routes.router)</a>
@@ -512,8 +555,14 @@
         <li><a href="db.html#dragonfly.db.models.model.Model.select">(dragonfly.db.models.model.Model method)</a>
 </li>
       </ul></li>
-      <li><a href="db.html#dragonfly.db.table.Table.set">set() (dragonfly.db.table.Table static method)</a>
+      <li><a href="db.html#dragonfly.db.models.fields.Set">Set (class in dragonfly.db.models.fields)</a>
 </li>
+      <li><a href="web.html#dragonfly.auth.Auth.set">set() (dragonfly.auth.Auth static method)</a>
+
+      <ul>
+        <li><a href="db.html#dragonfly.db.table.Table.set">(dragonfly.db.table.Table static method)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="web.html#dragonfly.response.Response.set_content">set_content() (dragonfly.response.Response method)</a>
@@ -523,6 +572,8 @@
       <li><a href="db.html#dragonfly.db.table.Table.smallint">smallint() (dragonfly.db.table.Table static method)</a>
 </li>
       <li><a href="db.html#dragonfly.db.models.fields.SmallIntField">SmallIntField (class in dragonfly.db.models.fields)</a>
+</li>
+      <li><a href="db.html#dragonfly.db.models.fields.StringField">StringField (class in dragonfly.db.models.fields)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -548,15 +599,21 @@
 </li>
       <li><a href="db.html#dragonfly.db.table.Table.tinyblob">tinyblob() (dragonfly.db.table.Table static method)</a>
 </li>
+      <li><a href="db.html#dragonfly.db.models.fields.TinyBlobField">TinyBlobField (class in dragonfly.db.models.fields)</a>
+</li>
       <li><a href="db.html#dragonfly.db.table.Table.tinyint">tinyint() (dragonfly.db.table.Table static method)</a>
 </li>
       <li><a href="db.html#dragonfly.db.models.fields.TinyIntField">TinyIntField (class in dragonfly.db.models.fields)</a>
 </li>
       <li><a href="db.html#dragonfly.db.table.Table.tinytext">tinytext() (dragonfly.db.table.Table static method)</a>
 </li>
+      <li><a href="db.html#dragonfly.db.models.fields.TinyTextField">TinyTextField (class in dragonfly.db.models.fields)</a>
+</li>
       <li><a href="db.html#dragonfly.db.models.fields.BigIntField.to_database_type">to_database_type() (dragonfly.db.models.fields.BigIntField method)</a>
 
       <ul>
+        <li><a href="db.html#dragonfly.db.models.fields.BinaryField.to_database_type">(dragonfly.db.models.fields.BinaryField method)</a>
+</li>
         <li><a href="db.html#dragonfly.db.models.fields.BitField.to_database_type">(dragonfly.db.models.fields.BitField method)</a>
 </li>
         <li><a href="db.html#dragonfly.db.models.fields.BoolField.to_database_type">(dragonfly.db.models.fields.BoolField method)</a>
@@ -571,13 +628,27 @@
 </li>
         <li><a href="db.html#dragonfly.db.models.fields.DoubleField.to_database_type">(dragonfly.db.models.fields.DoubleField method)</a>
 </li>
+        <li><a href="db.html#dragonfly.db.models.fields.Enum.to_database_type">(dragonfly.db.models.fields.Enum method)</a>
+</li>
         <li><a href="db.html#dragonfly.db.models.fields.Field.to_database_type">(dragonfly.db.models.fields.Field method)</a>
 </li>
         <li><a href="db.html#dragonfly.db.models.fields.FloatField.to_database_type">(dragonfly.db.models.fields.FloatField method)</a>
 </li>
         <li><a href="db.html#dragonfly.db.models.fields.IntField.to_database_type">(dragonfly.db.models.fields.IntField method)</a>
 </li>
+        <li><a href="db.html#dragonfly.db.models.fields.LongBlob.to_database_type">(dragonfly.db.models.fields.LongBlob method)</a>
+</li>
+        <li><a href="db.html#dragonfly.db.models.fields.MediumBlob.to_database_type">(dragonfly.db.models.fields.MediumBlob method)</a>
+</li>
+        <li><a href="db.html#dragonfly.db.models.fields.MediumIntField.to_database_type">(dragonfly.db.models.fields.MediumIntField method)</a>
+</li>
+        <li><a href="db.html#dragonfly.db.models.fields.MediumText.to_database_type">(dragonfly.db.models.fields.MediumText method)</a>
+</li>
+        <li><a href="db.html#dragonfly.db.models.fields.Set.to_database_type">(dragonfly.db.models.fields.Set method)</a>
+</li>
         <li><a href="db.html#dragonfly.db.models.fields.SmallIntField.to_database_type">(dragonfly.db.models.fields.SmallIntField method)</a>
+</li>
+        <li><a href="db.html#dragonfly.db.models.fields.StringField.to_database_type">(dragonfly.db.models.fields.StringField method)</a>
 </li>
         <li><a href="db.html#dragonfly.db.models.fields.TextField.to_database_type">(dragonfly.db.models.fields.TextField method)</a>
 </li>
@@ -585,21 +656,31 @@
 </li>
         <li><a href="db.html#dragonfly.db.models.fields.TimestampField.to_database_type">(dragonfly.db.models.fields.TimestampField method)</a>
 </li>
+        <li><a href="db.html#dragonfly.db.models.fields.TinyBlobField.to_database_type">(dragonfly.db.models.fields.TinyBlobField method)</a>
+</li>
         <li><a href="db.html#dragonfly.db.models.fields.TinyIntField.to_database_type">(dragonfly.db.models.fields.TinyIntField method)</a>
 </li>
-        <li><a href="db.html#dragonfly.db.models.fields.Year.to_database_type">(dragonfly.db.models.fields.Year method)</a>
+        <li><a href="db.html#dragonfly.db.models.fields.TinyTextField.to_database_type">(dragonfly.db.models.fields.TinyTextField method)</a>
+</li>
+        <li><a href="db.html#dragonfly.db.models.fields.VarCharField.to_database_type">(dragonfly.db.models.fields.VarCharField method)</a>
+</li>
+        <li><a href="db.html#dragonfly.db.models.fields.YearField.to_database_type">(dragonfly.db.models.fields.YearField method)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="db.html#dragonfly.db.models.model.Model.to_dict">to_dict() (dragonfly.db.models.model.Model method)</a>
+</li>
+      <li><a href="template.html#dragonfly.template.template.Line.to_python">to_python() (dragonfly.template.template.Line method)</a>
+</li>
       <li><a href="db.html#dragonfly.db.models.fields.BigIntField.to_python_type">to_python_type() (dragonfly.db.models.fields.BigIntField method)</a>
 
       <ul>
+        <li><a href="db.html#dragonfly.db.models.fields.BinaryField.to_python_type">(dragonfly.db.models.fields.BinaryField method)</a>
+</li>
         <li><a href="db.html#dragonfly.db.models.fields.BitField.to_python_type">(dragonfly.db.models.fields.BitField method)</a>
 </li>
         <li><a href="db.html#dragonfly.db.models.fields.BoolField.to_python_type">(dragonfly.db.models.fields.BoolField method)</a>
-</li>
-        <li><a href="db.html#dragonfly.db.models.fields.CharField.to_python_type">(dragonfly.db.models.fields.CharField method)</a>
 </li>
         <li><a href="db.html#dragonfly.db.models.fields.DateField.to_python_type">(dragonfly.db.models.fields.DateField method)</a>
 </li>
@@ -609,19 +690,35 @@
 </li>
         <li><a href="db.html#dragonfly.db.models.fields.DoubleField.to_python_type">(dragonfly.db.models.fields.DoubleField method)</a>
 </li>
+        <li><a href="db.html#dragonfly.db.models.fields.Enum.to_python_type">(dragonfly.db.models.fields.Enum method)</a>
+</li>
         <li><a href="db.html#dragonfly.db.models.fields.Field.to_python_type">(dragonfly.db.models.fields.Field method)</a>
 </li>
         <li><a href="db.html#dragonfly.db.models.fields.FloatField.to_python_type">(dragonfly.db.models.fields.FloatField method)</a>
 </li>
         <li><a href="db.html#dragonfly.db.models.fields.IntField.to_python_type">(dragonfly.db.models.fields.IntField method)</a>
 </li>
-        <li><a href="db.html#dragonfly.db.models.fields.TextField.to_python_type">(dragonfly.db.models.fields.TextField method)</a>
+        <li><a href="db.html#dragonfly.db.models.fields.LongBlob.to_python_type">(dragonfly.db.models.fields.LongBlob method)</a>
+</li>
+        <li><a href="db.html#dragonfly.db.models.fields.MediumBlob.to_python_type">(dragonfly.db.models.fields.MediumBlob method)</a>
+</li>
+        <li><a href="db.html#dragonfly.db.models.fields.MediumIntField.to_python_type">(dragonfly.db.models.fields.MediumIntField method)</a>
+</li>
+        <li><a href="db.html#dragonfly.db.models.fields.MediumText.to_python_type">(dragonfly.db.models.fields.MediumText method)</a>
+</li>
+        <li><a href="db.html#dragonfly.db.models.fields.Set.to_python_type">(dragonfly.db.models.fields.Set method)</a>
+</li>
+        <li><a href="db.html#dragonfly.db.models.fields.StringField.to_python_type">(dragonfly.db.models.fields.StringField method)</a>
 </li>
         <li><a href="db.html#dragonfly.db.models.fields.TimeField.to_python_type">(dragonfly.db.models.fields.TimeField method)</a>
 </li>
         <li><a href="db.html#dragonfly.db.models.fields.TimestampField.to_python_type">(dragonfly.db.models.fields.TimestampField method)</a>
 </li>
-        <li><a href="db.html#dragonfly.db.models.fields.Year.to_python_type">(dragonfly.db.models.fields.Year method)</a>
+        <li><a href="db.html#dragonfly.db.models.fields.TinyBlobField.to_python_type">(dragonfly.db.models.fields.TinyBlobField method)</a>
+</li>
+        <li><a href="db.html#dragonfly.db.models.fields.TinyTextField.to_python_type">(dragonfly.db.models.fields.TinyTextField method)</a>
+</li>
+        <li><a href="db.html#dragonfly.db.models.fields.YearField.to_python_type">(dragonfly.db.models.fields.YearField method)</a>
 </li>
       </ul></li>
       <li><a href="routes.html#dragonfly.routes.router.to_snake">to_snake() (in module dragonfly.routes.router)</a>
@@ -638,15 +735,17 @@
 </li>
       <li><a href="db.html#dragonfly.db.table.Table.unique">unique() (dragonfly.db.table.Table static method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="db.html#dragonfly.db.database.DB.update">update() (dragonfly.db.database.DB method)</a>
 
       <ul>
         <li><a href="db.html#dragonfly.db.models.model.Model.update">(dragonfly.db.models.model.Model method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="web.html#dragonfly.request.Request.update_environ">update_environ() (dragonfly.request.Request method)</a>
+</li>
+      <li><a href="web.html#dragonfly.auth.Auth.user">user() (dragonfly.auth.Auth static method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -656,9 +755,11 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="db.html#dragonfly.db.table.Table.varbinary">varbinary() (dragonfly.db.table.Table static method)</a>
 </li>
+      <li><a href="db.html#dragonfly.db.table.Table.varchar">varchar() (dragonfly.db.table.Table static method)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="db.html#dragonfly.db.table.Table.varchar">varchar() (dragonfly.db.table.Table static method)</a>
+      <li><a href="db.html#dragonfly.db.models.fields.VarCharField">VarCharField (class in dragonfly.db.models.fields)</a>
 </li>
       <li><a href="template.html#dragonfly.template.template.View">View (class in dragonfly.template.template)</a>
 </li>
@@ -680,11 +781,11 @@
 <h2 id="Y">Y</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="db.html#dragonfly.db.models.fields.Year">Year (class in dragonfly.db.models.fields)</a>
+      <li><a href="db.html#dragonfly.db.table.Table.year">year() (dragonfly.db.table.Table static method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="db.html#dragonfly.db.table.Table.year">year() (dragonfly.db.table.Table static method)</a>
+      <li><a href="db.html#dragonfly.db.models.fields.YearField">YearField (class in dragonfly.db.models.fields)</a>
 </li>
   </ul></td>
 </tr></table>

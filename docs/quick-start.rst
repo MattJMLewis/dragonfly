@@ -15,19 +15,21 @@ architectural pattern. This means that the model structure, application
 logic and user interface are divided into separate components. As this is a brief quick start guide some features
 won't be shown. To get a full list of features please see the `API reference <api-reference.md>`__.
 
+This quick guide details some of the code in the demo project that is displayed on this site.
+
 Routing
 ^^^^^^^
 
 Routing allows dragonfly to know the location to send a HTTP request. In
-the example below the GET request to ``/testing`` is routed to the
-``index`` function on ``TestController``. This is all registered in the
+the example below the GET request to ``/users/<id:int>`` is routed to the
+``show`` function on ``UserController``. This is all registered in the
 ``routes.py`` file.
 
 .. code:: python
 
-    from dragonfly.routes import Router
+    from dragonfly.routes import routes
 
-    Router.get('testing', 'TestController@test')
+    routes.get('users/<id:int>', 'UserController@show')
 
 HTTP Methods
 ''''''''''''
@@ -60,7 +62,7 @@ second argument is an entire controller. Here is an example:
 
 .. code:: python
 
-    Router.resource('articles', 'ArticleController') # Notice there is no @{method_name}
+    routes.resource('articles', 'ArticleController') # Notice there is no @{method_name}
 
 Calling ``.resource('ArticleController')`` will register the following routes:
 
@@ -100,7 +102,7 @@ It is possible to have multiple parameters on a route. For example:
 
 .. code:: python
 
-    Route.get('/articles/<id:int>/<comment_id:int>')
+    routes.get('/articles/<id:int>/<comment_id:int>')
 
 Dragonfly supports the following types by default:
 
@@ -113,7 +115,6 @@ Dragonfly supports the following types by default:
 +-----------+----------------+
 
 Custom types
-            
 
 It is very easy to define your own custom types. Simply add a new key
 (name of the type), value (regex to match) pair in the
@@ -142,22 +143,20 @@ The following is the basic structure of a controller:
 
 .. code:: python
 
-    from dragonfly import Controller
-    from models.Article import Article
-    from dragonfly import View
-
+    from dragonfly import Auth, Controller, view
+    from models.article import Article
 
     class ArticleController(Controller):
         
         def show(self, id):
-            return View('articles.show', article=Article().find(id))
+            return View('articles.show', article=Article().find(id), user=Auth.user())
             
 
 The following route would match to this controller method:
 
 .. code:: python
 
-    Route.get('/articles/<id:int>', 'ArticleController@show')
+    routes.get('/articles/<id:int>', 'ArticleController@show')
 
 Middleware
 ^^^^^^^^^^
@@ -201,7 +200,62 @@ request will stop and the response returned.
 
         def after(self):
             pass
-            
+
+Below is an example of the CSRF protection middleware class that comes pre-packaged with Dragonfly.
+
+.. warning:: Please note that in any ``Middleware`` class object any packages imported from the framework must be imported by their full import path.
+
+.. code:: python
+
+    from dragonfly.constants import DATA_METHODS
+    from dragonfly.request import request
+    from dragonfly.response import ErrorResponse
+    from dragonfly.auth import Auth
+    from config import NO_AUTH
+
+    import os
+
+
+    class CsrfMiddleware:
+        actions = '*'
+
+        def before(self):
+            # Determine if csrf_token for form request is valid
+            if request.method in DATA_METHODS and request.path not in NO_AUTH:
+
+                try:
+                    token = request.get_data()['csrf_token']
+                except KeyError:
+                    return ErrorResponse('No CSRF token', 500)
+
+                if token != Auth.get('csrf_token'):
+                    return ErrorResponse('CSRF invalid', 500)
+
+            # Set a csrf_token for the form request
+            elif request.path not in NO_AUTH:
+                Auth.set('csrf_token', os.urandom(25).hex())
+
+        def after(self):
+            pass
+
+Database
+^^^^^^^^^^^
+The database module provides any easy way to interact with the configured
+``MySQL`` database. It simply provides Python functions that are equivalent
+to certain SQL commands.
+
+The code below demonstrates some of its usage (note this code is not present in the actual demo application)
+
+.. code:: python
+
+    res = DB('articles').select('name').where('name', '=', 'Testing').first()
+
+This will generate and execute the following SQL code:
+
+.. code:: sql
+
+    SELECT 'name' FROM `articles` WHERE 'name' = 'testing';
+
 
 Models (ORM)
 ^^^^^^^^^^^^
@@ -224,9 +278,16 @@ example of an articles model and the SQL it generates.
 
     class Article(models.Model):
 
-        id = models.IntegerField(unsigned=True, auto_increment=True, primary_key=True)
-        title = models.CharField(max_length=10)
+        name = models.VarCharField(length=255)
         text = models.TextField()
+        user_id = models.IntField(unsigned=True)
+
+        class Meta:
+            article_user_fk = models.ForeignKey('user_id').references('id').on('users')
+
+        def url(self):
+        return f"{URL}/articles/{self.id}"
+
 
 There are many field types and options for each field type. For an
 exhaustive list of these please see the `API
@@ -236,8 +297,20 @@ way to generate the slug for an article:
 
 .. code:: python
 
-        def slug(self):
+        def url(self):
             return f"/articles/{self.id}"
+
+This is also where relationships are defined. The following code would be used to define a one-to-many relationship
+with the ``Comments`` class and a many-to-one relationship with the ``User`` class.
+
+.. code:: python
+
+        def comments(self):
+            return self.add_relationship(models.HasMany(target='comment'))
+
+        def user(self):
+            return self.add_relationship(models.BelongsTo(target='user'))
+
 
 Once you have defined the model you need to generate and execute the SQL
 to create the table. To do this simply run the following command.
@@ -257,8 +330,17 @@ retrieving all articles in the database:
     articles = Article().get()
 
 The ORM has a large number of methods that are all listed in the `API
-reference <#api-documentation>`__. However, below are listed some of the
-common methods:
+reference <#api-documentation>`__.
+
+To interact with the relationships defined in the class simply call the defined functions.
+
+.. code:: python
+
+    # Returns a list of ``Comment`` objects that belong to the given ``Article`` class
+    comments = Article().first().comments()
+
+    # Returns the ``User`` object that this ``Article`` belongs to.
+    user = Article().first().user()
 
 Templates
 ^^^^^^^^^
@@ -272,28 +354,71 @@ Below is an example of a html file saved in
 
 .. code:: html
 
+    <!DOCTYPE html>
+    <html lang="en">
     <head>
-        <meta charset="utf-8">
-        <title>Articles | Index</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta charset="UTF-8">
+        <title>Articles</title>
+        <link rel="stylesheet" href="https://bootswatch.com/4/materia/bootstrap.min.css">
     </head>
-
-    <h1>Articles</h1>
-    <hr>
-
     <body>
-        <div>
-            {% for article in articles }}
-                <a href="http://{{ [article.slug()] }}">
-                    {{ [server.name] }}
-                </a>
-            {{ end for %}
-            
-            {% if display_help }}
-                Looks like you need some help...
-            {{ end if %}
-        </div>   
+    <div class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
+        <div class="container">
+            <a href="{{ Utils.url('') }}" class="navbar-brand">Dragonfly</a>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ Utils.url('articles') }}">Articles</a>
+                    </li>
+                </ul>
+                <form class="form-inline my-2 my-lg-0" method="POST" action="{{ Utils.url('logout') }}">
+                    <input type="hidden" name="csrf_token" value="{{ Auth.get('csrf_token') )}}">
+                    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Log out</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-5 pt-5">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card border-secondary mb-3">
+                    <div class="card-header">Articles</div>
+                    <div class="card-body">
+                        <div class="list-group list-group-flush">
+                            @if(articles is None)
+                                No articles
+                            @else
+                                @for(article in articles)
+                                <a href="{{ $article.url()$ }}"
+                                   class="list-group-item list-group-item-action flex-column align-items-start">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">{{ $article.name$ }}</h5>
+                                    </div>
+                                    <p class="mb-1">{{ $article.text$ }}</p>
+                                </a>
+                                @endfor
+                            @endif
+                        </div>
+                    </div>
+                </div>
+                <a href="{{ Utils.url('articles/create') }}"><button type="button" class="btn btn-primary btn-lg btn-block">Create an Article</button></a>
+
+                @if(pagination is not None)
+                    @if(pagination['last_page'] != 1)
+                    <div class="btn-toolbar justify-content-center" role="toolbar">
+                        <div class="btn-group mr-2" role="group" aria-label="First group">
+                            @for(i in range(0, pagination['last_page']))
+                            <a href="{{ Utils.url('articles?page=' + str(i + 1)) }}">
+                                <button type="button" class="btn btn-secondary">{{ $(i + 1)$ }}</button>
+                            </a>
+                            @endfor
+                        </div>
+                    </div>
+                    @endif
+                @endif
+            </div>
+        </div>
+    </div>
     </body>
     </html>
 
@@ -302,7 +427,8 @@ controller:
 
 .. code:: python
 
-    return View('articles.index', articles=articles, display_help=True).make()
+    articles = Article().paginate(size=5)
+    return view('articles.index', articles=articles[0[, pagination=articles[1])
 
 There are a few important things to note about the syntax of the
 templating system:
@@ -310,15 +436,8 @@ templating system:
 -  To write variables simply wrap ``{{ }}`` around the variable name.
 -  Due to the way the template compiler works if the variable is one
    'generated' by a for loop, like the ``article`` variable in the
-   example above, it must also be wrapped by ``[ ]``.
--  Command structures are declared by having the opening clause begin
-   with ``{%`` and the ending clause close with ``%}``.
--  The only command structures available currently are ``if`` and
-   ``for``.
--  Each command structure must have a start and end clause (``if ...``,
-   ``end if``, ``for ...``, ``end for``).
+   example above, it must also be wrapped by ``$ $``.
 
 Demo App
 ^^^^^^^^
-
-Please see .. _here: https://github.com/MattJMLewis/dragonfly-demo for an example project.
+Please see `here <https://github.com/MattJMLewis/dragonfly-demo>`__ for further code from the example project.

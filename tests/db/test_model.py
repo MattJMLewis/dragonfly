@@ -6,7 +6,7 @@ from tests.models.article import Article
 TO DO
 -----
 
-- Refactor each test so that it does not rely on the model class for something to occur, use DB instead.
+- Refactor each test so that it does not rely __on the model class for something to occur, use DB instead.
 
 '''
 

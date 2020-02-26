@@ -12,12 +12,12 @@ class RouteCollection:
     """
 
     def __init__(self):
-        self.static_routes = {}
-        self.dynamic_routes = defaultdict(dict)
+        self.__static_routes = {}
+        self.__dynamic_routes = defaultdict(dict)
 
         for method in METHODS:
-            self.static_routes[method] = {}
-            self.dynamic_routes[method] = {}
+            self.__static_routes[method] = {}
+            self.__dynamic_routes[method] = {}
 
     def add(self, uri, action, method):
         """
@@ -42,26 +42,31 @@ class RouteCollection:
 
         # Determine if the route is dynamic (contains a route parameter e.g <id:int> )
         if self.__is_dynamic(uri):
-            # If we return a list of methods to add (this is primarily used for the `.any()` function on the router.
-            key_list = uri.split('<', 1)[0].split('/')
-            del key_list[-1]
+            # Split url at '/' and '<'
+            url_list = uri.split('<', 1)[0].split('/')
+            del url_list[-1]
 
+            # If we return a list of methods to add (this is primarily used for the `.any()` function on the router.
             if isinstance(method, list):
                 route_rule = RouteRule(uri)
 
                 for method in METHODS:
-                    slug_dict = self.dynamic_routes[method]
+                    slug_dict = self.__dynamic_routes[method]
 
-                    for key in key_list:
-                        slug_dict = slug_dict.setdefault(key, {})
+                    for url in url_list:
+                        # Iterate over each part of url and add a new dictionary (as a value) to the previously defined
+                        # dictionary with the current url part as the key
+                        slug_dict = slug_dict.setdefault(url, {})
 
+                    # Store the route rule, as the key, in the final dictionary (that corresponds to the final slug in
+                    # the static part of the URL) with the value as the action it corresponds to
                     slug_dict[route_rule] = action
-
             else:
-                slug_dict = self.dynamic_routes[method]
+                # Same as above but for one HTTP method
+                slug_dict = self.__dynamic_routes[method]
 
-                for key in key_list:
-                    slug_dict = slug_dict.setdefault(key, {})
+                for url in url_list:
+                    slug_dict = slug_dict.setdefault(url, {})
 
                 slug_dict[RouteRule(uri)] = action
 
@@ -69,34 +74,42 @@ class RouteCollection:
             if isinstance(method, list):
                 # Used for the `.any()` function on the router.
                 for method in METHODS:
-                    self.static_routes[method][uri] = action
+                    self.__static_routes[method][uri] = action
             else:
                 # Store the static route in a simple dictionary.
-                self.static_routes[method][uri] = action
+                self.__static_routes[method][uri] = action
 
     def match_route(self, uri, method):
         """
         Match the given route using its URI and method. First we check if it is a static route before checking all
-        dynamic routes
+        dynamic routes.
+
+        :param uri: The URI to match
+        :type: str
+
+        :param method: The HTTP method
+        :type: str
+
+        :return: Any matching routes
+        :type: dict
         """
 
+        # See if static route first before trying dynamic route dictionary
         try:
-            return self.static_routes[method][uri], {}
+            return self.__static_routes[method][uri], {}
         except KeyError:
-            # Refactor here. Have a dictionary that contains slugs and slugs of slugs etc... e.g
-            # dynamic_routes['/articles']['/comments'] <- which would then contain a list of route rules to match.
-            key_list = uri.split('/')
-            slug_dict = self.dynamic_routes[method]
+            url_list = uri.split('/')
+            slug_dict = self.__dynamic_routes[method]
 
-            for key in key_list:
+            # Iterate over each slug in the URL and find the corresponding dictionary until failure
+            for url in url_list:
                 try:
-                    slug_dict = slug_dict[key]
+                    slug_dict = slug_dict[url]
                 except KeyError:
                     pass
 
-            # Differentiate between iterating too far or nothing being found
             for route, action in slug_dict.items():
-
+                # Ensure value found is a RouteRule (and not another dictionary)
                 if isinstance(route, RouteRule):
                     match = route.match(uri)
                     if match:
@@ -106,6 +119,16 @@ class RouteCollection:
 
     @staticmethod
     def __is_dynamic(uri):
+        """
+        Determines if the URI is dynamic.
+
+        :param uri: The URI to check
+        :type: str
+
+        :return: If the URI is dynamic or not.
+        :rtype: bool
+        """
+
         has_left = uri.count("<")
         has_right = uri.count(">")
 

@@ -1,8 +1,7 @@
-from dragonfly import Controller
 from dragonfly import Response
 
 
-class TestController(Controller):
+class TestController:
 
     def test(self):
         return Response()

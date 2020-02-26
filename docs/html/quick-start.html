@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -93,13 +93,13 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#controllers">Controllers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#middleware">Middleware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#database">Database</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#models-orm">Models (ORM)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#templates">Templates</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#demo-app">Demo App</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api-reference.html">API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="to-do.html">To do</a></li>
 </ul>
 
             
@@ -175,16 +175,17 @@
 architectural pattern. This means that the model structure, application
 logic and user interface are divided into separate components. As this is a brief quick start guide some features
 won’t be shown. To get a full list of features please see the <a class="reference external" href="api-reference.md">API reference</a>.</p>
+<p>This quick guide details some of the code in the demo project that is displayed on this site.</p>
 </div>
 <div class="section" id="routing">
 <h2>Routing<a class="headerlink" href="#routing" title="Permalink to this headline">¶</a></h2>
 <p>Routing allows dragonfly to know the location to send a HTTP request. In
-the example below the GET request to <code class="docutils literal notranslate"><span class="pre">/testing</span></code> is routed to the
-<code class="docutils literal notranslate"><span class="pre">index</span></code> function on <code class="docutils literal notranslate"><span class="pre">TestController</span></code>. This is all registered in the
+the example below the GET request to <code class="docutils literal notranslate"><span class="pre">/users/&lt;id:int&gt;</span></code> is routed to the
+<code class="docutils literal notranslate"><span class="pre">show</span></code> function on <code class="docutils literal notranslate"><span class="pre">UserController</span></code>. This is all registered in the
 <code class="docutils literal notranslate"><span class="pre">routes.py</span></code> file.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dragonfly.routes</span> <span class="kn">import</span> <span class="n">Router</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dragonfly.routes</span> <span class="kn">import</span> <span class="n">routes</span>
 
-<span class="n">Router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;testing&#39;</span><span class="p">,</span> <span class="s1">&#39;TestController@test&#39;</span><span class="p">)</span>
+<span class="n">routes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;users/&lt;id:int&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;UserController@show&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="section" id="http-methods">
@@ -229,7 +230,7 @@ the example below the GET request to <code class="docutils literal notranslate">
 <h3>Resource Routing<a class="headerlink" href="#resource-routing" title="Permalink to this headline">¶</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">Router</span></code> class also has a special method called <code class="docutils literal notranslate"><span class="pre">resource</span></code>. Its
 second argument is an entire controller. Here is an example:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Router</span><span class="o">.</span><span class="n">resource</span><span class="p">(</span><span class="s1">&#39;articles&#39;</span><span class="p">,</span> <span class="s1">&#39;ArticleController&#39;</span><span class="p">)</span> <span class="c1"># Notice there is no @{method_name}</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">routes</span><span class="o">.</span><span class="n">resource</span><span class="p">(</span><span class="s1">&#39;articles&#39;</span><span class="p">,</span> <span class="s1">&#39;ArticleController&#39;</span><span class="p">)</span> <span class="c1"># Notice there is no @{method_name}</span>
 </pre></div>
 </div>
 <p>Calling <code class="docutils literal notranslate"><span class="pre">.resource('ArticleController')</span></code> will register the following routes:</p>
@@ -298,7 +299,7 @@ database. A route parameter should follow the pattern below:</p>
 </pre></div>
 </div>
 <p>It is possible to have multiple parameters on a route. For example:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Route</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/articles/&lt;id:int&gt;/&lt;comment_id:int&gt;&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">routes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/articles/&lt;id:int&gt;/&lt;comment_id:int&gt;&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Dragonfly supports the following types by default:</p>
@@ -342,19 +343,17 @@ that resource. The following command will create a file in the
 <p>Each time a request is routed a new instance of the registered
 controller will be instantiated and the registered function run.</p>
 <p>The following is the basic structure of a controller:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dragonfly</span> <span class="kn">import</span> <span class="n">Controller</span>
-<span class="kn">from</span> <span class="nn">models.Article</span> <span class="kn">import</span> <span class="n">Article</span>
-<span class="kn">from</span> <span class="nn">dragonfly</span> <span class="kn">import</span> <span class="n">View</span>
-
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dragonfly</span> <span class="kn">import</span> <span class="n">Auth</span><span class="p">,</span> <span class="n">Controller</span><span class="p">,</span> <span class="n">view</span>
+<span class="kn">from</span> <span class="nn">models.article</span> <span class="kn">import</span> <span class="n">Article</span>
 
 <span class="k">class</span> <span class="nc">ArticleController</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">View</span><span class="p">(</span><span class="s1">&#39;articles.show&#39;</span><span class="p">,</span> <span class="n">article</span><span class="o">=</span><span class="n">Article</span><span class="p">()</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="nb">id</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">View</span><span class="p">(</span><span class="s1">&#39;articles.show&#39;</span><span class="p">,</span> <span class="n">article</span><span class="o">=</span><span class="n">Article</span><span class="p">()</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="nb">id</span><span class="p">),</span> <span class="n">user</span><span class="o">=</span><span class="n">Auth</span><span class="o">.</span><span class="n">user</span><span class="p">())</span>
 </pre></div>
 </div>
 <p>The following route would match to this controller method:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Route</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/articles/&lt;id:int&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;ArticleController@show&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">routes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/articles/&lt;id:int&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;ArticleController@show&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -395,6 +394,57 @@ request will stop and the response returned.</p>
         <span class="k">pass</span>
 </pre></div>
 </div>
+<p>Below is an example of the CSRF protection middleware class that comes pre-packaged with Dragonfly.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Please note that in any <code class="docutils literal notranslate"><span class="pre">Middleware</span></code> class object any packages imported from the framework must be imported by their full import path.</p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dragonfly.constants</span> <span class="kn">import</span> <span class="n">DATA_METHODS</span>
+<span class="kn">from</span> <span class="nn">dragonfly.request</span> <span class="kn">import</span> <span class="n">request</span>
+<span class="kn">from</span> <span class="nn">dragonfly.response</span> <span class="kn">import</span> <span class="n">ErrorResponse</span>
+<span class="kn">from</span> <span class="nn">dragonfly.auth</span> <span class="kn">import</span> <span class="n">Auth</span>
+<span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">NO_AUTH</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+
+
+<span class="k">class</span> <span class="nc">CsrfMiddleware</span><span class="p">:</span>
+    <span class="n">actions</span> <span class="o">=</span> <span class="s1">&#39;*&#39;</span>
+
+    <span class="k">def</span> <span class="nf">before</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Determine if csrf_token for form request is valid</span>
+        <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="ow">in</span> <span class="n">DATA_METHODS</span> <span class="ow">and</span> <span class="n">request</span><span class="o">.</span><span class="n">path</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">NO_AUTH</span><span class="p">:</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">token</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_data</span><span class="p">()[</span><span class="s1">&#39;csrf_token&#39;</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">ErrorResponse</span><span class="p">(</span><span class="s1">&#39;No CSRF token&#39;</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">token</span> <span class="o">!=</span> <span class="n">Auth</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;csrf_token&#39;</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">ErrorResponse</span><span class="p">(</span><span class="s1">&#39;CSRF invalid&#39;</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+
+        <span class="c1"># Set a csrf_token for the form request</span>
+        <span class="k">elif</span> <span class="n">request</span><span class="o">.</span><span class="n">path</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">NO_AUTH</span><span class="p">:</span>
+            <span class="n">Auth</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;csrf_token&#39;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">urandom</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span><span class="o">.</span><span class="n">hex</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">after</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="database">
+<h2>Database<a class="headerlink" href="#database" title="Permalink to this headline">¶</a></h2>
+<p>The database module provides any easy way to interact with the configured
+<code class="docutils literal notranslate"><span class="pre">MySQL</span></code> database. It simply provides Python functions that are equivalent
+to certain SQL commands.</p>
+<p>The code below demonstrates some of its usage (note this code is not present in the actual demo application)</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">DB</span><span class="p">(</span><span class="s1">&#39;articles&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="s1">&#39;Testing&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This will generate and execute the following SQL code:</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span> <span class="s1">&#39;name&#39;</span> <span class="k">FROM</span> <span class="o">`</span><span class="n">articles</span><span class="o">`</span> <span class="k">WHERE</span> <span class="s1">&#39;name&#39;</span> <span class="o">=</span> <span class="s1">&#39;testing&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="models-orm">
 <h2>Models (ORM)<a class="headerlink" href="#models-orm" title="Permalink to this headline">¶</a></h2>
@@ -411,9 +461,15 @@ example of an articles model and the SQL it generates.</p>
 
 <span class="k">class</span> <span class="nc">Article</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
 
-    <span class="nb">id</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">unsigned</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">auto_increment</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">VarCharField</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
     <span class="n">text</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
+    <span class="n">user_id</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntField</span><span class="p">(</span><span class="n">unsigned</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">article_user_fk</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s1">&#39;user_id&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">references</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s1">&#39;users&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{URL}</span><span class="s2">/articles/</span><span class="si">{self.id}</span><span class="s2">&quot;</span>
 </pre></div>
 </div>
 <p>There are many field types and options for each field type. For an
@@ -421,8 +477,17 @@ exhaustive list of these please see the <a class="reference external" href="#api
 reference</a>. It is also important to note that you
 can add any function you would like to the model class. For example a
 way to generate the slug for an article:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">slug</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;/articles/{self.id}&quot;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;/articles/</span><span class="si">{self.id}</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+<p>This is also where relationships are defined. The following code would be used to define a one-to-many relationship
+with the <code class="docutils literal notranslate"><span class="pre">Comments</span></code> class and a many-to-one relationship with the <code class="docutils literal notranslate"><span class="pre">User</span></code> class.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">comments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_relationship</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">HasMany</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="s1">&#39;comment&#39;</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">user</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_relationship</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">BelongsTo</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="s1">&#39;user&#39;</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>Once you have defined the model you need to generate and execute the SQL
@@ -433,14 +498,21 @@ to create the table. To do this simply run the following command.</p>
 <p>Once complete you should be able to manipulate the newly created
 <code class="docutils literal notranslate"><span class="pre">articles</span></code> table through the <code class="docutils literal notranslate"><span class="pre">Article</span></code> model. Below is an example of
 retrieving all articles in the database:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">models.article</span> <span class="k">import</span> <span class="n">Article</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">models.article</span> <span class="kn">import</span> <span class="n">Article</span>
 
 <span class="n">articles</span> <span class="o">=</span> <span class="n">Article</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>The ORM has a large number of methods that are all listed in the <a class="reference external" href="#api-documentation">API
-reference</a>. However, below are listed some of the
-common methods:</p>
+reference</a>.</p>
+<p>To interact with the relationships defined in the class simply call the defined functions.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Returns a list of ``Comment`` objects that belong to the given ``Article`` class</span>
+<span class="n">comments</span> <span class="o">=</span> <span class="n">Article</span><span class="p">()</span><span class="o">.</span><span class="n">first</span><span class="p">()</span><span class="o">.</span><span class="n">comments</span><span class="p">()</span>
+
+<span class="c1"># Returns the ``User`` object that this ``Article`` belongs to.</span>
+<span class="n">user</span> <span class="o">=</span> <span class="n">Article</span><span class="p">()</span><span class="o">.</span><span class="n">first</span><span class="p">()</span><span class="o">.</span><span class="n">user</span><span class="p">()</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="templates">
 <h2>Templates<a class="headerlink" href="#templates" title="Permalink to this headline">¶</a></h2>
@@ -449,35 +521,79 @@ stored in the <code class="docutils literal notranslate"><span class="pre">views
 templates can also be in subdirectories of the <code class="docutils literal notranslate"><span class="pre">views</span></code> directory.</p>
 <p>Below is an example of a html file saved in
 <code class="docutils literal notranslate"><span class="pre">views/articles/index.html</span></code></p>
-<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
-    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&quot;utf-8&quot;</span><span class="p">&gt;</span>
-    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Articles | Index<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
-    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;width=device-width, initial-scale=1&quot;</span><span class="p">&gt;</span>
-    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">http-equiv</span><span class="o">=</span><span class="s">&quot;X-UA-Compatible&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;IE=edge&quot;</span><span class="p">&gt;</span>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&quot;en&quot;</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&quot;UTF-8&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Articles<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;https://bootswatch.com/4/materia/bootstrap.min.css&quot;</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
-
-<span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Articles<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
-<span class="p">&lt;</span><span class="nt">hr</span><span class="p">&gt;</span>
-
 <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
-    <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
-        {% for article in articles }}
-            <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;http://{{ [article.slug()] }}&quot;</span><span class="p">&gt;</span>
-                {{ [server.name] }}
-            <span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
-        {{ end for %}
-
-        {% if display_help }}
-            Looks like you need some help...
-        {{ end if %}
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;navbar navbar-expand-lg fixed-top navbar-dark bg-primary&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;container&quot;</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;{{ Utils.url(&#39;&#39;) }}&quot;</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;navbar-brand&quot;</span><span class="p">&gt;</span>Dragonfly<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;collapse navbar-collapse&quot;</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;navbarResponsive&quot;</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">ul</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;navbar-nav mr-auto&quot;</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">li</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;nav-item&quot;</span><span class="p">&gt;</span>
+                    <span class="p">&lt;</span><span class="nt">a</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;nav-link&quot;</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;{{ Utils.url(&#39;articles&#39;) }}&quot;</span><span class="p">&gt;</span>Articles<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+                <span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+            <span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">form</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;form-inline my-2 my-lg-0&quot;</span> <span class="na">method</span><span class="o">=</span><span class="s">&quot;POST&quot;</span> <span class="na">action</span><span class="o">=</span><span class="s">&quot;{{ Utils.url(&#39;logout&#39;) }}&quot;</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;hidden&quot;</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;csrf_token&quot;</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;{{ Auth.get(&#39;csrf_token&#39;) )}}&quot;</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">button</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;btn btn-secondary my-2 my-sm-0&quot;</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;submit&quot;</span><span class="p">&gt;</span>Log out<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+            <span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
     <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;container mt-5 pt-5&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;row&quot;</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;col-lg-12&quot;</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;card border-secondary mb-3&quot;</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;card-header&quot;</span><span class="p">&gt;</span>Articles<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;card-body&quot;</span><span class="p">&gt;</span>
+                    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;list-group list-group-flush&quot;</span><span class="p">&gt;</span>
+                        @if(articles is None)
+                            No articles
+                        @else
+                            @for(article in articles)
+                            <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;{{ $article.url()$ }}&quot;</span>
+                               <span class="na">class</span><span class="o">=</span><span class="s">&quot;list-group-item list-group-item-action flex-column align-items-start&quot;</span><span class="p">&gt;</span>
+                                <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;d-flex w-100 justify-content-between&quot;</span><span class="p">&gt;</span>
+                                    <span class="p">&lt;</span><span class="nt">h5</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;mb-1&quot;</span><span class="p">&gt;</span>{{ $article.name$ }}<span class="p">&lt;/</span><span class="nt">h5</span><span class="p">&gt;</span>
+                                <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+                                <span class="p">&lt;</span><span class="nt">p</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;mb-1&quot;</span><span class="p">&gt;</span>{{ $article.text$ }}<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+                            <span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+                            @endfor
+                        @endif
+                    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+                <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+            <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;{{ Utils.url(&#39;articles/create&#39;) }}&quot;</span><span class="p">&gt;&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;button&quot;</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;btn btn-primary btn-lg btn-block&quot;</span><span class="p">&gt;</span>Create an Article<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+
+            @if(pagination is not None)
+                @if(pagination[&#39;last_page&#39;] != 1)
+                <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;btn-toolbar justify-content-center&quot;</span> <span class="na">role</span><span class="o">=</span><span class="s">&quot;toolbar&quot;</span><span class="p">&gt;</span>
+                    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;btn-group mr-2&quot;</span> <span class="na">role</span><span class="o">=</span><span class="s">&quot;group&quot;</span> <span class="na">aria-label</span><span class="o">=</span><span class="s">&quot;First group&quot;</span><span class="p">&gt;</span>
+                        @for(i in range(0, pagination[&#39;last_page&#39;]))
+                        <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;{{ Utils.url(&#39;articles?page=&#39; + str(i + 1)) }}&quot;</span><span class="p">&gt;</span>
+                            <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;button&quot;</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;btn btn-secondary&quot;</span><span class="p">&gt;</span>{{ $(i + 1)$ }}<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+                        <span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+                        @endfor
+                    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+                <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+                @endif
+            @endif
+        <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
 </pre></div>
 </div>
 <p>To call and render this view you would write the following in your
 controller:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">return</span> <span class="n">View</span><span class="p">(</span><span class="s1">&#39;articles.index&#39;</span><span class="p">,</span> <span class="n">articles</span><span class="o">=</span><span class="n">articles</span><span class="p">,</span> <span class="n">display_help</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">make</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">articles</span> <span class="o">=</span> <span class="n">Article</span><span class="p">()</span><span class="o">.</span><span class="n">paginate</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="k">return</span> <span class="n">view</span><span class="p">(</span><span class="s1">&#39;articles.index&#39;</span><span class="p">,</span> <span class="n">articles</span><span class="o">=</span><span class="n">articles</span><span class="p">[</span><span class="mi">0</span><span class="p">[,</span> <span class="n">pagination</span><span class="o">=</span><span class="n">articles</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>There are a few important things to note about the syntax of the
@@ -486,18 +602,12 @@ templating system:</p>
 <li><p>To write variables simply wrap <code class="docutils literal notranslate"><span class="pre">{{</span> <span class="pre">}}</span></code> around the variable name.</p></li>
 <li><p>Due to the way the template compiler works if the variable is one
 ‘generated’ by a for loop, like the <code class="docutils literal notranslate"><span class="pre">article</span></code> variable in the
-example above, it must also be wrapped by <code class="docutils literal notranslate"><span class="pre">[</span> <span class="pre">]</span></code>.</p></li>
-<li><p>Command structures are declared by having the opening clause begin
-with <code class="docutils literal notranslate"><span class="pre">{%</span></code> and the ending clause close with <code class="docutils literal notranslate"><span class="pre">%}</span></code>.</p></li>
-<li><p>The only command structures available currently are <code class="docutils literal notranslate"><span class="pre">if</span></code> and
-<code class="docutils literal notranslate"><span class="pre">for</span></code>.</p></li>
-<li><p>Each command structure must have a start and end clause (<code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">...</span></code>,
-<code class="docutils literal notranslate"><span class="pre">end</span> <span class="pre">if</span></code>, <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">...</span></code>, <code class="docutils literal notranslate"><span class="pre">end</span> <span class="pre">for</span></code>).</p></li>
+example above, it must also be wrapped by <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">$</span></code>.</p></li>
 </ul>
 </div>
 <div class="section" id="demo-app">
 <h2>Demo App<a class="headerlink" href="#demo-app" title="Permalink to this headline">¶</a></h2>
-<p>Please see .. _here: <a class="reference external" href="https://github.com/MattJMLewis/dragonfly-demo">https://github.com/MattJMLewis/dragonfly-demo</a> for an example project.</p>
+<p>Please see <a class="reference external" href="https://github.com/MattJMLewis/dragonfly-demo">here</a> for further code from the example project.</p>
 </div>
 </div>
 

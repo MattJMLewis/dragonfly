@@ -1,14 +1,17 @@
 import importlib
-from dragonfly.constants import METHODS, DATA_METHODS
-from dragonfly.routes.route_collection import RouteCollection
-from dragonfly.response import Response, ErrorResponse, deferred_response
-from dragonfly.request import request
-from dragonfly.middleware.middleware_controller import middleware_controller
 import re
-import os
+
+from dragonfly.constants import METHODS, DATA_METHODS
+from dragonfly.middleware.middleware_controller import middleware_controller
+from dragonfly.request import request
+from dragonfly.response import Response, ErrorResponse, deferred_response
+from dragonfly.routes.route_collection import RouteCollection
 
 
 def to_snake(name):
+    """
+    From StackOverflow https://stackoverflow.com/questions/1175208/elegant-python-function-to-convert-camelcase-to-snake-case
+    """
     s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
     return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
 
@@ -21,9 +24,6 @@ class Router:
 
     def __init__(self):
         self.__routes = RouteCollection()
-
-    def get_routes(self):
-        return [self.__routes.static_routes, self.__routes.dynamic_routes]
 
     def add_route(self, uri, action, method):
         """
@@ -73,8 +73,9 @@ class Router:
 
             # Import the correct controller, pass in request object (if request is singleton this can be removed...).
             controller_file, controller_function_name = action.split("@")
-            controller_class = getattr(importlib.import_module(f"controllers.{to_snake(controller_file)}"), controller_file)
-            controller_class = controller_class(request)
+            controller_class = getattr(importlib.import_module(f"controllers.{to_snake(controller_file)}"),
+                                       controller_file)
+            controller_class = controller_class()
             controller_function = getattr(controller_class, controller_function_name)
 
             try:

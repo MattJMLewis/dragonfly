@@ -1,5 +1,7 @@
-import MySQLdb.cursors
 import math
+
+import MySQLdb.cursors
+
 from config import DATABASE
 from dragonfly.exceptions import MissingClause, MissingTable, InvalidOperator, ChunkOutOfRange
 
@@ -15,25 +17,25 @@ class DB:
         :param database_settings: The config for the database
         :type database_settings: dict
         """
-        self.database_settings = database_settings
+        self.__database_settings = database_settings
         self.last_insert_id = None
 
-        self.query = {
+        self.__query = {
             'select': 'SELECT *',
             'where': '',
             'table': ''
         }
 
-        self.query_params = {
+        self.__query_params = {
             'where': []
         }
 
-        self.generated_params = None
-        self.generated_query = None
+        self.__generated_params = None
+        self.__generated_query = None
 
     def table(self, table_name):
         """The table that the query should be run on. This method must be run for any query to be executed."""
-        self.query['table'] = table_name
+        self.__query['table'] = table_name
         return self
 
     def select(self, *args):
@@ -46,14 +48,14 @@ class DB:
             ``DB().select('title', 'text')``
 
         .. note:: If you would like to select all (``*``) columns then simply do not use the select argument when
-        building your query.
+        building your __query.
         """
-        self.query['select'] = f"SELECT "
+        self.__query['select'] = f"SELECT "
 
         for arg in args:
-            self.query['select'] += f"{arg}, "
+            self.__query['select'] += f"{arg}, "
 
-        self.query['select'] = self.query['select'][:-2]
+        self.__query['select'] = self.__query['select'][:-2]
 
         return self
 
@@ -71,8 +73,8 @@ class DB:
         if comparison_operator not in self.comparison_operators:
             raise InvalidOperator(f"Invalid comparison operator {comparison_operator} used")
 
-        self.query['where'] = f"WHERE {condition_1} {comparison_operator} %s"
-        self.query_params['where'] = [condition_2]
+        self.__query['where'] = f"WHERE {condition_1} {comparison_operator} %s"
+        self.__query_params['where'] = [condition_2]
 
         return self
 
@@ -88,33 +90,33 @@ class DB:
         for key, value in where_dict.items():
             to_append += f"{key} = %s AND "
 
-        self.query['where'] = f"WHERE {to_append[:-4]}"
-        self.query_params['where'] = list(where_dict.values())
+        self.__query['where'] = f"WHERE {to_append[:-4]}"
+        self.__query_params['where'] = list(where_dict.values())
 
         return self
 
     # Terminal methods
     def get(self):
-        """This will execute the query you have been building and return all results."""
+        """This will execute the __query you have been building and return all results."""
         self.__validate(['select'])
 
-        self.generated_query = f"{self.query['select']} FROM {self.query['table']} {self.query['where']}"
-        self.generated_params = self.query_params['where']
+        self.__generated_query = f"{self.__query['select']} FROM {self.__query['table']} {self.__query['where']}"
+        self.__generated_params = self.__query_params['where']
 
         return self.__execute_sql()
 
     def first(self):
-        """This will execute the query you have been building and return only the first result (uses ``LIMIT 1``)"""
+        """This will execute the __query you have been building and return only the first result (uses ``LIMIT 1``)"""
         self.__validate(['select'])
 
-        self.generated_query = f"{self.query['select']} FROM {self.query['table']} {self.query['where']}"
-        self.generated_params = self.query_params['where']
+        self.__generated_query = f"{self.__query['select']} FROM {self.__query['table']} {self.__query['where']}"
+        self.__generated_params = self.__query_params['where']
 
         return self.__execute_sql(1)
 
     def chunk(self, chunk_loc, chunk_size):
         """
-        This will run the given query and return the given number of results at the given location.
+        This will run the given __query and return the given number of results at the given location.
 
         :param chunk_loc: The location to chunk e.g the first chunk or second chunk.
         :type chunk_loc: int
@@ -125,18 +127,18 @@ class DB:
         """
         self.__validate(['select'])
 
-        original = f"{self.query['select']} FROM `{self.query['table']}`"
+        original = f"{self.__query['select']} FROM `{self.__query['table']}`"
 
-        where = self.query['where']
-        where_params = self.query_params['where']
+        where = self.__query['where']
+        where_params = self.__query_params['where']
 
-        self.generated_query = f"SELECT COUNT(*) FROM {self.query['table']}"
+        self.__generated_query = f"SELECT COUNT(*) FROM {self.__query['table']}"
         rows = self.__execute_sql()[0]['COUNT(*)']
 
         if rows == 0:
             return None, None
 
-        self.generated_query = f"SELECT id FROM {self.query['table']} ORDER BY id ASC LIMIT 1"
+        self.__generated_query = f"SELECT id FROM {self.__query['table']} ORDER BY id ASC LIMIT 1"
         lowest_id = self.__execute_sql()[0]['id']
 
         chunks = math.ceil(rows / chunk_size)
@@ -149,12 +151,12 @@ class DB:
         min_id = (max_id - (chunk_size - 1)) - 1
 
         if bool(where):
-            self.generated_query = f"{original} {where} AND "
+            self.__generated_query = f"{original} {where} AND "
         else:
-            self.generated_query = f"{original} WHERE "
+            self.__generated_query = f"{original} WHERE "
 
-        self.generated_query += f"id >= {min_id} AND id <= {max_id} LIMIT {chunk_size}"
-        self.generated_params = where_params
+        self.__generated_query += f"id >= {min_id} AND id <= {max_id} LIMIT {chunk_size}"
+        self.__generated_params = where_params
 
         meta = {'total': rows, 'per_page': chunk_size, 'current_page': chunk_loc, 'last_page': chunks, 'from': min_id,
                 'to': max_id - 1}
@@ -162,7 +164,7 @@ class DB:
 
     def update(self, update_dict):
         """
-        Updates the given row/rows based on the dictionary.
+        Updates the given row/rows based __on the dictionary.
 
         For this method to run the :meth:`where<dragonfly.db.database.DB.where>` method must have been called before this one.
 
@@ -173,13 +175,13 @@ class DB:
 
         self.__validate(['where'])
 
-        self.generated_query = f"UPDATE `{self.query['table']}` SET "
+        self.__generated_query = f"UPDATE `{self.__query['table']}` SET "
 
         for key, value in update_dict.items():
-            self.generated_query += f"{key} = %s, "
+            self.__generated_query += f"{key} = %s, "
 
-        self.generated_query = f"{self.generated_query[:-2]} {self.query['where']}"
-        self.generated_params = list(update_dict.values()) + self.query_params['where']
+        self.__generated_query = f"{self.__generated_query[:-2]} {self.__query['where']}"
+        self.__generated_params = list(update_dict.values()) + self.__query_params['where']
 
         return self.__execute_sql()
 
@@ -193,8 +195,8 @@ class DB:
 
         self.__validate(['where'])
 
-        self.generated_query = f"DELETE FROM `{self.query['table']}` {self.query['where']}"
-        self.generated_params = self.query_params['where']
+        self.__generated_query = f"DELETE FROM `{self.__query['table']}` {self.__query['where']}"
+        self.__generated_params = self.__query_params['where']
 
         return self.__execute_sql()
 
@@ -213,14 +215,27 @@ class DB:
             keys += f"{key}, "
             values += '%s, '
 
-        self.generated_query = f"INSERT INTO `{self.query['table']}` ({keys[:-2]}) VALUES ({values[:-2]})"
-        self.generated_params = list(insert_dict.values())
+        self.__generated_query = f"INSERT INTO `{self.__query['table']}` ({keys[:-2]}) VALUES ({values[:-2]})"
+        self.__generated_params = list(insert_dict.values())
 
         return self.__execute_sql()
 
     def custom_sql(self, sql, n_rows=None):
+        """
+        Execute the custom SQL passed to the function.
 
-        db = MySQLdb.connect(**self.database_settings, cursorclass=MySQLdb.cursors.DictCursor)
+        :param sql: The SQL code to execute
+        :type str:
+
+        :param n_rows: The number of rows to retrieve. If set to `None` returns all rows
+        :type: int
+
+        :return: The result of the SQL executed
+        :rtype: dict
+
+        """
+
+        db = MySQLdb.connect(**self.__database_settings, cursorclass=MySQLdb.cursors.DictCursor)
         cursor = db.cursor()
 
         cursor.execute(sql)
@@ -239,11 +254,19 @@ class DB:
         return results
 
     def __execute_sql(self, n_rows=None):
-        """Executes the SQL that the user built"""
+        """
+        Execute the user defined SQL.
 
-        db = MySQLdb.connect(**self.database_settings, cursorclass=MySQLdb.cursors.DictCursor)
+        :param n_rows: The number of rows to retrieve. If set to `None` returns all rows
+        :type: int
+
+        :return: The result of the SQL executed
+        :rtype: dict
+        """
+
+        db = MySQLdb.connect(**self.__database_settings, cursorclass=MySQLdb.cursors.DictCursor)
         cursor = db.cursor()
-        cursor.execute(self.generated_query, self.generated_params)
+        cursor.execute(self.__generated_query, self.__generated_params)
 
         db.commit()
 
@@ -255,33 +278,40 @@ class DB:
             results = cursor.fetchmany(n_rows)
 
         cursor.execute("SELECT LAST_INSERT_ID()")
+
+        # Store the last inserted id and query. This is used in the model class.
         self.last_insert_id = cursor.fetchone()['LAST_INSERT_ID()']
         self.last_query = cursor._last_executed
 
         cursor.close()
         db.close()
 
-        self.query = {
-            'table': self.query['table'],
+        self.__query = {
+            'table': self.__query['table'],
             'select': 'SELECT *',
             'where': ''
         }
 
-        self.query_params = {
+        self.__query_params = {
             'where': []
         }
 
-        self.generated_params = None
-        self.generated_query = None
+        self.__generated_params = None
+        self.__generated_query = None
 
         return results
 
     def __validate(self, required_parameters):
-        """Validates that the given parameter has been filled."""
-        if self.query['table'] == '':
+        """
+        Validates whether the given SQL parameters are filled.
+
+        :param required_parameters: The list of parameters that need to be checked
+        :type: list
+        """
+        if self.__query['table'] == '':
             raise MissingTable('A valid table must be defined/chosen')
 
-        required_dict = {k: v for k, v in self.query.items() if k in required_parameters}
+        required_dict = {k: v for k, v in self.__query.items() if k in required_parameters}
 
         if any(value == '' for value in required_dict.values()):
             raise MissingClause(f"Missing required SQL clause ({', '.join(required_parameters)})")

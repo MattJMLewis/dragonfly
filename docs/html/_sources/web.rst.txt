@@ -28,3 +28,10 @@ DeferredResponse
    :members:
    :undoc-members:
    :show-inheritance:
+
+Auth
+^^^^
+.. autoclass:: dragonfly.auth.Auth
+   :members:
+   :undoc-members:
+   :show-inheritance:

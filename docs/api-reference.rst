@@ -9,4 +9,5 @@ API Reference
    routes
    template
    web
+   other
 

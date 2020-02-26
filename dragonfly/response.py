@@ -23,8 +23,8 @@ class Response:
 
     def __init__(self, content='', content_type='text/html', status_code=200, reason_phrase=None):
 
-        self.content_type = content_type
-        self.original_content = content
+        self._content_type = content_type
+        self._original_content = content
         self.content = content
         self.status = None
 
@@ -32,7 +32,7 @@ class Response:
         self.set_status(status_code, reason_phrase)
 
         self.headers = [
-            ('Content-type', self.content_type),
+            ('Content-type', self._content_type),
             ('Content-Length', str(len(self.content)))
         ]
 
@@ -41,7 +41,7 @@ class Response:
         Converts the given content to bytes.
         """
         try:
-            self.content = bytes(str(self.original_content), 'utf-8')
+            self.content = bytes(str(self._original_content), 'utf-8')
         except:
             raise Exception("Content cannot be converted to a string")
 
@@ -71,6 +71,7 @@ class Response:
         :type field_value: str
         """
 
+        # Check if a header exists with the given field name
         loc = next((i for i, v in enumerate(self.headers) if v[0] == field_name), None)
         new_header = (field_name, field_value)
         if loc is None:
@@ -102,25 +103,29 @@ class ErrorResponse(Response):
     """
 
     def __init__(self, error_message, status_code):
-
         generated_html = \
-            f'''
-        <div id="main">
-                <div class="fof">
-                        <h1>Error {status_code}</h1>
-                        <h5>{error_message}</h5>
-                </div>
-        </div>
-        <style>
-        '''
+            f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{error_message} - {status_code}</title>
+    <link rel="stylesheet" href="https://bootswatch.com/4/materia/bootstrap.min.css">
+</head>
+<body style="background-color: #eee">
+    <div class="jumbotron">
+      <h1 class="display-3">Error {status_code}</h1>
+      <p class="lead">{error_message}</p>
+    </div>
+</body>
+</html>
+'''
         super().__init__(content=generated_html, content_type='text/html', status_code=status_code)
 
 
-
 class RedirectResponse(Response):
+    """A `Response` object that redirects the user to the given location."""
 
     def __init__(self, location):
-
         super().__init__(content_type='', status_code=302)
         self.header('Location', location)
 
@@ -132,9 +137,6 @@ class DeferredResponse:
     This singleton enables attributes of any `Response` object returned in the normal fashion, i.e through the
     `dispatch_route` method, to be set before it exists. The primary use of this class would be in the `before` method
     of a middleware.
-
-    To do:
-    - Support modifying content and status.
     """
 
     def __init__(self):
