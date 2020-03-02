@@ -31,9 +31,9 @@ Next, enter the dragonfly directory and run the following command.
 ``pip install -r requirements.txt``
 
 On Windows you may encounter an error installing ``mysqlclient``. If this happens you can download the latest ``.whl``
-`here <https://pypi.org/project/mysqlclient/#files>`__. There is also an unoffical repo of ``.whl`` files `here <https://www.lfd.uci.edu/~gohlke/pythonlibs/#mysqlclient>`__. Then simply run ``pip install name-of-the-whl-__file.whl``.
+`here <https://pypi.org/project/mysqlclient/#files>`__. There is also an unoffical repo of ``.whl`` files `here <https://www.lfd.uci.edu/~gohlke/pythonlibs/#mysqlclient>`__ (recommended source). To install simply run ``pip install name-of-the-whl-file.whl``.
 
-After this run the following command to create the necessary directories for ``dragonfly`` to work.
+After this, run the following command to create the necessary directories for ``dragonfly`` to work.
 
 ``python builder.py setup``
 
@@ -46,12 +46,11 @@ more details on how to set up a server.
 
 Running dragonfly
 ^^^^^^^^^^^^^^^^^
-Simply run the ``main.py`` file. However before you do this you should
+Simply run the ``main.py`` file. Before doing this you should
 modify the ``config.py`` file to match your setup. As ``dragonfly`` implements the Python WSGI interface any WSGI server should work with the application.
 
 
 Usage
 ^^^^^
-
 Please see :doc:`here <quick-start>` for the quick start guide on using
 dragonfly.

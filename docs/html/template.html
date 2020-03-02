@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Templates &mdash; dragonfly 0.0.3 documentation</title>
+  <title>Templates &mdash; dragonfly 1.0 documentation</title>
   
 
   
@@ -173,7 +173,7 @@
 <em class="property">class </em><code class="sig-prename descclassname">dragonfly.template.template.</code><code class="sig-name descname">View</code><span class="sig-paren">(</span><em class="sig-param">template</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.template.template.View" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Returns a HTML version (view) of the requested template.
-The class first finds the desired view. If a pre-compiled python version of the template does not exist or is out
+The class first attempts to locate the deisred view. If a pre-compiled python version of the template does not exist or is out
 of date, the class will generate one. Otherwise it imports the compiled python file and runs the <code class="docutils literal notranslate"><span class="pre">get_html</span></code>
 method, passing in any variables that the user.py has given to the constructor (via <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code>). It then returns a
 <a class="reference internal" href="web.html#dragonfly.response.Response" title="dragonfly.response.Response"><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code></a> with this HTML.
@@ -182,9 +182,15 @@ method, passing in any variables that the user.py has given to the constructor (
 <dl class="method">
 <dt id="dragonfly.template.template.View.make">
 <code class="sig-name descname">make</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.template.template.View.make" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a response with the generated HTML.
-:return: The response
-:rtype: <a class="reference internal" href="web.html#dragonfly.response.Response" title="dragonfly.response.Response"><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code></a></p>
+<dd><p>Returns a response with the generated HTML.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The <code class="docutils literal notranslate"><span class="pre">Response</span></code></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="web.html#dragonfly.response.Response" title="dragonfly.response.Response"><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code></a></p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -225,7 +231,16 @@ method, passing in any variables that the user.py has given to the constructor (
 <dl class="method">
 <dt id="dragonfly.template.template.Converter.convert">
 <code class="sig-name descname">convert</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.template.template.Converter.convert" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Convert the given file to Python.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The Python code.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -252,7 +267,7 @@ method, passing in any variables that the user.py has given to the constructor (
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Matthew Lewis
+        &copy; Copyright 2020, Matthew Lewis
 
     </p>
   </div>

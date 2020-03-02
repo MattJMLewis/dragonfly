@@ -25,13 +25,13 @@ class Relationship(abc.ABC):
         This function is executed when data needs to be retrieved.
 
         :param values: The database values of the given model
-        :type: dict
+        :type values: dict
 
         :param meta: The meta values of the model
-        :type: dict
+        :type meta: dict
 
         :return: The relationship class
-        :rtype: :class:`DB <dragonfly.db.models.relationships.Relationships>`
+        :rtype: :class:`Relationship <dragonfly.db.models.relationships.Relationship>`
         """
 
 

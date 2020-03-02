@@ -2,25 +2,23 @@ Quick Start
 ===========
 .. _quick-start:
 
-This guide assumes you already have dragonfly installed. Please see the
+This guide assumes you already have Dragonfly installed. Please see the
 :doc:`installation <installation>` section if you do not.
 
 
 Design Philosophy
 ^^^^^^^^^^^^^^^^^
-
 Dragonfly is based on the
-`model-view-controller <[https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller](https://en.wikipedia.org/wiki/Model–view–controller)>`__
-architectural pattern. This means that the model structure, application
+`model-view-controller <https://en.wikipedia.org/wiki/Model-view-controller>`__ architectural pattern. This means that the model structure, application
 logic and user interface are divided into separate components. As this is a brief quick start guide some features
-won't be shown. To get a full list of features please see the `API reference <api-reference.md>`__.
+won't be shown. To get a full list of features please see the :doc:`API reference <api-reference>`.
 
 This quick guide details some of the code in the demo project that is displayed on this site.
 
 Routing
 ^^^^^^^
 
-Routing allows dragonfly to know the location to send a HTTP request. In
+Routing allows Dragonfly to know the location to send a HTTP request. In
 the example below the GET request to ``/users/<id:int>`` is routed to the
 ``show`` function on ``UserController``. This is all registered in the
 ``routes.py`` file.
@@ -89,7 +87,7 @@ Route Parameters
 
 Route parameters are a way of passing variables to the controller to
 help find a certain piece of data. In the example above if the
-URL\ ``/articles/1`` was called, the integer ``1`` would be passed to
+URL\  ``/articles/1`` was called, the integer ``1`` would be passed to
 the controller ``show`` function through a variable named ``id``. This
 allows for the look up and return of the given article from the
 database. A route parameter should follow the pattern below:
@@ -115,7 +113,7 @@ Dragonfly supports the following types by default:
 +-----------+----------------+
 
 Custom types
-
+************
 It is very easy to define your own custom types. Simply add a new key
 (name of the type), value (regex to match) pair in the
 ``PYTHON_TO_REGEX``\ dictionary in ``config.py``. For example:
@@ -127,7 +125,6 @@ It is very easy to define your own custom types. Simply add a new key
 
 Controllers
 ^^^^^^^^^^^
-
 A controller should contain all of your application logic to do with
 that resource. The following command will create a file in the
 ``controllers`` directory called ``article_controller``:
@@ -143,10 +140,10 @@ The following is the basic structure of a controller:
 
 .. code:: python
 
-    from dragonfly import Auth, Controller, view
+    from dragonfly import Auth, view
     from models.article import Article
 
-    class ArticleController(Controller):
+    class ArticleController:
         
         def show(self, id):
             return View('articles.show', article=Article().find(id), user=Auth.user())
@@ -158,12 +155,13 @@ The following route would match to this controller method:
 
     routes.get('/articles/<id:int>', 'ArticleController@show')
 
+A controller method should always return a ``Response`` class of some sort.
+
 Middleware
 ^^^^^^^^^^
-
-Middleware provides a way to stop or modify a request cycle; before the
+Middleware provides a way to stop or modify a request cycle. This can occur before the
 request is routed, after a response is returned from the controller or
-both. Dragonfly comes with a few premade middleware. You can also create
+both. Dragonfly comes with a few premade middleware such as CSRF protection and a user middleware. You can also create
 your own middleware using the following command:
 
 .. code:: python
@@ -203,7 +201,7 @@ request will stop and the response returned.
 
 Below is an example of the CSRF protection middleware class that comes pre-packaged with Dragonfly.
 
-.. warning:: Please note that in any ``Middleware`` class object any packages imported from the framework must be imported by their full import path.
+.. warning:: Please note that in any ``Middleware`` class object any packages imported from the framework must be imported by their full import path. This is as the actual middleware file is executed in the package middleware directory.
 
 .. code:: python
 
@@ -239,10 +237,10 @@ Below is an example of the CSRF protection middleware class that comes pre-packa
             pass
 
 Database
-^^^^^^^^^^^
+^^^^^^^^
 The database module provides any easy way to interact with the configured
 ``MySQL`` database. It simply provides Python functions that are equivalent
-to certain SQL commands.
+to most commonly used SQL commands.
 
 The code below demonstrates some of its usage (note this code is not present in the actual demo application)
 
@@ -259,7 +257,6 @@ This will generate and execute the following SQL code:
 
 Models (ORM)
 ^^^^^^^^^^^^
-
 Models provide an easy way to read, write and update a table in the
 database through a Python class. To start using the ORM you first need
 to define the attributes of a model. This is all done through a model
@@ -290,8 +287,8 @@ example of an articles model and the SQL it generates.
 
 
 There are many field types and options for each field type. For an
-exhaustive list of these please see the `API
-reference <#api-documentation>`__. It is also important to note that you
+exhaustive list of these please see the :doc:`API
+reference <api-reference>`. It is also important to note that you
 can add any function you would like to the model class. For example a
 way to generate the slug for an article:
 
@@ -313,7 +310,7 @@ with the ``Comments`` class and a many-to-one relationship with the ``User`` cla
 
 
 Once you have defined the model you need to generate and execute the SQL
-to create the table. To do this simply run the following command.
+to create the needed tables. To do this simply run the following command.
 
 ::
 
@@ -329,14 +326,13 @@ retrieving all articles in the database:
 
     articles = Article().get()
 
-The ORM has a large number of methods that are all listed in the `API
-reference <#api-documentation>`__.
+The ORM has a large number of methods that are all listed in the :doc:`API reference <api-reference>`.
 
 To interact with the relationships defined in the class simply call the defined functions.
 
 .. code:: python
 
-    # Returns a list of ``Comment`` __objects that belong to the given ``Article`` class
+    # Returns a list of ``Comment`` objects that belong to the given ``Article`` class
     comments = Article().first().comments()
 
     # Returns the ``User`` object that this ``Article`` belongs to.
@@ -344,13 +340,11 @@ To interact with the relationships defined in the class simply call the defined 
 
 Templates
 ^^^^^^^^^
-
-Dragonfly provides an easier way to join Python and HTML. A view is
-stored in the ``views`` directory and should be a ``html``\ file. The
-templates can also be in subdirectories of the ``views`` directory.
+Dragonfly provides an easier way to join Python and HTML by using a templating system. A template is stored in the ``templates`` directory and should be a ``html``\ file. The
+templates can also be in subdirectories of the ``templates`` directory.
 
 Below is an example of a html file saved in
-``views/articles/index.html``
+``templates/articles/index.html``
 
 .. code:: html
 
@@ -428,7 +422,7 @@ controller:
 .. code:: python
 
     articles = Article().paginate(size=5)
-    return view('articles.index', articles=articles[0[, pagination=articles[1])
+    return view('articles.index', articles=articles[0], pagination=articles[1])
 
 There are a few important things to note about the syntax of the
 templating system:
@@ -437,6 +431,51 @@ templating system:
 -  Due to the way the template compiler works if the variable is one
    'generated' by a for loop, like the ``article`` variable in the
    example above, it must also be wrapped by ``$ $``.
+
+Builder.py (CLI)
+^^^^^^^^^^^^^^^^
+The builder (CLI) can be called by executing the following:
+
+::
+
+    python builder.py [command name] --[option]=[value] [argument]
+
+Below is an exhaustive list of all commands currently implemented:
+
++----------+--------+---------------------------------+----------+-----------------+-------------------------------------------------------------------------------------------------------------------------------------+
+| Command  | Option | Accepted values                 | Argument | Accepted values | Role                                                                                                                                |
++----------+--------+---------------------------------+----------+-----------------+-------------------------------------------------------------------------------------------------------------------------------------+
+| setup    | None   | None                            | None     | None            | Creates the required directories for the application to work (controllers, models, storage, middleware and templates)               |
++----------+--------+---------------------------------+----------+-----------------+-------------------------------------------------------------------------------------------------------------------------------------+
+| generate | type   | model, middleware or controller | name     | str             | according to the PEP 8 naming scheme (snake case). Please note that the file names are converted to camel case for the class names. |
++----------+--------+---------------------------------+----------+-----------------+-------------------------------------------------------------------------------------------------------------------------------------+
+| migrate  | None   | None                            | None     | None            | Generates (and executes) the SQL to create the tables for all developer created models.                                             |
++----------+--------+---------------------------------+----------+-----------------+-------------------------------------------------------------------------------------------------------------------------------------+
+| drop     | None   | None                            | None     | None            | Drops all tables that correspond to defined model classes.                                                                          |
++----------+--------+---------------------------------+----------+-----------------+-------------------------------------------------------------------------------------------------------------------------------------+
+| auth     | None   | None                            | None     | None            | Generates the authentication scaffold for the given project.                                                                        |
++----------+--------+---------------------------------+----------+-----------------+-------------------------------------------------------------------------------------------------------------------------------------+
+
+Config
+^^^^^^
+Detailed below is an exhaustive list of configuaration options that can be put in 'config.py':
+
++-----------------+------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Variable name   | Type | Function                                                                                                                                                                                                                                                                                          |
++-----------------+------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| ROOT_DIR        | Str  | This is the root directory of the project. This value should not be changed.                                                                                                                                                                                                                      |
++-----------------+------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| MIDDLEWARE      | List | A list of middleware to be registered. To register a middleware file dot notation should be used. For example to register a middleware file called 'user_middleware' that is in the 'middleware' directory the following should be added to the list (as a string): 'middleware.user_middleeware' |
++-----------------+------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| NO_AUTH         | List | A list of routes that do not require the user to be authenticated.                                                                                                                                                                                                                                |
++-----------------+------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| PYTHON_TO_REGEX | Dict | A dictionary that contains mappings from route parameter definitions to regular expression. Any new mapping added can be used in the router.                                                                                                                                                      |
++-----------------+------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| URL             | Str  | The root URL of the application.                                                                                                                                                                                                                                                                  |
++-----------------+------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| DATABASE        | Dict | A dictionary containing the configuration settings for the database.                                                                                                                                                                                                                              |
++-----------------+------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
 
 Demo App
 ^^^^^^^^

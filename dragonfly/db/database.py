@@ -40,15 +40,15 @@ class DB:
 
     def select(self, *args):
         """
-        Equivalent to the ``SELECT`` clause in MySQL.
+        Equivalent to the ``SELECT`` command in MySQL.
 
-        Add the column you would like as an argument to the function. You can choose many columns.
+        Pass all the columns you want to select to the function as normal arguments.
 
         :example:
             ``DB().select('title', 'text')``
 
         .. note:: If you would like to select all (``*``) columns then simply do not use the select argument when
-        building your __query.
+        building your query.
         """
         self.__query['select'] = f"SELECT "
 
@@ -61,11 +61,11 @@ class DB:
 
     def where(self, condition_1, comparison_operator, condition_2):
         """
-        Equivalent to the ``WHERE`` clause in SQL.
+        Equivalent to the ``WHERE`` command in SQL.
 
         :param condition_1: The value to the left of the operator.
 
-        :param comparison_operator: The operator, e.g ``=``
+        :param comparison_operator: The comparison operator, e.g ``=``
         :type comparison_operator: str
 
         :param condition_2: The value to the right of the operator.
@@ -80,7 +80,7 @@ class DB:
 
     def multiple_where(self, where_dict):
         """
-        Allows for multiple where clauses through one command. Note this only supports the = operator.
+        Allows for multiple where clauses through one command. Note this only supports the ``=`` operator.
 
         :param where_dict: The values to match
         :type where_dict: dict
@@ -97,7 +97,7 @@ class DB:
 
     # Terminal methods
     def get(self):
-        """This will execute the __query you have been building and return all results."""
+        """This will execute the developer defined query and return all results."""
         self.__validate(['select'])
 
         self.__generated_query = f"{self.__query['select']} FROM {self.__query['table']} {self.__query['where']}"
@@ -106,7 +106,7 @@ class DB:
         return self.__execute_sql()
 
     def first(self):
-        """This will execute the __query you have been building and return only the first result (uses ``LIMIT 1``)"""
+        """This will execute the developer defined query and return only the first result (uses ``LIMIT 1``)"""
         self.__validate(['select'])
 
         self.__generated_query = f"{self.__query['select']} FROM {self.__query['table']} {self.__query['where']}"
@@ -116,7 +116,7 @@ class DB:
 
     def chunk(self, chunk_loc, chunk_size):
         """
-        This will run the given __query and return the given number of results at the given location.
+        This will run the given query and return the given number of results at the given location.
 
         :param chunk_loc: The location to chunk e.g the first chunk or second chunk.
         :type chunk_loc: int
@@ -164,7 +164,7 @@ class DB:
 
     def update(self, update_dict):
         """
-        Updates the given row/rows based __on the dictionary.
+        Updates the given row/rows based on the dictionary.
 
         For this method to run the :meth:`where<dragonfly.db.database.DB.where>` method must have been called before this one.
 
@@ -187,9 +187,9 @@ class DB:
 
     def delete(self):
         """
-        Deletes the given row/rows.
+        Deletes the given row/rows baed on the developer defined query.
 
-        For this method to run the :meth:`where<dragonfly.db.database.DB.where>` method must have been called before this one.
+        For this method to run the :meth:`where<dragonfly.db.database.DB.where>` method must have been called first.
 
         """
 
@@ -204,7 +204,7 @@ class DB:
         """
         Inserts the given values into the database.
 
-        :param insert_dict: The dictionary containing the column and the value to insert into that column
+        :param insert_dict: The dictionary containing the column and the value to insert into the specified table
         :type insert_dict: dict
 
         """
@@ -225,10 +225,10 @@ class DB:
         Execute the custom SQL passed to the function.
 
         :param sql: The SQL code to execute
-        :type str:
+        :type sql: str
 
         :param n_rows: The number of rows to retrieve. If set to `None` returns all rows
-        :type: int
+        :type n_rows: int
 
         :return: The result of the SQL executed
         :rtype: dict

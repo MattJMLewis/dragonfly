@@ -4,7 +4,7 @@ import importlib
 
 
 class MiddlewareController:
-    """Compiles all registered middleware and controls their execution."""
+    """Loads all registered middleware and controls their execution."""
 
     def __init__(self):
 
@@ -36,9 +36,9 @@ class MiddlewareController:
         Run all the before methods on middleware that are assigned to the given action.
 
         :param action: The action currently being executed.
-        :type: str
+        :type action: str
 
-        :return: If a `Response` is generated return this
+        :return: If a ``Response`` is generated return this
         :rtype: :class:`Response <dragonfly.response.Response>`
         """
         try:
@@ -67,13 +67,12 @@ class MiddlewareController:
         Run all the after methods on the middleware that are assigned to the given action.
 
         :param action: The action currently being executed.
-        :type: str
+        :type action: str
 
-        :param response: The response that the router has generated. If the 'after' function accepts the `Response`
-        class it is passed on (to allow for its modification).
-        :type: :class:`Response <dragonfly.response.Response>`
+        :param response: The ``Response`` that the router has generated. If the 'after' function accepts the ``Response`` class it is passed on (to allow for its modification).
+        :type response: :class:`Response <dragonfly.response.Response>`
 
-        :return: If a `Response` is generated return this
+        :return: If a ``Response`` is generated return this
         :rtype: :class:`Response <dragonfly.response.Response>`
         """
 

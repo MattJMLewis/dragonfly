@@ -18,11 +18,11 @@ sys.path.insert(0, os.path.abspath('..'))
 # -- Project information -----------------------------------------------------
 
 project = 'dragonfly'
-copyright = '2019, Matthew Lewis'
+copyright = '2020, Matthew Lewis'
 author = 'Matthew Lewis'
 
 # The full version, including alpha/beta/rc tags
-release = '0.0.3'
+release = '1.0'
 
 
 # -- General configuration ---------------------------------------------------

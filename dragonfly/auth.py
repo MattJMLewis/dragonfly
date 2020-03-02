@@ -11,7 +11,7 @@ class Auth:
     @staticmethod
     def user():
         """
-        Get the currently logged in user using the 'session_id' stored in the cookies. It should be very unlikely that two
+        Get the currently logged in user using the ``session_id`` stored in the cookies. It should be very unlikely that two
         sessions with the same ID exist
 
         :return: The currently logged in user.
@@ -24,7 +24,7 @@ class Auth:
     @staticmethod
     def get(key, model=False):
         """
-        Retrieve any keys stored in the 'Sessions' table associated with the current 'session_id'
+        Retrieve any keys stored in the ``Sessions`` table associated with the current ``session_id``
 
         :param key: The key of the value to retrieve
         :type: str
@@ -47,7 +47,7 @@ class Auth:
     @staticmethod
     def set(key, value, force=False):
         """
-        Set a key value pair in the 'Sessions' table
+        Set a key value pair in the ``Sessions`` table
 
         :param key: The key
         :type: str

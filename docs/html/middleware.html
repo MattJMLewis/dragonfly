@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Middleware &mdash; dragonfly 0.0.3 documentation</title>
+  <title>Middleware &mdash; dragonfly 1.0 documentation</title>
   
 
   
@@ -174,7 +174,7 @@
 <dt id="dragonfly.middleware.middleware_controller.MiddlewareController">
 <em class="property">class </em><code class="sig-prename descclassname">dragonfly.middleware.middleware_controller.</code><code class="sig-name descname">MiddlewareController</code><a class="headerlink" href="#dragonfly.middleware.middleware_controller.MiddlewareController" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Compiles all registered middleware and controls their execution.</p>
+<p>Loads all registered middleware and controls their execution.</p>
 <dl class="method">
 <dt id="dragonfly.middleware.middleware_controller.MiddlewareController.run_after">
 <code class="sig-name descname">run_after</code><span class="sig-paren">(</span><em class="sig-param">action</em>, <em class="sig-param">response</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.middleware.middleware_controller.MiddlewareController.run_after" title="Permalink to this definition">¶</a></dt>
@@ -182,22 +182,15 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>action</strong> – The action currently being executed.</p></li>
-<li><p><strong>response</strong> – The response that the router has generated. If the ‘after’ function accepts the <cite>Response</cite></p></li>
+<li><p><strong>action</strong> (<em>str</em>) – The action currently being executed.</p></li>
+<li><p><strong>response</strong> (<a class="reference internal" href="web.html#dragonfly.response.Response" title="dragonfly.response.Response"><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code></a>) – The <code class="docutils literal notranslate"><span class="pre">Response</span></code> that the router has generated. If the ‘after’ function accepts the <code class="docutils literal notranslate"><span class="pre">Response</span></code> class it is passed on (to allow for its modification).</p></li>
 </ul>
 </dd>
-<dt class="field-even">Type</dt>
-<dd class="field-even"><p>str</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>If a <code class="docutils literal notranslate"><span class="pre">Response</span></code> is generated return this</p>
 </dd>
-</dl>
-<p>class it is passed on (to allow for its modification).
-:type: <a class="reference internal" href="web.html#dragonfly.response.Response" title="dragonfly.response.Response"><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code></a></p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>If a <cite>Response</cite> is generated return this</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="web.html#dragonfly.response.Response" title="dragonfly.response.Response"><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code></a></p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="web.html#dragonfly.response.Response" title="dragonfly.response.Response"><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -208,16 +201,13 @@
 <dd><p>Run all the before methods on middleware that are assigned to the given action.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>action</strong> – The action currently being executed.</p>
+<dd class="field-odd"><p><strong>action</strong> (<em>str</em>) – The action currently being executed.</p>
 </dd>
-<dt class="field-even">Type</dt>
-<dd class="field-even"><p>str</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>If a <code class="docutils literal notranslate"><span class="pre">Response</span></code> is generated return this</p>
 </dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>If a <cite>Response</cite> is generated return this</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="web.html#dragonfly.response.Response" title="dragonfly.response.Response"><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code></a></p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="web.html#dragonfly.response.Response" title="dragonfly.response.Response"><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -247,7 +237,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Matthew Lewis
+        &copy; Copyright 2020, Matthew Lewis
 
     </p>
   </div>

@@ -5,7 +5,7 @@ from dragonfly.db.table import Table
 
 class ForeignKey:
     """
-    Provides a way to define foreign key relationships in a model
+    Provides a way to define foreign key relationships in a model.
 
     Should be called in the following order:
         ForeignKey('local_key').refrences('foreign_key').on('table')
@@ -57,14 +57,19 @@ class Unique:
 
 
 class PrimaryKey:
-    """Provides a way to make """
+    """Provides a way to make the given field(s) a primary key """
 
     def __init__(self, *args):
+        """
+        Sets the given fields as primary keys.
+
+        :param args: The fields to set as a primary key
+        """
         self.fields = args
 
 
 class Field(abc.ABC):
-    """An abstract class that defines the interface each `Field` class should have."""
+    """An abstract class that defines the interface each ``Field`` class should have."""
 
     def __init__(self, name=None, null=False, blank=False, default=None, unique=False, primary_key=False):
         """
@@ -115,7 +120,7 @@ class Field(abc.ABC):
 
     @abc.abstractmethod
     def to_database_type(cls):
-        """This instructs the database migrator on how to generate the SQL for the model."""
+        """This instructs the database migrator on how to generate the SQL for the field."""
         pass
 
 

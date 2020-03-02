@@ -8,11 +8,11 @@ from dragonfly.db.table import Table
 
 
 class DatabaseMigrator:
-    """Generates the SQL to create a table that corresponds to the defined model/s"""
+    """Generates the SQL to create a table that corresponds to the defined model(s)"""
 
     def __init__(self, path='models'):
         """
-        Generates the SQL to create a table that corresponds to the defined model/s. This SQL is stored in the `.tables`
+        Generates the SQL to create a table that corresponds to the defined model(s). This SQL is stored in the ``.tables``
         dictionary.
 
         :param path: The location of the models to migrate
@@ -23,7 +23,6 @@ class DatabaseMigrator:
         self.tables = {}
 
         import_path = path.replace('/', '.')
-
         for model in self.models:
             # Generate model name
             model_name = model.title().replace("_", "")

@@ -10,10 +10,10 @@ class Request:
 
     def __init__(self, environ):
         """
-        Extracts the useful values in the environ dictionary
+        Extracts the useful values in the environ dictionary.
 
         :param environ: The environ dictionary from the WSGI server.
-        :type: dict
+        :type environ: dict
         """
         self.__field_dict = None
 
@@ -51,7 +51,7 @@ class Request:
         Gets any from data/query strings from the given request
 
         :return: A dictionary containing the given data
-        :type: dict
+        :rtype: dict
         """
         # Allows request data to be cached until new request occurs. This means data can be retrieved more than once.
         if self.__field_dict is not None:
@@ -88,7 +88,7 @@ class Request:
         Updates the request object (singleton) with new data
 
         :param new_environ: The new environ dictionary
-        :type: dict
+        :type new_environ: dict
         """
         # Reset request with new data
         self.__init__(new_environ)

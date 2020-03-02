@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Quick Start &mdash; dragonfly 0.0.3 documentation</title>
+  <title>Quick Start &mdash; dragonfly 1.0 documentation</title>
   
 
   
@@ -88,7 +88,10 @@
 <li class="toctree-l2"><a class="reference internal" href="#routing">Routing</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#http-methods">HTTP Methods</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#resource-routing">Resource Routing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#route-parameters">Route Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#route-parameters">Route Parameters</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#custom-types">Custom types</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#controllers">Controllers</a></li>
@@ -96,6 +99,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#database">Database</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#models-orm">Models (ORM)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#templates">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#builder-py-cli">Builder.py (CLI)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#config">Config</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#demo-app">Demo App</a></li>
 </ul>
 </li>
@@ -166,20 +171,19 @@
             
   <div class="section" id="quick-start">
 <h1>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h1>
-<p id="id1">This guide assumes you already have dragonfly installed. Please see the
+<p id="id1">This guide assumes you already have Dragonfly installed. Please see the
 <a class="reference internal" href="installation.html"><span class="doc">installation</span></a> section if you do not.</p>
 <div class="section" id="design-philosophy">
 <h2>Design Philosophy<a class="headerlink" href="#design-philosophy" title="Permalink to this headline">¶</a></h2>
 <p>Dragonfly is based on the
-<a class="reference external" href="[https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller](https://en.wikipedia.org/wiki/Model–view–controller)">model-view-controller</a>
-architectural pattern. This means that the model structure, application
+<a class="reference external" href="https://en.wikipedia.org/wiki/Model-view-controller">model-view-controller</a> architectural pattern. This means that the model structure, application
 logic and user interface are divided into separate components. As this is a brief quick start guide some features
-won’t be shown. To get a full list of features please see the <a class="reference external" href="api-reference.md">API reference</a>.</p>
+won’t be shown. To get a full list of features please see the <a class="reference internal" href="api-reference.html"><span class="doc">API reference</span></a>.</p>
 <p>This quick guide details some of the code in the demo project that is displayed on this site.</p>
 </div>
 <div class="section" id="routing">
 <h2>Routing<a class="headerlink" href="#routing" title="Permalink to this headline">¶</a></h2>
-<p>Routing allows dragonfly to know the location to send a HTTP request. In
+<p>Routing allows Dragonfly to know the location to send a HTTP request. In
 the example below the GET request to <code class="docutils literal notranslate"><span class="pre">/users/&lt;id:int&gt;</span></code> is routed to the
 <code class="docutils literal notranslate"><span class="pre">show</span></code> function on <code class="docutils literal notranslate"><span class="pre">UserController</span></code>. This is all registered in the
 <code class="docutils literal notranslate"><span class="pre">routes.py</span></code> file.</p>
@@ -291,7 +295,7 @@ second argument is an entire controller. Here is an example:</p>
 <h3>Route Parameters<a class="headerlink" href="#route-parameters" title="Permalink to this headline">¶</a></h3>
 <p>Route parameters are a way of passing variables to the controller to
 help find a certain piece of data. In the example above if the
-URL<code class="docutils literal notranslate"><span class="pre">/articles/1</span></code> was called, the integer <code class="docutils literal notranslate"><span class="pre">1</span></code> would be passed to
+URL <code class="docutils literal notranslate"><span class="pre">/articles/1</span></code> was called, the integer <code class="docutils literal notranslate"><span class="pre">1</span></code> would be passed to
 the controller <code class="docutils literal notranslate"><span class="pre">show</span></code> function through a variable named <code class="docutils literal notranslate"><span class="pre">id</span></code>. This
 allows for the look up and return of the given article from the
 database. A route parameter should follow the pattern below:</p>
@@ -322,13 +326,15 @@ database. A route parameter should follow the pattern below:</p>
 </tr>
 </tbody>
 </table>
-<p>Custom types</p>
+<div class="section" id="custom-types">
+<h4>Custom types<a class="headerlink" href="#custom-types" title="Permalink to this headline">¶</a></h4>
 <p>It is very easy to define your own custom types. Simply add a new key
 (name of the type), value (regex to match) pair in the
 <code class="docutils literal notranslate"><span class="pre">PYTHON_TO_REGEX</span></code>dictionary in <code class="docutils literal notranslate"><span class="pre">config.py</span></code>. For example:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">PYTHON_TO_REGEX</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;int&quot;</span><span class="p">:</span> <span class="s2">&quot;([0-9]+)&quot;</span><span class="p">,</span> <span class="s2">&quot;str&quot;</span><span class="p">:</span> <span class="s2">&quot;(.+)&quot;</span><span class="p">,</span>
                    <span class="s2">&quot;str_capitalised&quot;</span><span class="p">:</span> <span class="s2">&quot;(</span><span class="se">\b</span><span class="s2">[A-Z].*?</span><span class="se">\b</span><span class="s2">)&quot;</span><span class="p">}</span>
 </pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -343,10 +349,10 @@ that resource. The following command will create a file in the
 <p>Each time a request is routed a new instance of the registered
 controller will be instantiated and the registered function run.</p>
 <p>The following is the basic structure of a controller:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dragonfly</span> <span class="kn">import</span> <span class="n">Auth</span><span class="p">,</span> <span class="n">Controller</span><span class="p">,</span> <span class="n">view</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dragonfly</span> <span class="kn">import</span> <span class="n">Auth</span><span class="p">,</span> <span class="n">view</span>
 <span class="kn">from</span> <span class="nn">models.article</span> <span class="kn">import</span> <span class="n">Article</span>
 
-<span class="k">class</span> <span class="nc">ArticleController</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">ArticleController</span><span class="p">:</span>
 
     <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">View</span><span class="p">(</span><span class="s1">&#39;articles.show&#39;</span><span class="p">,</span> <span class="n">article</span><span class="o">=</span><span class="n">Article</span><span class="p">()</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="nb">id</span><span class="p">),</span> <span class="n">user</span><span class="o">=</span><span class="n">Auth</span><span class="o">.</span><span class="n">user</span><span class="p">())</span>
@@ -356,12 +362,13 @@ controller will be instantiated and the registered function run.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">routes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/articles/&lt;id:int&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;ArticleController@show&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>A controller method should always return a <code class="docutils literal notranslate"><span class="pre">Response</span></code> class of some sort.</p>
 </div>
 <div class="section" id="middleware">
 <h2>Middleware<a class="headerlink" href="#middleware" title="Permalink to this headline">¶</a></h2>
-<p>Middleware provides a way to stop or modify a request cycle; before the
+<p>Middleware provides a way to stop or modify a request cycle. This can occur before the
 request is routed, after a response is returned from the controller or
-both. Dragonfly comes with a few premade middleware. You can also create
+both. Dragonfly comes with a few premade middleware such as CSRF protection and a user middleware. You can also create
 your own middleware using the following command:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">builder</span><span class="o">.</span><span class="n">py</span> <span class="n">generate</span> <span class="o">--</span><span class="nb">type</span><span class="o">=</span><span class="n">middleware</span> <span class="n">article_middleware</span>
 </pre></div>
@@ -397,7 +404,7 @@ request will stop and the response returned.</p>
 <p>Below is an example of the CSRF protection middleware class that comes pre-packaged with Dragonfly.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Please note that in any <code class="docutils literal notranslate"><span class="pre">Middleware</span></code> class object any packages imported from the framework must be imported by their full import path.</p>
+<p>Please note that in any <code class="docutils literal notranslate"><span class="pre">Middleware</span></code> class object any packages imported from the framework must be imported by their full import path. This is as the actual middleware file is executed in the package middleware directory.</p>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dragonfly.constants</span> <span class="kn">import</span> <span class="n">DATA_METHODS</span>
 <span class="kn">from</span> <span class="nn">dragonfly.request</span> <span class="kn">import</span> <span class="n">request</span>
@@ -436,7 +443,7 @@ request will stop and the response returned.</p>
 <h2>Database<a class="headerlink" href="#database" title="Permalink to this headline">¶</a></h2>
 <p>The database module provides any easy way to interact with the configured
 <code class="docutils literal notranslate"><span class="pre">MySQL</span></code> database. It simply provides Python functions that are equivalent
-to certain SQL commands.</p>
+to most commonly used SQL commands.</p>
 <p>The code below demonstrates some of its usage (note this code is not present in the actual demo application)</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">DB</span><span class="p">(</span><span class="s1">&#39;articles&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="s1">&#39;Testing&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
 </pre></div>
@@ -473,8 +480,8 @@ example of an articles model and the SQL it generates.</p>
 </pre></div>
 </div>
 <p>There are many field types and options for each field type. For an
-exhaustive list of these please see the <a class="reference external" href="#api-documentation">API
-reference</a>. It is also important to note that you
+exhaustive list of these please see the <a class="reference internal" href="api-reference.html"><span class="doc">API
+reference</span></a>. It is also important to note that you
 can add any function you would like to the model class. For example a
 way to generate the slug for an article:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -491,7 +498,7 @@ with the <code class="docutils literal notranslate"><span class="pre">Comments</
 </pre></div>
 </div>
 <p>Once you have defined the model you need to generate and execute the SQL
-to create the table. To do this simply run the following command.</p>
+to create the needed tables. To do this simply run the following command.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">builder</span><span class="o">.</span><span class="n">py</span> <span class="n">migrate</span>
 </pre></div>
 </div>
@@ -503,8 +510,7 @@ retrieving all articles in the database:</p>
 <span class="n">articles</span> <span class="o">=</span> <span class="n">Article</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>The ORM has a large number of methods that are all listed in the <a class="reference external" href="#api-documentation">API
-reference</a>.</p>
+<p>The ORM has a large number of methods that are all listed in the <a class="reference internal" href="api-reference.html"><span class="doc">API reference</span></a>.</p>
 <p>To interact with the relationships defined in the class simply call the defined functions.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Returns a list of ``Comment`` objects that belong to the given ``Article`` class</span>
 <span class="n">comments</span> <span class="o">=</span> <span class="n">Article</span><span class="p">()</span><span class="o">.</span><span class="n">first</span><span class="p">()</span><span class="o">.</span><span class="n">comments</span><span class="p">()</span>
@@ -516,11 +522,10 @@ reference</a>.</p>
 </div>
 <div class="section" id="templates">
 <h2>Templates<a class="headerlink" href="#templates" title="Permalink to this headline">¶</a></h2>
-<p>Dragonfly provides an easier way to join Python and HTML. A view is
-stored in the <code class="docutils literal notranslate"><span class="pre">views</span></code> directory and should be a <code class="docutils literal notranslate"><span class="pre">html</span></code>file. The
-templates can also be in subdirectories of the <code class="docutils literal notranslate"><span class="pre">views</span></code> directory.</p>
+<p>Dragonfly provides an easier way to join Python and HTML by using a templating system. A template is stored in the <code class="docutils literal notranslate"><span class="pre">templates</span></code> directory and should be a <code class="docutils literal notranslate"><span class="pre">html</span></code>file. The
+templates can also be in subdirectories of the <code class="docutils literal notranslate"><span class="pre">templates</span></code> directory.</p>
 <p>Below is an example of a html file saved in
-<code class="docutils literal notranslate"><span class="pre">views/articles/index.html</span></code></p>
+<code class="docutils literal notranslate"><span class="pre">templates/articles/index.html</span></code></p>
 <div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&quot;en&quot;</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
@@ -593,7 +598,7 @@ templates can also be in subdirectories of the <code class="docutils literal not
 <p>To call and render this view you would write the following in your
 controller:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">articles</span> <span class="o">=</span> <span class="n">Article</span><span class="p">()</span><span class="o">.</span><span class="n">paginate</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-<span class="k">return</span> <span class="n">view</span><span class="p">(</span><span class="s1">&#39;articles.index&#39;</span><span class="p">,</span> <span class="n">articles</span><span class="o">=</span><span class="n">articles</span><span class="p">[</span><span class="mi">0</span><span class="p">[,</span> <span class="n">pagination</span><span class="o">=</span><span class="n">articles</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="k">return</span> <span class="n">view</span><span class="p">(</span><span class="s1">&#39;articles.index&#39;</span><span class="p">,</span> <span class="n">articles</span><span class="o">=</span><span class="n">articles</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pagination</span><span class="o">=</span><span class="n">articles</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>There are a few important things to note about the syntax of the
@@ -604,6 +609,109 @@ templating system:</p>
 ‘generated’ by a for loop, like the <code class="docutils literal notranslate"><span class="pre">article</span></code> variable in the
 example above, it must also be wrapped by <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">$</span></code>.</p></li>
 </ul>
+</div>
+<div class="section" id="builder-py-cli">
+<h2>Builder.py (CLI)<a class="headerlink" href="#builder-py-cli" title="Permalink to this headline">¶</a></h2>
+<p>The builder (CLI) can be called by executing the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">builder</span><span class="o">.</span><span class="n">py</span> <span class="p">[</span><span class="n">command</span> <span class="n">name</span><span class="p">]</span> <span class="o">--</span><span class="p">[</span><span class="n">option</span><span class="p">]</span><span class="o">=</span><span class="p">[</span><span class="n">value</span><span class="p">]</span> <span class="p">[</span><span class="n">argument</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Below is an exhaustive list of all commands currently implemented:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 5%" />
+<col style="width: 4%" />
+<col style="width: 16%" />
+<col style="width: 5%" />
+<col style="width: 8%" />
+<col style="width: 63%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Command</p></td>
+<td><p>Option</p></td>
+<td><p>Accepted values</p></td>
+<td><p>Argument</p></td>
+<td><p>Accepted values</p></td>
+<td><p>Role</p></td>
+</tr>
+<tr class="row-even"><td><p>setup</p></td>
+<td><p>None</p></td>
+<td><p>None</p></td>
+<td><p>None</p></td>
+<td><p>None</p></td>
+<td><p>Creates the required directories for the application to work (controllers, models, storage, middleware and templates)</p></td>
+</tr>
+<tr class="row-odd"><td><p>generate</p></td>
+<td><p>type</p></td>
+<td><p>model, middleware or controller</p></td>
+<td><p>name</p></td>
+<td><p>str</p></td>
+<td><p>according to the PEP 8 naming scheme (snake case). Please note that the file names are converted to camel case for the class names.</p></td>
+</tr>
+<tr class="row-even"><td><p>migrate</p></td>
+<td><p>None</p></td>
+<td><p>None</p></td>
+<td><p>None</p></td>
+<td><p>None</p></td>
+<td><p>Generates (and executes) the SQL to create the tables for all developer created models.</p></td>
+</tr>
+<tr class="row-odd"><td><p>drop</p></td>
+<td><p>None</p></td>
+<td><p>None</p></td>
+<td><p>None</p></td>
+<td><p>None</p></td>
+<td><p>Drops all tables that correspond to defined model classes.</p></td>
+</tr>
+<tr class="row-even"><td><p>auth</p></td>
+<td><p>None</p></td>
+<td><p>None</p></td>
+<td><p>None</p></td>
+<td><p>None</p></td>
+<td><p>Generates the authentication scaffold for the given project.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="config">
+<h2>Config<a class="headerlink" href="#config" title="Permalink to this headline">¶</a></h2>
+<p>Detailed below is an exhaustive list of configuaration options that can be put in ‘config.py’:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 5%" />
+<col style="width: 2%" />
+<col style="width: 93%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Variable name</p></td>
+<td><p>Type</p></td>
+<td><p>Function</p></td>
+</tr>
+<tr class="row-even"><td><p>ROOT_DIR</p></td>
+<td><p>Str</p></td>
+<td><p>This is the root directory of the project. This value should not be changed.</p></td>
+</tr>
+<tr class="row-odd"><td><p>MIDDLEWARE</p></td>
+<td><p>List</p></td>
+<td><p>A list of middleware to be registered. To register a middleware file dot notation should be used. For example to register a middleware file called ‘user_middleware’ that is in the ‘middleware’ directory the following should be added to the list (as a string): ‘middleware.user_middleeware’</p></td>
+</tr>
+<tr class="row-even"><td><p>NO_AUTH</p></td>
+<td><p>List</p></td>
+<td><p>A list of routes that do not require the user to be authenticated.</p></td>
+</tr>
+<tr class="row-odd"><td><p>PYTHON_TO_REGEX</p></td>
+<td><p>Dict</p></td>
+<td><p>A dictionary that contains mappings from route parameter definitions to regular expression. Any new mapping added can be used in the router.</p></td>
+</tr>
+<tr class="row-even"><td><p>URL</p></td>
+<td><p>Str</p></td>
+<td><p>The root URL of the application.</p></td>
+</tr>
+<tr class="row-odd"><td><p>DATABASE</p></td>
+<td><p>Dict</p></td>
+<td><p>A dictionary containing the configuration settings for the database.</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="demo-app">
 <h2>Demo App<a class="headerlink" href="#demo-app" title="Permalink to this headline">¶</a></h2>
@@ -631,7 +739,7 @@ example above, it must also be wrapped by <code class="docutils literal notransl
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Matthew Lewis
+        &copy; Copyright 2020, Matthew Lewis
 
     </p>
   </div>

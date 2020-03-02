@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Routes &mdash; dragonfly 0.0.3 documentation</title>
+  <title>Routes &mdash; dragonfly 1.0 documentation</title>
   
 
   
@@ -172,7 +172,7 @@
 <dt id="dragonfly.routes.router.Router">
 <em class="property">class </em><code class="sig-prename descclassname">dragonfly.routes.router.</code><code class="sig-name descname">Router</code><a class="headerlink" href="#dragonfly.routes.router.Router" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Routes the given route to the defined <code class="xref py py-class docutils literal notranslate"><span class="pre">Controller</span></code> and returns its
+<p>Routes the given route to the defined <a href="#id1"><span class="problematic" id="id2">``</span></a>Controller``and returns its
 generated <a class="reference internal" href="web.html#dragonfly.response.Response" title="dragonfly.response.Response"><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code></a>.</p>
 <dl class="method">
 <dt id="dragonfly.routes.router.Router.add_route">
@@ -181,7 +181,7 @@ generated <a class="reference internal" href="web.html#dragonfly.response.Respon
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>uri</strong> (<em>str</em>) – The uri of the route</p></li>
+<li><p><strong>uri</strong> (<em>str</em>) – The URI of the route</p></li>
 <li><p><strong>action</strong> (<em>str</em>) – The action of the route e.g <a class="reference external" href="mailto:'HomeController&#37;&#52;&#48;home">‘HomeController<span>&#64;</span>home</a>’</p></li>
 <li><p><strong>method</strong> (<em>str</em>) – The HTTP method verb e.g ‘GET’</p></li>
 </ul>
@@ -278,15 +278,9 @@ dynamic routes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>uri</strong> – The URI to match</p></li>
-<li><p><strong>method</strong> – The HTTP method</p></li>
+<li><p><strong>uri</strong> (<em>str</em>) – The URI to match</p></li>
+<li><p><strong>method</strong> (<em>str</em>) – The HTTP method</p></li>
 </ul>
-</dd>
-<dt class="field-even">Type</dt>
-<dd class="field-even"><p>str</p>
-</dd>
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>str</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Any matching routes</p>
@@ -306,7 +300,7 @@ dynamic routes.</p>
 <dt id="dragonfly.routes.route_rule.RouteRule">
 <em class="property">class </em><code class="sig-prename descclassname">dragonfly.routes.route_rule.</code><code class="sig-name descname">RouteRule</code><span class="sig-paren">(</span><em class="sig-param">uri</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.routes.route_rule.RouteRule" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Used to register dynamic routes. Allows for an easy check of whether a given route matches a dynamic route.</p>
+<p>Data structure to store dynamic routes. Allows for an easy check of whether a given route matches a dynamic route.</p>
 <dl class="method">
 <dt id="dragonfly.routes.route_rule.RouteRule.match">
 <code class="sig-name descname">match</code><span class="sig-paren">(</span><em class="sig-param">uri</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.routes.route_rule.RouteRule.match" title="Permalink to this definition">¶</a></dt>
@@ -349,7 +343,7 @@ dynamic routes.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Matthew Lewis
+        &copy; Copyright 2020, Matthew Lewis
 
     </p>
   </div>

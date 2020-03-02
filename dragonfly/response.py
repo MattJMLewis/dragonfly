@@ -7,7 +7,7 @@ class Response:
 
     Parameters
     ----------
-    :param content: The content that will be delivered to the user.py. This defaults to empty.
+    :param content: The content that will be delivered to the user. This defaults to empty.
     :type content: str
 
     :param content_type: The MIME type. This defaults to 'text/html'.
@@ -16,8 +16,7 @@ class Response:
     :param status_code: The HTTP status code. This defaults to success (200).
     :type status_code: int
 
-    :param reason_phrase: A written meaning of the HTTP status code. If left as `None` the reason phrase will be
-    chosen from a pre-determined list.
+    :param reason_phrase: A written meaning of the HTTP status code. If left as `None` the reason phrase will be chosen from a pre-determined list.
     :type reason_phrase: int
     """
 
@@ -81,10 +80,10 @@ class Response:
 
     def translate_deferred(self, deferred):
         """
-        Merges the given `DeferredResponse` object to this `Response` instance.
+        Merges the given :class:`DeferredResponse<dragonfly.response.DeferredResponse>` object to this :class:`Response<dragonfly.response.Response>` instance.
 
-        :param deferred: The `DeferredResponse` object.
-        :type deferred: DeferredResponse
+        :param deferred: The :class:`DeferredResponse<dragonfly.response.DeferredResponse>` object.
+        :type deferred: :class:`DeferredResponse<dragonfly.response.DeferredResponse>`
         """
 
         for key, value in deferred.headers.items():
@@ -93,7 +92,7 @@ class Response:
 
 class ErrorResponse(Response):
     """
-    A `Response` object that returns an error page.
+    A :class:`Response<dragonfly.response.Response>` object that returns an error page.
 
     :param error_message: The error message.
     :type error_message: str
@@ -123,7 +122,7 @@ class ErrorResponse(Response):
 
 
 class RedirectResponse(Response):
-    """A `Response` object that redirects the user to the given location."""
+    """A :class:`Response<dragonfly.response.Response>` object that redirects the user to the given location."""
 
     def __init__(self, location):
         super().__init__(content_type='', status_code=302)
@@ -134,8 +133,8 @@ class DeferredResponse:
     """
     Allows headers for a future response to be set before it exists.
 
-    This singleton enables attributes of any `Response` object returned in the normal fashion, i.e through the
-    `dispatch_route` method, to be set before it exists. The primary use of this class would be in the `before` method
+    This singleton enables attributes of any :class:`Response<dragonfly.response.Response>` object returned in the normal fashion, i.e through the
+    :meth:`dispatch_route<dragonfly.routes.router.Router.dispatch_route>` method, to be set before it exists. The primary use of this class would be in the `before` method
     of a middleware.
     """
 

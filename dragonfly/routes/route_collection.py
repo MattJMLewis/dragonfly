@@ -85,10 +85,10 @@ class RouteCollection:
         dynamic routes.
 
         :param uri: The URI to match
-        :type: str
+        :type uri: str
 
         :param method: The HTTP method
-        :type: str
+        :type method: str
 
         :return: Any matching routes
         :type: dict
@@ -123,7 +123,7 @@ class RouteCollection:
         Determines if the URI is dynamic.
 
         :param uri: The URI to check
-        :type: str
+        :type uri: str
 
         :return: If the URI is dynamic or not.
         :rtype: bool

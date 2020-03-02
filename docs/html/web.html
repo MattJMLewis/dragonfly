@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Web &mdash; dragonfly 0.0.3 documentation</title>
+  <title>Web &mdash; dragonfly 1.0 documentation</title>
   
 
   
@@ -183,7 +183,7 @@
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A dictionary containing the given data</p>
 </dd>
-<dt class="field-even">Type</dt>
+<dt class="field-even">Return type</dt>
 <dd class="field-even"><p>dict</p>
 </dd>
 </dl>
@@ -195,10 +195,7 @@
 <dd><p>Updates the request object (singleton) with new data</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>new_environ</strong> – The new environ dictionary</p>
-</dd>
-<dt class="field-even">Type</dt>
-<dd class="field-even"><p>dict</p>
+<dd class="field-odd"><p><strong>new_environ</strong> (<em>dict</em>) – The new environ dictionary</p>
 </dd>
 </dl>
 </dd></dl>
@@ -216,15 +213,13 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>content</strong> (<em>str</em>) – The content that will be delivered to the user.py. This defaults to empty.</p></li>
+<li><p><strong>content</strong> (<em>str</em>) – The content that will be delivered to the user. This defaults to empty.</p></li>
 <li><p><strong>content_type</strong> (<em>str</em>) – The MIME type. This defaults to ‘text/html’.</p></li>
 <li><p><strong>status_code</strong> (<em>int</em>) – The HTTP status code. This defaults to success (200).</p></li>
-<li><p><strong>reason_phrase</strong> – A written meaning of the HTTP status code. If left as <cite>None</cite> the reason phrase will be</p></li>
+<li><p><strong>reason_phrase</strong> (<em>int</em>) – A written meaning of the HTTP status code. If left as <cite>None</cite> the reason phrase will be chosen from a pre-determined list.</p></li>
 </ul>
 </dd>
 </dl>
-<p>chosen from a pre-determined list.
-:type reason_phrase: int</p>
 <dl class="method">
 <dt id="dragonfly.response.Response.header">
 <code class="sig-name descname">header</code><span class="sig-paren">(</span><em class="sig-param">field_name</em>, <em class="sig-param">field_value</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.response.Response.header" title="Permalink to this definition">¶</a></dt>
@@ -263,10 +258,10 @@ to the status code will be retrieved from a <code class="docutils literal notran
 <dl class="method">
 <dt id="dragonfly.response.Response.translate_deferred">
 <code class="sig-name descname">translate_deferred</code><span class="sig-paren">(</span><em class="sig-param">deferred</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.response.Response.translate_deferred" title="Permalink to this definition">¶</a></dt>
-<dd><p>Merges the given <cite>DeferredResponse</cite> object to this <cite>Response</cite> instance.</p>
+<dd><p>Merges the given <a class="reference internal" href="#dragonfly.response.DeferredResponse" title="dragonfly.response.DeferredResponse"><code class="xref py py-class docutils literal notranslate"><span class="pre">DeferredResponse</span></code></a> object to this <a class="reference internal" href="#dragonfly.response.Response" title="dragonfly.response.Response"><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code></a> instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>deferred</strong> (<a class="reference internal" href="#dragonfly.response.DeferredResponse" title="dragonfly.response.DeferredResponse"><em>DeferredResponse</em></a>) – The <cite>DeferredResponse</cite> object.</p>
+<dd class="field-odd"><p><strong>deferred</strong> (<a class="reference internal" href="#dragonfly.response.DeferredResponse" title="dragonfly.response.DeferredResponse"><code class="xref py py-class docutils literal notranslate"><span class="pre">DeferredResponse</span></code></a>) – The <a class="reference internal" href="#dragonfly.response.DeferredResponse" title="dragonfly.response.DeferredResponse"><code class="xref py py-class docutils literal notranslate"><span class="pre">DeferredResponse</span></code></a> object.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -280,7 +275,7 @@ to the status code will be retrieved from a <code class="docutils literal notran
 <dt id="dragonfly.response.ErrorResponse">
 <em class="property">class </em><code class="sig-prename descclassname">dragonfly.response.</code><code class="sig-name descname">ErrorResponse</code><span class="sig-paren">(</span><em class="sig-param">error_message</em>, <em class="sig-param">status_code</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.response.ErrorResponse" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#dragonfly.response.Response" title="dragonfly.response.Response"><code class="xref py py-class docutils literal notranslate"><span class="pre">dragonfly.response.Response</span></code></a></p>
-<p>A <cite>Response</cite> object that returns an error page.</p>
+<p>A <a class="reference internal" href="#dragonfly.response.Response" title="dragonfly.response.Response"><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code></a> object that returns an error page.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -299,8 +294,8 @@ to the status code will be retrieved from a <code class="docutils literal notran
 <em class="property">class </em><code class="sig-prename descclassname">dragonfly.response.</code><code class="sig-name descname">DeferredResponse</code><a class="headerlink" href="#dragonfly.response.DeferredResponse" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Allows headers for a future response to be set before it exists.</p>
-<p>This singleton enables attributes of any <cite>Response</cite> object returned in the normal fashion, i.e through the
-<cite>dispatch_route</cite> method, to be set before it exists. The primary use of this class would be in the <cite>before</cite> method
+<p>This singleton enables attributes of any <a class="reference internal" href="#dragonfly.response.Response" title="dragonfly.response.Response"><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code></a> object returned in the normal fashion, i.e through the
+<a class="reference internal" href="routes.html#dragonfly.routes.router.Router.dispatch_route" title="dragonfly.routes.router.Router.dispatch_route"><code class="xref py py-meth docutils literal notranslate"><span class="pre">dispatch_route</span></code></a> method, to be set before it exists. The primary use of this class would be in the <cite>before</cite> method
 of a middleware.</p>
 <dl class="method">
 <dt id="dragonfly.response.DeferredResponse.header">
@@ -321,7 +316,7 @@ of a middleware.</p>
 <dl class="method">
 <dt id="dragonfly.auth.Auth.get">
 <em class="property">static </em><code class="sig-name descname">get</code><span class="sig-paren">(</span><em class="sig-param">key</em>, <em class="sig-param">model=False</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.auth.Auth.get" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieve any keys stored in the ‘Sessions’ table associated with the current ‘session_id’</p>
+<dd><p>Retrieve any keys stored in the <code class="docutils literal notranslate"><span class="pre">Sessions</span></code> table associated with the current <code class="docutils literal notranslate"><span class="pre">session_id</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -344,7 +339,7 @@ of a middleware.</p>
 <dl class="method">
 <dt id="dragonfly.auth.Auth.set">
 <em class="property">static </em><code class="sig-name descname">set</code><span class="sig-paren">(</span><em class="sig-param">key</em>, <em class="sig-param">value</em>, <em class="sig-param">force=False</em><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.auth.Auth.set" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set a key value pair in the ‘Sessions’ table</p>
+<dd><p>Set a key value pair in the <code class="docutils literal notranslate"><span class="pre">Sessions</span></code> table</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -365,7 +360,7 @@ of a middleware.</p>
 <dl class="method">
 <dt id="dragonfly.auth.Auth.user">
 <em class="property">static </em><code class="sig-name descname">user</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dragonfly.auth.Auth.user" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the currently logged in user using the ‘session_id’ stored in the cookies. It should be very unlikely that two
+<dd><p>Get the currently logged in user using the <code class="docutils literal notranslate"><span class="pre">session_id</span></code> stored in the cookies. It should be very unlikely that two
 sessions with the same ID exist</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -402,7 +397,7 @@ sessions with the same ID exist</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Matthew Lewis
+        &copy; Copyright 2020, Matthew Lewis
 
     </p>
   </div>

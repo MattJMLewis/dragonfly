@@ -4,7 +4,7 @@ from config import PYTHON_TO_REGEX
 
 class RouteRule:
     """
-    Used to register dynamic routes. Allows for an easy check of whether a given route matches a dynamic route.
+    Data structure to store dynamic routes. Allows for an easy check of whether a given route matches a dynamic route.
     """
 
     def __init__(self, uri):

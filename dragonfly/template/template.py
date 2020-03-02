@@ -195,6 +195,12 @@ class Converter:
         return lines
 
     def convert(self):
+        """
+        Convert the given file to Python.
+
+        :return: The Python code.
+        :rtype: str
+        """
         indent = 1
 
         for line in self.__lines:
@@ -233,7 +239,7 @@ class Converter:
 class View:
     """
     Returns a HTML version (view) of the requested template.
-    The class first finds the desired view. If a pre-compiled python version of the template does not exist or is out
+    The class first attempts to locate the deisred view. If a pre-compiled python version of the template does not exist or is out
     of date, the class will generate one. Otherwise it imports the compiled python file and runs the ``get_html``
     method, passing in any variables that the user.py has given to the constructor (via ``**kwargs``). It then returns a
     :class:`Response <dragonfly.response.Response>` with this HTML.
@@ -281,7 +287,8 @@ class View:
     def make(self):
         """
         Returns a response with the generated HTML.
-        :return: The response
+
+        :return: The ``Response``
         :rtype: :class:`Response <dragonfly.response.Response>`
         """
         return Response(self.__html)

@@ -18,7 +18,7 @@ def to_snake(name):
 
 class Router:
     """
-    Routes the given route to the defined :class:`Controller < dragonfly.controller.Controller>` and returns its
+    Routes the given route to the defined ``Controller``and returns its
     generated :class:`Response <dragonfly.response.Response>`.
     """
 
@@ -29,7 +29,7 @@ class Router:
         """
         Adds a route to the `RouteCollection` object.
 
-        :param uri: The uri of the route
+        :param uri: The URI of the route
         :type uri: str
 
         :param action: The action of the route e.g 'HomeController@home'
